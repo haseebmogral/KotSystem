@@ -32,10 +32,16 @@ public class AlbumsAdapter1 extends RecyclerView.Adapter<AlbumsAdapter1.MyViewHo
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, title.getText().toString(), Toast.LENGTH_SHORT).show();
+                    claculate();
                 }
             });
         }
 
+    }
+    public void claculate(){
+        for (int i=0;i<albumList1.size();i++){
+            Toast.makeText(mContext, albumList1.get(i).getName(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 
