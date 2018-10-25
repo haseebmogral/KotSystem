@@ -64,14 +64,13 @@ public class Order_screen extends AppCompatActivity {
 
         Album1 a;
 
-        a = new Album1("2");
-        albumList.add(a);
 
-        a = new Album1("5");
-        albumList.add(a);
 
-        a = new Album1("3");
-        albumList.add(a);
+
+
+        for (int i = 0; i < 15; i++) {
+            a = new Album1(String.valueOf(i));
+            albumList.add(a);        }
 
 
         adapter.notifyDataSetChanged();
