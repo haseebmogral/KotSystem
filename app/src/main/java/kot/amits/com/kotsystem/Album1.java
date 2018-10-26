@@ -5,15 +5,10 @@ package kot.amits.com.kotsystem;
  */
 public class Album1 {
     private String title;
-//    private String id;
-//    private String image;
 
-
-
-    public Album1(String id) {
+    public Album1(String title) {
         this.title = title;
-//        this.id=id;
-//        this.image=image;
+
     }
 
 
