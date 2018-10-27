@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#ececec"
     android:padding="5dp"
-    tools:context=".Order_screen">
+    tools:context=".activity.Order_screen">
 
     <LinearLayout
         android:layout_width="match_parent"
