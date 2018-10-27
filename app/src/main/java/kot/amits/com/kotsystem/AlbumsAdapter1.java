@@ -41,6 +41,11 @@ public class AlbumsAdapter1 extends RecyclerView.Adapter<AlbumsAdapter1.MyViewHo
     public void claculate(){
         for (int i=0;i<albumList1.size();i++){
             Toast.makeText(mContext, albumList1.get(i).getName(), Toast.LENGTH_SHORT).show();
+
+            float total= Float.parseFloat(albumList1.get(i).getName());
+            total=total+total;
+
+            Toast.makeText(mContext, "Total :"+String.valueOf(total), Toast.LENGTH_SHORT).show();
         }
     }
 
