@@ -1,4 +1,4 @@
-package kot.amits.com.kotsystem;
+package kot.amits.com.kotsystem.activity;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -6,22 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.idescout.sql.SqlScoutServer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import kot.amits.com.kotsystem.DBhelper.DBHelper;
+import kot.amits.com.kotsystem.R;
+import kot.amits.com.kotsystem.main_activity_adapter_and_model.Album1;
+import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
 
 public class Order_screen extends AppCompatActivity {
-
+    DBHelper mydb;
+    long id;
 
 //    private RecyclerView.Adapter mAdapter;
 //    private RecyclerView.LayoutManager layoutManager;
@@ -37,15 +38,17 @@ public class Order_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_screen);
 
+        SqlScoutServer.create(this, getPackageName());
+
+
+        mydb = new DBHelper(this);
+        id= mydb.insertContact("haseeb","812970029","haseebmogral@gmail.com","mogral","mogral");
+        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
 
         recyclerView=(RecyclerView)findViewById(R.id.billrecycler);
         load_cat();
-
-
-
-
-
     }
+
 
     public void load_cat() {
 

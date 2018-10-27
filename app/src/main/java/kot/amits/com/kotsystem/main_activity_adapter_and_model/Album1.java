@@ -1,4 +1,4 @@
-package kot.amits.com.kotsystem;
+package kot.amits.com.kotsystem.main_activity_adapter_and_model;
 
 /**
  * Created by Lincoln on 18/05/ha.
