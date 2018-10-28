@@ -1,6 +1,7 @@
 package kot.amits.com.kotsystem.activity;
 
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.idescout.sql.SqlScoutServer;
 
 import java.util.ArrayList;
@@ -24,8 +24,9 @@ import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
 public class Order_screen extends AppCompatActivity {
     DBHelper mydb;
     long id;
+    Cursor cursor;
 
-    ElegantNumberButton elegantNumberButton;
+//    ElegantNumberButton elegantNumberButton;
 
 //    private RecyclerView.Adapter mAdapter;
 //    private RecyclerView.LayoutManager layoutManager;
