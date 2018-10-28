@@ -51,7 +51,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS contacts");
+        db.execSQL("DROP TABLE IF EXISTS category");
         onCreate(db);
     }
 
@@ -64,11 +64,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 //
-//    public Cursor getData(int id) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor res = db.rawQuery("select * from contacts where id=" + id + "", null);
-//        return res;
-//    }
+    public Cursor getData(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from category where cat_type=snacks", null);
+        return res;
+    }
 //
 //    public int numberOfRows() {
 //        SQLiteDatabase db = this.getReadableDatabase();
