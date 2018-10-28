@@ -26,7 +26,7 @@ public class AlbumsAdapter1 extends RecyclerView.Adapter<AlbumsAdapter1.MyViewHo
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.name);
+            title = (TextView) view.findViewById(R.id.item_name);
             title.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -56,7 +56,7 @@ public class AlbumsAdapter1 extends RecyclerView.Adapter<AlbumsAdapter1.MyViewHo
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.bill_adapter, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.bill_items_adapter, parent, false);
 
         return new MyViewHolder(itemView);
     }
