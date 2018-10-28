@@ -16,9 +16,6 @@ public class Manager_Dashboard extends AppCompatActivity {
             R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape,
             R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape};
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
