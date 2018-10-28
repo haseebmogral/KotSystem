@@ -30,6 +30,7 @@ public class Order_screen extends AppCompatActivity {
     private AlbumsAdapter1 adapter;
     private List<Album1> albumList;
     RecyclerView recyclerView;
+    
 
 
 
@@ -43,6 +44,7 @@ public class Order_screen extends AppCompatActivity {
 
         mydb = new DBHelper(this);
         id= mydb.insertContact("avil milk","drinks");
+
 //        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
 
         recyclerView=(RecyclerView)findViewById(R.id.billrecycler);
