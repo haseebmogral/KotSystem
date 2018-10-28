@@ -42,8 +42,8 @@ public class Order_screen extends AppCompatActivity {
 
 
         mydb = new DBHelper(this);
-        id= mydb.insertContact("haseeb","812970029","haseebmogral@gmail.com","mogral","mogral");
-        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
+        id= mydb.insertContact("avil milk","drinks");
+//        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
 
         recyclerView=(RecyclerView)findViewById(R.id.billrecycler);
         load_cat();
