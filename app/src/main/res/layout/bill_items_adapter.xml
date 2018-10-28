@@ -7,92 +7,66 @@
     android:layout_height="wrap_content">
 
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:weightSum="4"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal">-->
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4"
+            android:gravity="center"
+            android:orientation="horizontal">
 
 
-            <!--<TextView-->
-                <!--android:id="@+id/slno"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:fontFamily="@font/open_sans_light"-->
-                <!--android:maxLines="1"-->
-                <!--android:gravity="start"-->
-                <!--android:singleLine="true"-->
-                <!--android:text="12"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="@dimen/textsize" />-->
-            <!--<TextView-->
-                <!--android:id="@+id/item_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:fontFamily="@font/open_sans_light"-->
-                <!--android:maxLines="1"-->
-                <!--android:gravity="center"-->
-                <!--android:singleLine="true"-->
-                <!--android:text="1254"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="@dimen/textsize" />-->
+            <TextView
+                android:id="@+id/slno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans_light"
+                android:maxLines="1"
+                android:gravity="start"
+                android:singleLine="true"
+                android:text="12"
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize" />
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans_light"
+                android:maxLines="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="1254"
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize" />
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:layout_weight="1">-->
+            <EditText
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:gravity="end"
+                android:focusable="false"
+                android:layout_weight="1"/>
 
-                <!--<Button-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:text="-"-->
-                    <!--android:gravity="center"-->
-                    <!--android:foregroundGravity="center"-->
-                    <!--android:background="@drawable/addcart_minus_btn"-->
-                    <!--/>-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="5"-->
-                    <!--android:layout_marginLeft="5dp"-->
-                    <!--android:layout_marginRight="5dp" />-->
-
-                <!--<Button-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:text="+"-->
-                    <!--android:gravity="center"-->
-                    <!--android:foregroundGravity="center"-->
-                    <!--android:background="@drawable/addcart_plus_btn" />-->
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans_light"
+                android:maxLines="1"
+                android:gravity="end"
+                android:singleLine="true"
+                android:text="price"
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize" />
 
 
 
 
-
-            <!--</LinearLayout>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/total"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:fontFamily="@font/open_sans_light"-->
-                <!--android:maxLines="1"-->
-                <!--android:gravity="end"-->
-                <!--android:singleLine="true"-->
-                <!--android:text="price"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="@dimen/textsize" />-->
-
-
-
-
-        <!--</LinearLayout>-->
+        </LinearLayout>
 
 
 

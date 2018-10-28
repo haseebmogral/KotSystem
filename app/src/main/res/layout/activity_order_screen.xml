@@ -27,7 +27,7 @@
 
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/bill_items_title"
@@ -40,6 +40,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_margin="5dp"
+                        android:id="@+id/items_title"
                         android:weightSum="4">
 
 
@@ -70,43 +71,22 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@color/view_color"
-                        android:layout_marginRight="5dp"
-                        />
 
 
 
 
 
 
-                </LinearLayout>
-                <LinearLayout
+
+                </RelativeLayout>
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/dgd"
-                    android:orientation="vertical">
-
-
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@color/view_color"
-                        android:layout_marginRight="5dp"
-                        />
-
-
-
-
-
-
-                </LinearLayout>
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_below="@+id/bill_items_title"
+                    android:background="@color/view_color"
+                    android:layout_marginRight="5dp"
+                    />
 
 
 
@@ -164,12 +144,14 @@
                     android:layout_height="35dp"
                     android:background="@drawable/circular_button"
                     android:text="Snacks"
+                    android:id="@+id/snacks"
                     android:textColor="#fff" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginLeft="2dp"
+                    android:id="@+id/juice"
                     android:background="@drawable/circular_button_s"
 
                     android:text="Juice"
