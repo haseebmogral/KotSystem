@@ -41,13 +41,11 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/textsize" />
 
-            <EditText
+            <TextView
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:text="1"
-                android:gravity="end"
-                android:focusable="false"
-                android:layout_weight="1"/>
+                android:gravity="center" />
 
 
             <TextView
@@ -62,9 +60,6 @@
                 android:text="price"
                 android:textStyle="bold"
                 android:textSize="@dimen/textsize" />
-
-
-
 
         </LinearLayout>
 

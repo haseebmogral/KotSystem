@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kot.amits.com.kotsystem">
 
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +27,7 @@
 
         </activity>
 
-        <activity android:name=".Manager_Dashboard" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".activity.Manager_Dashboard" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
 
 

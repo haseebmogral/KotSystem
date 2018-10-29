@@ -33,6 +33,7 @@
                     android:layout_width="180dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:id="@+id/item_image"
                     android:src="@drawable/juice" />
 
                 <RelativeLayout
