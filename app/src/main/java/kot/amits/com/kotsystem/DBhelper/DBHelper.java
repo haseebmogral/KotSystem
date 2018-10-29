@@ -57,45 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertcategory(String name, String type) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(cat_name, name);
-        contentValues.put(cat_type, type);
-        return db.insert(category, null, contentValues);
 
-    }public long insertitems(String name, String cat_id, String price,String itemimage) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(item_name, name);
-        contentValues.put(cat_cat_id, cat_id);
-        contentValues.put(item_price, price);
-        contentValues.put(image, itemimage);
-
-        return db.insert(item_table, null, contentValues);
-
-    }
-
-
-    //get category
-
-    public Cursor getData(String type) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from category  where "+cat_type+"=?", new String[]{type});
-
-
-        return res;
-    }
-
-    //get items
-
-    public Cursor getitems()
-    {
-
-        SQLiteDatabase db=this.getReadableDatabase();
-        Cursor itemdetails=db.rawQuery("select * from item_table",new String[] {});
-        return itemdetails;
-    }
 
 
 //

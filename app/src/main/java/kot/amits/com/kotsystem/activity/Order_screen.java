@@ -34,12 +34,13 @@ import category_adapter.cat_album;
 import items_adapter.item_album;
 import items_adapter.item_adapter;
 import kot.amits.com.kotsystem.DBhelper.DBHelper;
+import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.Album1;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
 
 public class Order_screen extends AppCompatActivity implements View.OnClickListener {
-    DBHelper mydb;
+    DBmanager mydb;
     long id;
     Cursor category_cursor,item_cursor;
 
@@ -84,7 +85,8 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 //        progress.show();
 
 
-        mydb = new DBHelper(this);
+        mydb = new DBmanager(this);
+        mydb.open();
         id = mydb.insertcategory("egg puffs", "snacks");
         id = mydb.insertcategory("apple juice", "drinks");
 
@@ -335,7 +337,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
         while (category_cursor.moveToNext()) {
 
-            String catname = category_cursor.getString(category_cursor.getColumnIndex(mydb.cat_name));
+            String catname = category_cursor.getString(category_cursor.getColumnIndex(DBHelper.cat_name));
 
 
             Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
@@ -375,9 +377,9 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
         while (item_cursor.moveToNext()) {
 
-            String itemname = item_cursor.getString(item_cursor.getColumnIndex(mydb.item_name));
-            String itemprice = item_cursor.getString(item_cursor.getColumnIndex(mydb.item_price));
-            String image = item_cursor.getString(item_cursor.getColumnIndex(mydb.image));
+            String itemname = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_name));
+            String itemprice = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_price));
+            String image = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.image));
 
             Toast.makeText(this, itemname+itemprice+image, Toast.LENGTH_SHORT).show();
 
