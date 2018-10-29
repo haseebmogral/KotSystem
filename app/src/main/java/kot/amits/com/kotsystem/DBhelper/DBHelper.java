@@ -24,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String item_name = "item_name";
     public static final String cat_cat_id = "cat_cat_id";
     public static final String item_price = "item_price";
+    public static final String image = "image";
 
     public static final String cart_details  = "cart_details ";
     public static final String cart_id = "cart_id";
@@ -39,7 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public static final String CREATE_CAT_TABLE="CREATE TABLE `category` (`cat_id`INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cat_name` TEXT NOT NULL,`cat_type` TEXT NOT NULL);";
-    public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` ( `item_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL );";
+    public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` ( `item_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL ,`image` REAL NOT NULL);";
     public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`customer_mob_no` REAL,`date`\tREAL NOT NULL,`time` REAL NOT NULL,`status` TEXT NOT NULL);";
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -52,23 +53,51 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS category");
+        db.execSQL("DROP TABLE IF EXISTS item_table");
         onCreate(db);
     }
 
-    public long insertContact(String name, String type) {
+    public long insertcategory(String name, String type) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(cat_name, name);
         contentValues.put(cat_type, type);
         return db.insert(category, null, contentValues);
 
+    }public long insertitems(String name, String cat_id, String price,String itemimage) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(item_name, name);
+        contentValues.put(cat_cat_id, cat_id);
+        contentValues.put(item_price, price);
+        contentValues.put(image, itemimage);
+
+        return db.insert(item_table, null, contentValues);
+
     }
-//
-    public Cursor getData(int id) {
+
+
+    //get category
+
+    public Cursor getData(String type) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from category where cat_type=snacks", null);
+        Cursor res = db.rawQuery("select * from category  where "+cat_type+"=?", new String[]{type});
+
+
         return res;
     }
+
+    //get items
+
+    public Cursor getitems()
+    {
+
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor itemdetails=db.rawQuery("select * from item_table",new String[] {});
+        return itemdetails;
+    }
+
+
 //
 //    public int numberOfRows() {
 //        SQLiteDatabase db = this.getReadableDatabase();

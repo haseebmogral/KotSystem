@@ -73,11 +73,6 @@
 
 
 
-
-
-
-
-
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
@@ -154,7 +149,7 @@
                     android:id="@+id/juice"
                     android:background="@drawable/circular_button_s"
 
-                    android:text="Juice"
+                    android:text="drinks"
                     android:textColor="#fff" />
 
             </LinearLayout>
@@ -163,11 +158,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/subcat_recycler"
                     android:layout_width="match_parent"
+                    android:fitsSystemWindows="true"
                     android:layout_height="wrap_content">
 
                 </android.support.v7.widget.RecyclerView>
@@ -181,43 +179,26 @@
                 android:scrollbars="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <include layout="@layout/items_adapter" />
 
-                    <include layout="@layout/items_adapter" />
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layoutAnimation="@anim/layout_animation_fall_down"
+                        android:id="@+id/item_recycler">
 
-                    <include layout="@layout/items_adapter" />
+                    </android.support.v7.widget.RecyclerView>
 
-
-                    <include layout="@layout/items_adapter" />
-
-                    <include layout="@layout/items_adapter" />
-
-                    <include layout="@layout/items_adapter" />
-
-                    <include layout="@layout/items_adapter" />
-
-                    <include layout="@layout/items_adapter" />
-
-                    <include layout="@layout/items_adapter" />
-
-                    <include layout="@layout/items_adapter" />
 
 
                 </LinearLayout>
 
             </HorizontalScrollView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/category"
-                android:orientation="horizontal">
 
-            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

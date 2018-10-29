@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+
     <set xmlns:android="http://schemas.android.com/apk/res/android"
-        android:duration="@integer/anim_duration_medium">
+        android:duration="500">
 
         <translate
             android:fromYDelta="-20%"
@@ -26,4 +26,3 @@
             />
 
     </set>
-</resources>
