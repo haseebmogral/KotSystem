@@ -133,6 +133,9 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
 
 
+
+
+
         }
         else if (v==juice){
 
