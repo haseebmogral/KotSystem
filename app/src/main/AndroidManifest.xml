@@ -12,11 +12,20 @@
         <activity android:name=".activity.Order_screen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity android:name=".Manager_Dashboard" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+
+
         </activity>
     </application>
 
