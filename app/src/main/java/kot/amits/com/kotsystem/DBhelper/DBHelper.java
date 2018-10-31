@@ -1,9 +1,6 @@
 package kot.amits.com.kotsystem.DBhelper;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -32,6 +29,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String date = "date";
     public static final String time = "time";
     public static final String status = "status";
+    public static final String upload_status = "upload_status";
+
+    public static final String cart_items_table  = "cart_items_table ";
+    public static final String c_i_id = "c_i_id";
+    public static final String cart_details_id = "cart_details_id";
+    public static final String c_item_id = "c_item_id";
+    public static final String c_qty = "c_qty";
+    public static final String c_total = "c_total";
 
     private HashMap hp;
 
@@ -40,20 +45,24 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public static final String CREATE_CAT_TABLE="CREATE TABLE `category` (`cat_id`INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cat_name` TEXT NOT NULL,`cat_type` TEXT NOT NULL);";
-    public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` ( `item_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL ,`image` REAL NOT NULL);";
-    public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`customer_mob_no` REAL,`date`\tREAL NOT NULL,`time` REAL NOT NULL,`status` TEXT NOT NULL);";
+    public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` (`item_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL ,`image` REAL NOT NULL);";
+    public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`customer_mob_no` REAL,`date` REAL NOT NULL,`time` REAL NOT NULL,`status` TEXT NOT NULL);";
+    public static final String CREATE_CART_ITEMS_TABLE="CREATE TABLE `cart_items_table` (`c_i_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_details_id` INTEGER NOT NULL,`c_item_id` INTEGER NOT NULL,`c_qty` INTEGER NOT NULL,`c_total` REAL NOT NULL);";
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(CREATE_CAT_TABLE);
         db.execSQL(CREATE_ITEM_TABLE);
         db.execSQL(CREATE_CART_DETAILS_TABLE);
+        db.execSQL(CREATE_CART_ITEMS_TABLE);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS category");
         db.execSQL("DROP TABLE IF EXISTS item_table");
+        db.execSQL("DROP TABLE IF EXISTS cart_details");
+        db.execSQL("DROP TABLE IF EXISTS cart_items_table");
         onCreate(db);
     }
 

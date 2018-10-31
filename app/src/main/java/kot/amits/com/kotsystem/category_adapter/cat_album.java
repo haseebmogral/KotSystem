@@ -1,4 +1,4 @@
-package category_adapter;
+package kot.amits.com.kotsystem.category_adapter;
 
 public class cat_album {
 

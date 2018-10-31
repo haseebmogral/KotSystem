@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
 
-import adapter.CustomAdapter;
+import kot.amits.com.kotsystem.adapter.CustomAdapter;
 import kot.amits.com.kotsystem.R;
 
 public class Manager_Dashboard extends AppCompatActivity {

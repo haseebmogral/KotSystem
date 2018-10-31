@@ -1,4 +1,4 @@
-package adapter;
+package kot.amits.com.kotsystem.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

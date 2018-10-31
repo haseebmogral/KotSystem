@@ -1,4 +1,4 @@
-package category_adapter;
+package kot.amits.com.kotsystem.category_adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,13 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import kot.amits.com.kotsystem.R;
-import kot.amits.com.kotsystem.main_activity_adapter_and_model.Album1;
-import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
 
 public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyViewHolder> {
 

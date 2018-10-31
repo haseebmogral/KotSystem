@@ -29,17 +29,18 @@ import com.idescout.sql.SqlScoutServer;
 import java.util.ArrayList;
 import java.util.List;
 
-import category_adapter.cat_adapter;
-import category_adapter.cat_album;
-import items_adapter.item_album;
-import items_adapter.item_adapter;
+import kot.amits.com.kotsystem.category_adapter.cat_adapter;
+import kot.amits.com.kotsystem.category_adapter.cat_album;
+import kot.amits.com.kotsystem.items_adapter.cart_items;
+import kot.amits.com.kotsystem.items_adapter.item_album;
+import kot.amits.com.kotsystem.items_adapter.item_adapter;
 import kot.amits.com.kotsystem.DBhelper.DBHelper;
 import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.Album1;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
 
-public class Order_screen extends AppCompatActivity implements View.OnClickListener {
+public class Order_screen extends AppCompatActivity implements View.OnClickListener,item_adapter.CustomItemClickListener {
     DBmanager mydb;
     long id;
     Cursor category_cursor,item_cursor;
@@ -48,7 +49,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     int position;
     private Paint p = new Paint();
 
-    private Button snacks, juice;
+    private Button snacks, juice,get;
     private int flag = 0;
 
 
@@ -64,8 +65,13 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     private item_adapter item_adapter;
     private List<item_album> itemlist;
 
+    private List<cart_items> cart_list;
+
+
 
     RecyclerView bill_items, categoy,itemrecycler;
+
+
 
 
     @Override
@@ -80,8 +86,20 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         progress.setCanceledOnTouchOutside(false);
         snacks = (Button) findViewById(R.id.snacks);
         juice = (Button) findViewById(R.id.juice);
+        get = (Button) findViewById(R.id.click);
         snacks.setOnClickListener(this);
         juice.setOnClickListener(this);
+        get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(Order_screen.this,String.valueOf(cart_list.size()) , Toast.LENGTH_SHORT).show();
+
+                for (int i=0;i<cart_list.size();i++){
+                    String id= String.valueOf(cart_list.get(i).getItem_id());
+                    Toast.makeText(Order_screen.this,id, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 //        progress.show();
 
 
@@ -101,9 +119,24 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         initSwipe();
 
         load_cat();
-
-
+        cart_list=new ArrayList<>();
     }
+
+    @Override
+    public void onCustomItemClick(int position) {
+        Toast.makeText(this, "clciked"+String.valueOf(position), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCustomItemLongClick(int position) {
+        Toast.makeText(this, "clciked custome listener"+String.valueOf(position), Toast.LENGTH_SHORT).show();
+    }
+
+    public interface RecyclerViewClickListener {
+
+        void onClick(View view, int position);
+    }
+
 
 
     public void load_cat() {
@@ -262,7 +295,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 //                                    albumList.remove(0);
 //                                }
 //
-//                                adapter.notifyDataSetChanged();
+//                                kot.amits.com.kotsystem.adapter.notifyDataSetChanged();
 //                            }
 //                            load_cat();
                             adapter.notifyDataSetChanged();
@@ -340,7 +373,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
             String catname = category_cursor.getString(category_cursor.getColumnIndex(DBHelper.cat_name));
 
 
-            Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
 
             cat = new cat_album(catname);
             catlist.add(cat);
@@ -355,7 +388,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     private void load_items() {
 
         itemlist = new ArrayList<>();
-        item_adapter = new item_adapter(Order_screen.this, itemlist);
+        item_adapter = new item_adapter(Order_screen.this, itemlist,cart_list,this);
 
 
         LinearLayoutManager linearLayoutManager;
@@ -377,16 +410,18 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
         while (item_cursor.moveToNext()) {
 
+            String item_id = String.valueOf(item_cursor.getInt(item_cursor.getColumnIndex(DBHelper.item_id)));
             String itemname = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_name));
             String itemprice = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_price));
             String image = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.image));
 
-            Toast.makeText(this, itemname+itemprice+image, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, itemname+itemprice+image, Toast.LENGTH_SHORT).show();
+
 
 
 //            Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
 
-            items = new item_album(itemname,itemprice,image);
+            items = new item_album(item_id,itemname,itemprice,image);
             itemlist.add(items);
         }
 

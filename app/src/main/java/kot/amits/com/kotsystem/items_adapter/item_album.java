@@ -1,15 +1,17 @@
-package items_adapter;
+package kot.amits.com.kotsystem.items_adapter;
 
 public class item_album {
 
     private String item_name;
     private String price;
     private String image;
+    private String item_id;
 
-    public item_album(String item_name, String price, String image) {
+    public item_album(String item_id,String item_name, String price, String image) {
         this.item_name = item_name;
         this.price=price;
         this.image=image;
+        this.item_id=item_id;
 
     }
 
@@ -45,6 +47,16 @@ public class item_album {
     public  void setImage(String image)
     {
         this.image=image;
+    }
+
+    public String getid()
+    {
+        return item_id;
+    }
+
+    public  void setid(String item_id)
+    {
+        this.item_id=item_id;
     }
 
 }

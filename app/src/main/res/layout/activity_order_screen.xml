@@ -202,6 +202,13 @@
 
         </LinearLayout>
     </LinearLayout>
+    <Button
+        android:id="@+id/click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="get everything"
+        android:textSize="30dp"
+        android:layout_centerInParent="true"/>
 
 
 </RelativeLayout>
