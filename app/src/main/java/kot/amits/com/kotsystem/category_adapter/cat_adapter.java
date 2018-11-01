@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -18,6 +19,14 @@ public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyViewHolder> 
     private Context mContext;
     private List<cat_album> albumList1;
 
+    private CustomItemClickListener itemClickListener;
+
+
+    public interface CustomItemClickListener{
+        void onCustomItemClick(int position,String type);
+        void onCustomItemLongClick(int position);
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
 
@@ -25,25 +34,20 @@ public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyViewHolder> 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.cat_name);
-//            title.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(mContext, title.getText().toString(), Toast.LENGTH_SHORT).show();
-//                    claculate();
-//                }
-//            });
-//        }
-
-//    }
-
         }
+
     }
 
 
 
-    public cat_adapter(Context mContext, List<cat_album> albumList1) {
+
+
+
+    public cat_adapter(Context mContext, List<cat_album> albumList1,CustomItemClickListener itemClickListener) {
         this.mContext = mContext;
         this.albumList1 = albumList1;
+        this.itemClickListener=itemClickListener;
+
     }
 
     @Override
@@ -54,9 +58,20 @@ public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final cat_adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final cat_adapter.MyViewHolder holder, final int position) {
         cat_album album = albumList1.get(position);
         holder.title.setText(album.getName());
+
+       holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(mContext,holder. title.getText().toString(), Toast.LENGTH_SHORT).show();
+//                    claculate();
+                itemClickListener.onCustomItemClick(position,"cat");
+            }
+        });
+
 
     }
 
