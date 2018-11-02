@@ -75,11 +75,27 @@ public class DBmanager {
 
     //get items
 
-    public Cursor getitems()
+    public Cursor getitems(String category_id)
     {
 
-        Cursor itemdetails=database.rawQuery("select * from item_table",new String[] {});
+        Cursor itemdetails=database.rawQuery("select * from item_table where "+dbHelper.cat_cat_id+" =?",new String[]{category_id});
         return itemdetails;
+    }
+    public Cursor get_ongoing_orders(){
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"0"});
+        return cursor;
+    }
+    public Cursor get_sent_to_kitchen_order(){
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+        return cursor;
+    }
+    public Cursor get_finished_orders(){
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+        return cursor;
+    }
+    public Cursor get_cancelled_orders(){
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+        return cursor;
     }
 
     public String get_date(){

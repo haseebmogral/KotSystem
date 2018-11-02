@@ -187,7 +187,9 @@
                     android:text="drinks"
                     android:textColor="#fff" />
 
+
             </LinearLayout>
+
 
 
             <LinearLayout

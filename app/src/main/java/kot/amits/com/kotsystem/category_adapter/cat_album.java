@@ -3,9 +3,11 @@ package kot.amits.com.kotsystem.category_adapter;
 public class cat_album {
 
     private String title;
+    private int  cat_id;
 
-    public cat_album(String title) {
+    public cat_album(String title,int cat_id) {
         this.title = title;
+        this.cat_id = cat_id;
 
     }
 
@@ -13,6 +15,10 @@ public class cat_album {
     public String getName()
     {
         return title;
+    }
+    public int getCat_id()
+    {
+        return cat_id;
     }
 //    public String getId() {
 //        return id;

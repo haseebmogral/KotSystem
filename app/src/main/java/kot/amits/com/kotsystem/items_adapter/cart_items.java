@@ -40,5 +40,9 @@ public class cart_items {
         return name;
     }
 
+    public void set_qty(int qty){
+        this.qty=qty;
+    }
+
 
 }

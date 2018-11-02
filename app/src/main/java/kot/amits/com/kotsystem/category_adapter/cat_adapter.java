@@ -59,16 +59,17 @@ public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final cat_adapter.MyViewHolder holder, final int position) {
-        cat_album album = albumList1.get(position);
+        final cat_album album = albumList1.get(position);
         holder.title.setText(album.getName());
 
        holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int cat_id=album.getCat_id();
 
                 Toast.makeText(mContext,holder. title.getText().toString(), Toast.LENGTH_SHORT).show();
 //                    claculate();
-                itemClickListener.onCustomItemClick(position,"cat");
+                itemClickListener.onCustomItemClick(position,String.valueOf(cat_id));
             }
         });
 
