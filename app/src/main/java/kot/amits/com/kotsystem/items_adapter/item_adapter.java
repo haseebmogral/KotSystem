@@ -85,7 +85,7 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
         holder.itemname.setText(album.getItem_name());
         holder.price.setText(album.getPrice());
 
-        Glide.with(mContext).load("https://www.pallasfoods.com/wp-content/uploads/2018/01/600-by-400-px.jpg").into(holder.itemimage);
+        Glide.with(mContext).load("https://st2.depositphotos.com/2808141/10024/i/950/depositphotos_100246242-stock-photo-green-spinach-kale-detox-smoothie.jpg").into(holder.itemimage);
 
        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

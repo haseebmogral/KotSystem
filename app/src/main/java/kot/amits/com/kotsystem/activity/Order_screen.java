@@ -19,6 +19,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
@@ -79,6 +81,9 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_main_screen);
         setContentView(R.layout.activity_order_screen);
 
         total_textview =(TextView)findViewById(R.id.total_amount);
@@ -90,20 +95,20 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         progress.setCanceledOnTouchOutside(false);
         snacks = (Button) findViewById(R.id.snacks);
         juice = (Button) findViewById(R.id.juice);
-        get = (Button) findViewById(R.id.click);
+//        get = (Button) findViewById(R.id.click);
         snacks.setOnClickListener(this);
         juice.setOnClickListener(this);
-        get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(Order_screen.this,String.valueOf(cart_list.size()) , Toast.LENGTH_SHORT).show();
-
-                for (int i=0;i<cart_list.size();i++){
-                    String id= String.valueOf(cart_list.get(i).getItem_id());
-                    Toast.makeText(Order_screen.this,id, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        get.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(Order_screen.this,String.valueOf(cart_list.size()) , Toast.LENGTH_SHORT).show();
+//
+//                for (int i=0;i<cart_list.size();i++){
+//                    String id= String.valueOf(cart_list.get(i).getItem_id());
+//                    Toast.makeText(Order_screen.this,id, Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 //        progress.show();
 
 
@@ -112,7 +117,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         id = mydb.insertcategory("egg puffs", "snacks");
         id = mydb.insertcategory("apple juice", "drinks");
 
-        mydb.insertitems("avil milk", "1", "10", "https://cdn1.medicalnewstoday.com/content/images/articles/320/320834/bottles-of-fruit-juice.jpg");
+        mydb.insertitems("Gilliyan Marilian", "1", "10", "https://www.gannett-cdn.com/-mm-/274d05a7be972158f4112c143fec5e3b59d41d40/c=0-1125-8269-5797/local/-/media/2018/06/19/TreasureCoast/TreasureCoast/636650476621444243-Frozen-Lemonades.jpg?width=3200&height=1680&fit=crop");
 
 //        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
 
@@ -120,10 +125,16 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         categoy = (RecyclerView) findViewById(R.id.subcat_recycler);
 
         itemrecycler=(RecyclerView)findViewById(R.id.item_recycler);
+
+
         initSwipe();
 
         cart_list=new ArrayList<>();
     }
+
+
+
+
 
     @Override
     public void onCustomItemClick(int position,String type) {
