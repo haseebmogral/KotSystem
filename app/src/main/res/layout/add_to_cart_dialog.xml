@@ -24,7 +24,10 @@
             android:layout_height="wrap_content"
             android:text="-"/>
         <EditText
-
+            android:lines="1"
+            android:digits="1234567890"
+            android:inputType="number"
+            android:imeOptions="flagNoExtractUi"
             android:id="@+id/quantity"
             android:layout_gravity="center"
             android:textSize="20dp"

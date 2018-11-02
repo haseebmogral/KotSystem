@@ -84,20 +84,21 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_order_screen);
 
         total_textview =(TextView)findViewById(R.id.total_amount);
-        searchView =(SearchView) findViewById(R.id.searchview);
+//        searchView =(SearchView) findViewById(R.id.searchview);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                item_adapter.getFilter().filter(newText);
-                return true;
-            }
-        });
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                item_adapter.getFilter().filter(newText);
+//                item_adapter.notifyDataSetChanged();
+//                return true;
+//            }
+//        });
 
         SqlScoutServer.create(this, getPackageName());
 
@@ -106,20 +107,8 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         progress.setCanceledOnTouchOutside(false);
         snacks = (Button) findViewById(R.id.snacks);
         juice = (Button) findViewById(R.id.juice);
-        get = (Button) findViewById(R.id.click);
         snacks.setOnClickListener(this);
         juice.setOnClickListener(this);
-        get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(Order_screen.this,String.valueOf(cart_list.size()) , Toast.LENGTH_SHORT).show();
-
-                for (int i=0;i<cart_list.size();i++){
-                    String id= String.valueOf(cart_list.get(i).getItem_id());
-                    Toast.makeText(Order_screen.this,id, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 //        progress.show();
 
 
@@ -160,6 +149,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
 
     public void load_cart_items() {
+        adapter=null;
 
         albumList = new ArrayList<>();
         adapter = new AlbumsAdapter1(this, albumList, total_textview);
@@ -175,7 +165,6 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
 
         Album1 a;
-        long tot=0;
 
         for (int i=0;i<cart_list.size();i++){
             int id= cart_list.get(i).getItem_id();
@@ -183,7 +172,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
             int qty= cart_list.get(i).get_qty();
             long price= cart_list.get(i).get_price();
             long total= cart_list.get(i).get_total();
-            Toast.makeText(this, "total of each items:"+String.valueOf(total), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "total of each items:"+String.valueOf(total), Toast.LENGTH_SHORT).show();
 
             a = new Album1(id,name,qty,price,total);
             albumList.add(a);
@@ -317,6 +306,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                                 public void onClick(DialogInterface arg0, int arg1) {
 
                                     albumList.remove(position);
+                                    cart_list.remove(position);
 
                                     Toast.makeText(Order_screen.this, "item removed", Toast.LENGTH_SHORT).show();
 
@@ -427,8 +417,6 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
     private void load_items(String category) {
         item_cursor=mydb.getitems(category);
-
-
         itemlist = new ArrayList<>();
         item_adapter = new item_adapter(Order_screen.this, itemlist,cart_list,this);
 

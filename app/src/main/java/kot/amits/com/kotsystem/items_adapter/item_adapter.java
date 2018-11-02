@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,35 +21,63 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 
-public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder> implements Filterable {
+public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder>
+//        implements Filterable
+{
 
     private Context mContext;
     private List<item_album> albumList1;
     private List<cart_items> cart_items;
+    private List<item_album> fruitsArrayListFiltered;
+
     int  qty=1;
 
 
     private CustomItemClickListener itemClickListener;
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                return null;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-
-            }
-        };
-    }
+//    @Override
+//    public Filter getFilter() {
+//        return new Filter() {
+//            @Override
+//            protected FilterResults performFiltering(CharSequence constraint) {
+//                String charString = constraint.toString();
+//                Log.d("TANSEERFILT", charString);
+//                if (charString.isEmpty()) {
+//                    fruitsArrayListFiltered = albumList1;
+//                } else {
+//                    ArrayList<item_album> filteredList = new ArrayList<>();
+//                    for (item_album row : albumList1) {
+//
+//                        // name match condition. this might differ depending on your requirement
+//                        // here we are looking for name or phone number match
+//
+//                        if (row.getItem_name().toLowerCase().contains(charString.toLowerCase())) {
+//                            Toast.makeText(mContext, "got you", Toast.LENGTH_SHORT).show();
+//                            filteredList.add(row);
+//                        }
+//                    }
+//
+//                    fruitsArrayListFiltered = filteredList;
+//                }
+//
+//                FilterResults filterResults = new FilterResults();
+//                filterResults.values = fruitsArrayListFiltered;
+//                return filterResults;
+//            }
+//
+//            @Override
+//            protected void publishResults(CharSequence constraint, FilterResults results) {
+//                fruitsArrayListFiltered = (ArrayList<item_album>) results.values;
+//                notifyDataSetChanged();
+//            }
+//        };
+//    }
 
     public interface CustomItemClickListener{
         void onCustomItemClick(int position);
@@ -85,7 +116,6 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
     @Override
     public item_adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_adapter, parent, false);
-
         return new item_adapter.MyViewHolder(itemView);
     }
 
@@ -122,6 +152,33 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                 final Button minus = (Button) dialogView.findViewById(R.id.minus);
 
 
+                edt.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (s==null||s.toString().isEmpty()){
+
+                        }
+                        else{
+                            int q= Integer.parseInt(s.toString());
+                            if (q<=0){
+                                edt.setText("1");
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+
 
                 plus.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -137,8 +194,10 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                     @Override
                     public void onClick(View v) {
                         qty= Integer.parseInt(edt.getText().toString());
-                        qty=qty-1;
-                        edt.setText(String.valueOf(qty));
+                            qty=qty-1;
+                            edt.setText(String.valueOf(qty));
+
+
                     }
                 });
 
@@ -146,13 +205,14 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
 //                dialogBuilder.setMessage("Enter text below");
                 dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        qty= Integer.parseInt(edt.getText().toString());
+
                         total[0] =qty*price;
 
                         items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
                         cart_items.add(items[0]);
                         itemClickListener.onCustomItemClick(position);
-                        //do something with edt.getText().toString();
-                    }
+                        }
                 });
                 dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
