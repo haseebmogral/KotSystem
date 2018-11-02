@@ -149,7 +149,6 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
 
     public void load_cart_items() {
-        adapter=null;
 
         albumList = new ArrayList<>();
         adapter = new AlbumsAdapter1(this, albumList, total_textview);

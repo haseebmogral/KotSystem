@@ -19,7 +19,7 @@
                 android:id="@+id/slno"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.5"
                 android:fontFamily="@font/open_sans_light"
                 android:maxLines="1"
                 android:gravity="start"
