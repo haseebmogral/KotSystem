@@ -125,7 +125,7 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
         holder.itemname.setText(album.getItem_name());
         holder.price.setText(album.getPrice());
 
-        Glide.with(mContext).load("https://st2.depositphotos.com/2808141/10024/i/950/depositphotos_100246242-stock-photo-green-spinach-kale-detox-smoothie.jpg").into(holder.itemimage);
+        Glide.with(mContext).load("https://www.pallasfoods.com/wp-content/uploads/2018/01/600-by-400-px.jpg").into(holder.itemimage);
 
        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,41 +205,73 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
 //                dialogBuilder.setMessage("Enter text below");
                 dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-//                        if (cart_items.size()<=0){
-//                            qty= Integer.parseInt(edt.getText().toString());
-//                            total[0] =qty*price;
-//                            items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
-//                            cart_items.add(items[0]);
-//                            itemClickListener.onCustomItemClick(position);
-//                        }
-//                        else {
-//                            Toast.makeText(mContext, "else", Toast.LENGTH_SHORT).show();
-//                            for (int i = 0; i < cart_items.size(); i++) {
-//                                Toast.makeText(mContext, String.valueOf(cart_items.get(i).getItem_id())+"\n"
-//                                        +cart_items.get(i).get_name(), Toast.LENGTH_SHORT).show();
-//                                if (cart_items.get(i).getItem_id() == item_id) {
+                        if (cart_items.size()<=0){
+                            qty= Integer.parseInt(edt.getText().toString());
+                            total[0] =qty*price;
+                            items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
+                            cart_items.add(items[0]);
+                            itemClickListener.onCustomItemClick(position);
+                        }
+                        else {
+                            Toast.makeText(mContext, "else", Toast.LENGTH_SHORT).show();
+                            for (int i = 0; i < cart_items.size(); i++) {
+                                Toast.makeText(mContext, String.valueOf(cart_items.get(i).getItem_id())+"\n"
+                                        +cart_items.get(i).get_name(), Toast.LENGTH_SHORT).show();
+                                if (cart_items.get(i).getItem_id() == item_id) {
+                                    Toast.makeText(mContext, "yes", Toast.LENGTH_SHORT).show();
+//                                    cart_items.get(i).set_qty(qty);
+//                                    itemClickListener.onCustomItemClick(position);
+
+                                }
+                                else{
+                                    qty= Integer.parseInt(edt.getText().toString());
+                                    total[0] =qty*price;
+                                    items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
+                                    cart_items.add(items[0]);
+                                    itemClickListener.onCustomItemClick(position);
+                                }
+                            }
+                        }
+
+//                        Toast.makeText(mContext, String.valueOf(cart_items.size()), Toast.LENGTH_SHORT).show();
+
+//                        if (cart_items.size()>0){
+//                            for (int i=1;i<cart_items.size();i++){
+//                                if (cart_items.get(i).getItem_id()==item_id){
 //                                    Toast.makeText(mContext, "yes", Toast.LENGTH_SHORT).show();
-////                                    cart_items.get(i).set_qty(qty);
-////                                    itemClickListener.onCustomItemClick(position);
 //
+//                                }
+//                                else if(cart_items.get(i).getItem_id()!=item_id){
+//                                    Toast.makeText(mContext, "No", Toast.LENGTH_SHORT).show();
+//                                    qty= Integer.parseInt(edt.getText().toString());
+//
+//                                    total[0] =qty*price;
+//
+//                                    items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
+//                                    cart_items.add(items[0]);
+//                                    itemClickListener.onCustomItemClick(position);
 //                                }
 //                                else{
 //                                    qty= Integer.parseInt(edt.getText().toString());
+//
 //                                    total[0] =qty*price;
+//
 //                                    items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
 //                                    cart_items.add(items[0]);
 //                                    itemClickListener.onCustomItemClick(position);
 //                                }
 //                            }
+//
 //                        }
-
-                        qty= Integer.parseInt(edt.getText().toString());
-                        total[0] =qty*price;
-                        items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
-                        cart_items.add(items[0]);
-                        itemClickListener.onCustomItemClick(position);
-
-
+//                        else{
+//                            qty= Integer.parseInt(edt.getText().toString());
+//////
+//                                total[0] =qty*price;
+//
+//                                items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
+//                                cart_items.add(items[0]);
+//                                itemClickListener.onCustomItemClick(position);
+//                        }
 
 
 
