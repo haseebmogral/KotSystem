@@ -47,6 +47,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.robinhood.ticker:ticker:2.0.0'
+
 
 
 }
