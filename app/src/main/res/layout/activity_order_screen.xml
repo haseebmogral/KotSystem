@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#454545"
+    android:background="#ececec"
+    android:padding="5dp"
     tools:context=".activity.Order_screen">
 
     <LinearLayout
@@ -15,7 +16,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="2.5"
             app:cardElevation="3dp"
             tools:style="@style/CardView">
 
@@ -46,40 +47,24 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:textStyle="bold"
-                            android:text="I.no"/>
+                            android:layout_weight="1"
+                            android:text="Sl.no"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textStyle="bold"
-
-                            android:gravity="center"
                             android:text="Items"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="end"
-                            android:textStyle="bold"
-
+                            android:gravity="center"
                             android:text="Qty"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:textStyle="bold"
-
-                            android:text="Price"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:textStyle="bold"
-
+                            android:gravity="end"
                             android:text="Total"/>
 
 
@@ -115,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="#eaeaea"
+                    android:background="#29a133"
                     android:orientation="horizontal"
                     android:padding="5dp">
 
@@ -123,18 +108,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Total: " />
-
                     <TextView
                         android:layout_weight="1"
-                        android:gravity="end"
+                        android:gravity="right"
                         android:text="00.00"
-                        android:textAlignment="textEnd"
                         android:id="@+id/total_amount"
                         android:layout_width="0dp"
-                        android:fontFamily="@font/montserrat"
-                        android:textSize="20sp"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
@@ -149,14 +129,6 @@
             android:layout_weight="5"
             android:background="#ffffff"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/hidding_layout"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:orientation="vertical">
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -209,26 +181,20 @@
 
             </LinearLayout>
 
-
-
-            </LinearLayout>
-
-
-
-
-            <RelativeLayout
+            <HorizontalScrollView
                 android:id="@+id/category"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
 
                     <android.support.v7.widget.RecyclerView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layoutAnimation="@anim/layout_animation_fall_down"
                         android:id="@+id/item_recycler">
@@ -239,7 +205,7 @@
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </HorizontalScrollView>
 
 
 
