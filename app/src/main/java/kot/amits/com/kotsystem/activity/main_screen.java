@@ -3,6 +3,7 @@ package kot.amits.com.kotsystem.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,10 +21,10 @@ import kot.amits.com.kotsystem.R;
 
 public class main_screen extends AppCompatActivity {
     DBmanager dBmanager;
-    Button start;
+    CardView start;
     CarouselView carouselView;
 
-    int[] sampleImages = {R.drawable.maxresdefault, R.drawable.circular_button_s};
+    int[] sampleImages = {R.drawable.ic_burger, R.drawable.circular_button_s};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +40,16 @@ public class main_screen extends AppCompatActivity {
         dBmanager = new DBmanager(this);
         dBmanager.open();
 
-//        start   = (Button) findViewById(R.id.start_order);
-//
-//
-//        start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                dBmanager.CART_ID = String.valueOf(dBmanager.add_to_cart_details(dBmanager.get_date(), dBmanager.get_time()));
-//                Intent intent = new Intent(main_screen.this, Order_screen.class);
-//                startActivity(intent);
-//            }
-//        });
+        start   = (CardView) findViewById(R.id.start_order);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dBmanager.CART_ID = String.valueOf(dBmanager.add_to_cart_details(dBmanager.get_date(), dBmanager.get_time()));
+                Intent intent = new Intent(main_screen.this, Order_screen.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

@@ -35,7 +35,17 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
 
     @Override
     public Filter getFilter() {
-        return null;
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                return null;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            }
+        };
     }
 
     public interface CustomItemClickListener{

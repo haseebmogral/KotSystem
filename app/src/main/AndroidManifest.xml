@@ -22,6 +22,7 @@
         <activity
             android:name=".activity.Manager_Dashboard"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+
         <activity android:name=".activity.main_screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

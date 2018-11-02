@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     private Paint p = new Paint();
 
     private Button snacks, juice,get;
+    SearchView searchView;
     private int flag = 0;
 
 
@@ -82,6 +84,20 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_order_screen);
 
         total_textview =(TextView)findViewById(R.id.total_amount);
+        searchView =(SearchView) findViewById(R.id.searchview);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                item_adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
 
         SqlScoutServer.create(this, getPackageName());
 
@@ -112,7 +128,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         id = mydb.insertcategory("egg puffs", "snacks");
         id = mydb.insertcategory("apple juice", "drinks");
 
-        mydb.insertitems("avil milk", "1", "10", "https://cdn1.medicalnewstoday.com/content/images/articles/320/320834/bottles-of-fruit-juice.jpg");
+        mydb.insertitems("avil milk", "2", "10", "https://cdn1.medicalnewstoday.com/content/images/articles/320/320834/bottles-of-fruit-juice.jpg");
 
 //        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
 
@@ -126,11 +142,11 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onCustomItemClick(int position,String type) {
-        load_items();
-        Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
-
-        Toast.makeText(this, "clciked"+String.valueOf(position), Toast.LENGTH_SHORT).show();
+    public void onCustomItemClick(int position,String cat_id) {
+        load_items(cat_id);
+//        Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
+//
+//        Toast.makeText(this, "clciked"+String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -394,11 +410,12 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         while (category_cursor.moveToNext()) {
 
             String catname = category_cursor.getString(category_cursor.getColumnIndex(DBHelper.cat_name));
+            int cat_id = category_cursor.getInt(category_cursor.getColumnIndex(DBHelper.cat_id));
 
 
 //            Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
 
-            cat = new cat_album(catname);
+            cat = new cat_album(catname,cat_id);
             catlist.add(cat);
         }
 
@@ -408,8 +425,8 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void load_items() {
-        item_cursor=mydb.getitems();
+    private void load_items(String category) {
+        item_cursor=mydb.getitems(category);
 
 
         itemlist = new ArrayList<>();
