@@ -54,6 +54,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     private Button snacks, juice,get;
     SearchView searchView;
     private int flag = 0;
+    Button order;
 
 
 //    private RecyclerView.Adapter mAdapter;
@@ -84,6 +85,14 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_order_screen);
 
         total_textview =(TextView)findViewById(R.id.total_amount);
+        order =(Button) findViewById(R.id.order);
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //space to order place in database
+                mydb.place_order(cart_list);
+            }
+        });
 //        searchView =(SearchView) findViewById(R.id.searchview);
 
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
