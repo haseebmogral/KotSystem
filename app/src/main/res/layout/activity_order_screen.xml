@@ -97,9 +97,10 @@
                     tools:itemCount="16" />
 
                 <LinearLayout
+                    android:layout_above="@+id/actions"
+                    android:id="@+id/total_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:background="#29a133"
                     android:orientation="horizontal"
                     android:padding="5dp">
@@ -118,6 +119,30 @@
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/actions"
+                    android:layout_alignParentBottom="true"
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/order"
+                        android:layout_weight="1"
+                        android:textSize="10dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Order"/>
+                    <Button
+                        android:id="@+id/cancel"
+                        android:layout_weight="1"
+                        android:textSize="10dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cancel"/>
+
+                </LinearLayout>
+
 
             </RelativeLayout>
 
