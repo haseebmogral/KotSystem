@@ -19,14 +19,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.idescout.sql.SqlScoutServer;
+import com.robinhood.ticker.TickerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,6 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     private Paint p = new Paint();
 
     private Button snacks, juice,get;
-    SearchView searchView;
     private int flag = 0;
 
 
@@ -81,24 +82,12 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_main_screen);
         setContentView(R.layout.activity_order_screen);
 
-        total_textview =(TextView)findViewById(R.id.total_amount);
-//        searchView =(SearchView) findViewById(R.id.searchview);
-
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                item_adapter.getFilter().filter(newText);
-//                item_adapter.notifyDataSetChanged();
-//                return true;
-//            }
-//        });
+        total_textview =(TextView) findViewById(R.id.total_amount);
 
         SqlScoutServer.create(this, getPackageName());
 
@@ -107,8 +96,20 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         progress.setCanceledOnTouchOutside(false);
         snacks = (Button) findViewById(R.id.snacks);
         juice = (Button) findViewById(R.id.juice);
+//        get = (Button) findViewById(R.id.click);
         snacks.setOnClickListener(this);
         juice.setOnClickListener(this);
+//        get.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(Order_screen.this,String.valueOf(cart_list.size()) , Toast.LENGTH_SHORT).show();
+//
+//                for (int i=0;i<cart_list.size();i++){
+//                    String id= String.valueOf(cart_list.get(i).getItem_id());
+//                    Toast.makeText(Order_screen.this,id, Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 //        progress.show();
 
 
@@ -117,7 +118,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         id = mydb.insertcategory("egg puffs", "snacks");
         id = mydb.insertcategory("apple juice", "drinks");
 
-        mydb.insertitems("avil milk", "2", "10", "https://cdn1.medicalnewstoday.com/content/images/articles/320/320834/bottles-of-fruit-juice.jpg");
+        mydb.insertitems("Gilliyan Marilian", "1", "10", "https://www.gannett-cdn.com/-mm-/274d05a7be972158f4112c143fec5e3b59d41d40/c=0-1125-8269-5797/local/-/media/2018/06/19/TreasureCoast/TreasureCoast/636650476621444243-Frozen-Lemonades.jpg?width=3200&height=1680&fit=crop");
 
 //        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
 
@@ -125,17 +126,23 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         categoy = (RecyclerView) findViewById(R.id.subcat_recycler);
 
         itemrecycler=(RecyclerView)findViewById(R.id.item_recycler);
+
+
         initSwipe();
 
         cart_list=new ArrayList<>();
     }
 
+
+
+
+
     @Override
-    public void onCustomItemClick(int position,String cat_id) {
-        load_items(cat_id);
-//        Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
-//
-//        Toast.makeText(this, "clciked"+String.valueOf(position), Toast.LENGTH_SHORT).show();
+    public void onCustomItemClick(int position,String type) {
+        load_items();
+        Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this, "clciked"+String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -164,6 +171,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
 
         Album1 a;
+        long tot=0;
 
         for (int i=0;i<cart_list.size();i++){
             int id= cart_list.get(i).getItem_id();
@@ -171,7 +179,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
             int qty= cart_list.get(i).get_qty();
             long price= cart_list.get(i).get_price();
             long total= cart_list.get(i).get_total();
-//            Toast.makeText(this, "total of each items:"+String.valueOf(total), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "total of each items:"+String.valueOf(total), Toast.LENGTH_SHORT).show();
 
             a = new Album1(id,name,qty,price,total);
             albumList.add(a);
@@ -305,7 +313,6 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                                 public void onClick(DialogInterface arg0, int arg1) {
 
                                     albumList.remove(position);
-                                    cart_list.remove(position);
 
                                     Toast.makeText(Order_screen.this, "item removed", Toast.LENGTH_SHORT).show();
 
@@ -399,12 +406,11 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         while (category_cursor.moveToNext()) {
 
             String catname = category_cursor.getString(category_cursor.getColumnIndex(DBHelper.cat_name));
-            int cat_id = category_cursor.getInt(category_cursor.getColumnIndex(DBHelper.cat_id));
 
 
 //            Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
 
-            cat = new cat_album(catname,cat_id);
+            cat = new cat_album(catname);
             catlist.add(cat);
         }
 
@@ -414,8 +420,10 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void load_items(String category) {
-        item_cursor=mydb.getitems(category);
+    private void load_items() {
+        item_cursor=mydb.getitems();
+
+
         itemlist = new ArrayList<>();
         item_adapter = new item_adapter(Order_screen.this, itemlist,cart_list,this);
 
