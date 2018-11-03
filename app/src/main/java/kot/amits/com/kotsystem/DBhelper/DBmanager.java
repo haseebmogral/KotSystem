@@ -8,8 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import kot.amits.com.kotsystem.items_adapter.cart_items;
 
 public class DBmanager {
 
@@ -96,6 +100,22 @@ public class DBmanager {
     public Cursor get_cancelled_orders(){
         Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
         return cursor;
+    }
+    public void place_order(List<cart_items> cart){
+        ContentValues contentValues = new ContentValues();
+        for (int i=0;i<cart.size();i++){
+            contentValues.put(dbHelper.c_i_id, CART_ID);
+            contentValues.put(dbHelper.time, get_time());
+            contentValues.put(dbHelper.status,"0");
+
+            database.insert(dbHelper.cart_details, null, contentValues);
+            Toast.makeText(context, cart.get(i).getItem_id()+"\n"+
+                    cart.get(i).get_name()+"\n"+
+                    cart.get(i).get_qty()+"\n"+
+                    cart.get(i).get_price()+"\n"+
+                    cart.get(i).get_total()+"\n", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public String get_date(){
