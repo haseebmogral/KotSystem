@@ -48,8 +48,7 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.robinhood.ticker:ticker:2.0.0'
-
-
+    implementation 'com.poovam:pin-edittext-field:1.1.0'
 
 
 }

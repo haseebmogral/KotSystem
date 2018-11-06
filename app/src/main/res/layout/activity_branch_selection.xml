@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    tools:context=".activity.Branch_selection">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cafe_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/ic_cafe"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Select your branch"
+        android:layout_below="@+id/cafe_logo"
+        android:textColor="#fff"
+        android:layout_marginTop="5dp"
+        android:id="@+id/braanch_title"
+        android:textSize="18sp"
+        android:fontFamily="@font/montserrat"/>
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#ffffff"
+        android:textAlignment="center"
+        android:spinnerMode="dialog"
+        android:drawSelectorOnTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/braanch_title"
+        android:prompt="@string/spinner_title"/>
+
+
+    <com.poovam.pinedittextfield.SquarePinField
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:textSize="16sp"
+        android:layout_below="@+id/spinner"
+         app:noOfFields="4"
+        android:backgroundTint="#fff"
+        app:isCursorEnabled="true"
+        app:fieldColor="#fff"
+        android:textColor="#fff"
+        android:layout_centerHorizontal="true"
+        app:highlightColor="#fff"
+         android:textSelectHandle="@drawable/text_handle"
+         android:id="@+id/pin_number"
+         android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:id="@+id/next"
+        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        android:background="#4bd66e"/>
+
+
+</RelativeLayout>

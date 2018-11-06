@@ -42,16 +42,16 @@ import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.Album1;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
 
-public class Order_screen extends AppCompatActivity implements View.OnClickListener,item_adapter.CustomItemClickListener,cat_adapter.CustomItemClickListener {
+public class Order_screen extends AppCompatActivity implements View.OnClickListener, item_adapter.CustomItemClickListener, cat_adapter.CustomItemClickListener {
     DBmanager mydb;
     long id;
-    Cursor category_cursor,item_cursor;
+    Cursor category_cursor, item_cursor;
 
     private ProgressDialog progress;
     int position;
     private Paint p = new Paint();
 
-    private Button snacks, juice,get;
+    private Button snacks, juice, get;
     SearchView searchView;
     private int flag = 0;
     Button order;
@@ -72,11 +72,8 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     private List<cart_items> cart_list;
 
 
-
-    RecyclerView bill_items, categoy,itemrecycler;
+    RecyclerView bill_items, categoy, itemrecycler;
     TextView total_textview;
-
-
 
 
     @Override
@@ -84,7 +81,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_screen);
 
-        total_textview =(TextView)findViewById(R.id.total_amount);
+        total_textview = (TextView) findViewById(R.id.total_amount);
 //        order =(Button) findViewById(R.id.order);
 //        order.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -133,14 +130,14 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         bill_items = (RecyclerView) findViewById(R.id.billrecycler);
         categoy = (RecyclerView) findViewById(R.id.subcat_recycler);
 
-        itemrecycler=(RecyclerView)findViewById(R.id.item_recycler);
+        itemrecycler = (RecyclerView) findViewById(R.id.item_recycler);
         initSwipe();
 
-        cart_list=new ArrayList<>();
+        cart_list = new ArrayList<>();
     }
 
     @Override
-    public void onCustomItemClick(int position,String cat_id) {
+    public void onCustomItemClick(int position, String cat_id) {
         load_items(cat_id);
 //        Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
 //
@@ -174,26 +171,23 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
         Album1 a;
 
-        for (int i=0;i<cart_list.size();i++){
-            int id= cart_list.get(i).getItem_id();
-            String name= String.valueOf(cart_list.get(i).get_name());
-            int qty= cart_list.get(i).get_qty();
-            long price= cart_list.get(i).get_price();
-            long total= cart_list.get(i).get_total();
+        for (int i = 0; i < cart_list.size(); i++) {
+            int id = cart_list.get(i).getItem_id();
+            String name = String.valueOf(cart_list.get(i).get_name());
+            int qty = cart_list.get(i).get_qty();
+            long price = cart_list.get(i).get_price();
+            long total = cart_list.get(i).get_total();
 //            Toast.makeText(this, "total of each items:"+String.valueOf(total), Toast.LENGTH_SHORT).show();
 
-            a = new Album1(id,name,qty,price,total);
+            a = new Album1(id, name, qty, price, total);
             albumList.add(a);
 //             tot=tot+total;
 //            total_textview.setText(String.valueOf(tot));
         }
 
 
-
         adapter.notifyDataSetChanged();
     }
-
-
 
 
     @Override
@@ -209,13 +203,11 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                 category_cursor = null;
                 category_cursor = mydb.getData(a.getText().toString().toLowerCase());
 
-                item_adapter=null;
+                item_adapter = null;
                 itemrecycler.setAdapter(item_adapter);
 
 
                 load_categories();
-
-
 
 
             } else {
@@ -235,11 +227,10 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                 category_cursor = null;
                 category_cursor = mydb.getData(a.getText().toString().toLowerCase());
 
-                item_adapter=null;
+                item_adapter = null;
                 itemrecycler.setAdapter(item_adapter);
 
                 load_categories();
-
 
 
             } else {
@@ -390,14 +381,12 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
     public void load_categories() {
         catlist = new ArrayList<>();
-        cat_adapt = new cat_adapter(Order_screen.this, catlist,this);
+        cat_adapt = new cat_adapter(Order_screen.this, catlist, this);
 
 
         LinearLayoutManager linearLayoutManager;
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
         linearLayoutManager.setReverseLayout(false);
-
-//        categoy.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(1), true));
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(Order_screen.this, 2);
         categoy.setLayoutManager(linearLayoutManager);
         categoy.setAdapter(cat_adapt);
@@ -410,10 +399,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
             String catname = category_cursor.getString(category_cursor.getColumnIndex(DBHelper.cat_name));
             int cat_id = category_cursor.getInt(category_cursor.getColumnIndex(DBHelper.cat_id));
 
-
-//            Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
-
-            cat = new cat_album(catname,cat_id);
+            cat = new cat_album(catname, cat_id);
             catlist.add(cat);
         }
 
@@ -424,9 +410,9 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     }
 
     private void load_items(String category) {
-        item_cursor=mydb.getitems(category);
+        item_cursor = mydb.getitems(category);
         itemlist = new ArrayList<>();
-        item_adapter = new item_adapter(Order_screen.this, itemlist,cart_list,this);
+        item_adapter = new item_adapter(Order_screen.this, itemlist, cart_list, this);
 
 
         LinearLayoutManager linearLayoutManager;
@@ -456,10 +442,9 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 //            Toast.makeText(this, itemname+itemprice+image, Toast.LENGTH_SHORT).show();
 
 
-
 //            Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
 
-            items = new item_album(item_id,itemname,itemprice,image);
+            items = new item_album(item_id, itemname, itemprice, image);
             itemlist.add(items);
         }
 
@@ -467,10 +452,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         cat_adapt.notifyDataSetChanged();
 
 
-
-
     }
-
 
 
 }

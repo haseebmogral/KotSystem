@@ -132,6 +132,13 @@ public class DBmanager {
 
     }
 
+    public Cursor getitemlist()
+    {
+
+        Cursor getitemlist=database.rawQuery("select * from item_table",new String[]{});
+        return getitemlist;
+    }
+
 
 }
 
