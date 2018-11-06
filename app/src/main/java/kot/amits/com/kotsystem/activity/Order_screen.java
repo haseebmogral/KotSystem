@@ -93,21 +93,6 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                 mydb.place_order(cart_list);
             }
         });
-//        searchView =(SearchView) findViewById(R.id.searchview);
-
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                item_adapter.getFilter().filter(newText);
-//                item_adapter.notifyDataSetChanged();
-//                return true;
-//            }
-//        });
 
         SqlScoutServer.create(this, getPackageName());
 
@@ -126,7 +111,8 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         id = mydb.insertcategory("egg puffs", "snacks");
         id = mydb.insertcategory("apple juice", "drinks");
 
-        mydb.insertitems("avil milk", "2", "10", "https://cdn1.medicalnewstoday.com/content/images/articles/320/320834/bottles-of-fruit-juice.jpg");
+        mydb.insertitems("avil milk", "2", "10", "https://tastyspotsmedia.s3.amazonaws.com/cache/86/43/8643ed2c03daad9a4cbf8333407e1a2e.jpg");
+        mydb.insertitems("Samosa", "1", "10", "https://www.indianhealthyrecipes.com/wp-content/uploads/2016/06/samosa-recipe.jpg");
 
 //        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
 
@@ -160,6 +146,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     public void load_cart_items() {
 
         albumList = new ArrayList<>();
+        albumList.clear();
         adapter = new AlbumsAdapter1(this, albumList, total_textview);
 
 
@@ -249,47 +236,6 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
             }
 
         }
-    }
-
-
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
-    }
-
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
     private void initSwipe() {
