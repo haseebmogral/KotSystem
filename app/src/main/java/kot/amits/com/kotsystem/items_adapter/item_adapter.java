@@ -36,11 +36,11 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
     private List<cart_items> cart_items;
     private List<item_album> fruitsArrayListFiltered;
 
-    int  qty=1;
+    int  qty;
 
 
     private CustomItemClickListener itemClickListener;
-
+//item search code here
 //    @Override
 //    public Filter getFilter() {
 //        return new Filter() {
@@ -125,12 +125,14 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
         holder.itemname.setText(album.getItem_name());
         holder.price.setText(album.getPrice());
 
-        Glide.with(mContext).load("https://www.pallasfoods.com/wp-content/uploads/2018/01/600-by-400-px.jpg").into(holder.itemimage);
+        Glide.with(mContext).load(album.getImage()).into(holder.itemimage);
 
        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, albumList1.get(position).getid(), Toast.LENGTH_SHORT).show();
+
+                qty=1;
+//                Toast.makeText(mContext, albumList1.get(position).getid(), Toast.LENGTH_SHORT).show();
                 final kot.amits.com.kotsystem.items_adapter.cart_items[] items = new cart_items[1];
                 final int cart_id= Integer.parseInt(dBmanager.CART_ID);
                 final int item_id= Integer.parseInt(album.getid());
@@ -147,36 +149,11 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
 
 
 
-                final EditText edt = (EditText) dialogView.findViewById(R.id.quantity);
+                final TextView edt = (TextView) dialogView.findViewById(R.id.quantity);
                 final Button plus = (Button) dialogView.findViewById(R.id.plus);
                 final Button minus = (Button) dialogView.findViewById(R.id.minus);
 
 
-                edt.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        if (s==null||s.toString().isEmpty()){
-
-                        }
-                        else{
-                            int q= Integer.parseInt(s.toString());
-                            if (q<=0){
-                                edt.setText("1");
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
 
 
 
@@ -194,8 +171,15 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                     @Override
                     public void onClick(View v) {
                         qty= Integer.parseInt(edt.getText().toString());
+                        if (qty<=0){
+                            qty=1;
+                            edt.setText(String.valueOf(qty));
+                        }
+                        else{
                             qty=qty-1;
                             edt.setText(String.valueOf(qty));
+                        }
+
 
 
                     }
@@ -205,33 +189,22 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
 //                dialogBuilder.setMessage("Enter text below");
                 dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        if (cart_items.size()>0){
-                            Toast.makeText(mContext, String.valueOf(item_id)+"if", Toast.LENGTH_SHORT).show();
+                        qty= Integer.parseInt(edt.getText().toString());
+                        if (has_value(item_id,qty)){
+                            edt.setText(String.valueOf(qty));
 
-                            for (int i=0;i<cart_items.size();i++){
-                                if (cart_items.get(i).getItem_id()==item_id){
-                                    Toast.makeText(mContext, String.valueOf(item_id)+"for if", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    Toast.makeText(mContext, String.valueOf(item_id)+"for else", Toast.LENGTH_SHORT).show();
-                                    qty= Integer.parseInt(edt.getText().toString());
-                                    total[0] =qty*price;
-                                    items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
-                                    cart_items.add(items[0]);
-                                    itemClickListener.onCustomItemClick(position);
-                                }
-                            }
-
+                            Toast.makeText(mContext, "item already exists on cart", Toast.LENGTH_SHORT).show();
+                            itemClickListener.onCustomItemClick(position);
                         }
                         else{
-                            Toast.makeText(mContext, String.valueOf(item_id)+"else", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "item added to cart", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(mContext, String.valueOf(item_id)+"for else", Toast.LENGTH_SHORT).show();
                             qty= Integer.parseInt(edt.getText().toString());
                             total[0] =qty*price;
                             items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
                             cart_items.add(items[0]);
                             itemClickListener.onCustomItemClick(position);
                         }
-
                         }
                 });
                 dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -255,6 +228,18 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
     @Override
     public int getItemCount() {
         return albumList1.size();
+    }
+
+    public boolean has_value(final int name,int qty) {
+        for (cart_items transactionLine : cart_items) {
+            if (transactionLine.getItem_id()==name) {
+                    transactionLine.set_qty(qty);
+                Toast.makeText(mContext,String.valueOf(cart_items.indexOf(transactionLine)) , Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
