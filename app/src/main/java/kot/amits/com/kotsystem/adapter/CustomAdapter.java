@@ -8,7 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import kot.amits.com.kotsystem.R;
+import kot.amits.com.kotsystem.activity.category_selection;
 
 public class CustomAdapter extends BaseAdapter {
     private Context context;
@@ -20,6 +23,9 @@ public class CustomAdapter extends BaseAdapter {
         this.context=context;
         this.app_icon=app_icon;
         this.app_name=app_name;
+    }
+
+    public CustomAdapter(ArrayList dataModels, category_selection category_selection) {
     }
 
     @Override
