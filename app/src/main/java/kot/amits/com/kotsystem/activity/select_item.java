@@ -43,6 +43,8 @@ public class select_item extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_item);
+        setTitle("Select Items");
+
         mydb=new DBmanager(this);
         mydb.open();
 
@@ -70,8 +72,8 @@ public class select_item extends AppCompatActivity {
             LinearLayoutManager linearLayoutManager;
             linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
             linearLayoutManager.setReverseLayout(false);
-            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(select_item.this, 2);
-            items_recycler.setLayoutManager(linearLayoutManager);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(select_item.this, 5);
+            items_recycler.setLayoutManager(mLayoutManager);
         items_recycler.setAdapter(select_item_adapter);
 
             select_item_album cat;
