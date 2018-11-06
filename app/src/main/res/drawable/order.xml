@@ -8,7 +8,7 @@
         </shape>
     </item>
     <item
-        android:drawable="@drawable/circle_shape"
+        android:drawable="@drawable/ic_coffee_cup"
         android:bottom="20dp"
         android:left="20dp"
         android:right="20dp"

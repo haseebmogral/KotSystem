@@ -90,9 +90,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="22c356" />
-                            <entry key="outputName" value="ic_menu_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\Thasreef\Downloads\coffee-cup.svg" />
+                            <entry key="outputName" value="ic_cafe" />
+                            <entry key="sourceFile" value="C:\Users\Thasreef\Downloads\cafe.svg" />
                           </map>
                         </option>
                       </PersistentState>
