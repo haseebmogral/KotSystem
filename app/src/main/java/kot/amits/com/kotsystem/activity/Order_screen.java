@@ -175,6 +175,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         Album1 a;
 
         for (int i=0;i<cart_list.size();i++){
+
             int id= cart_list.get(i).getItem_id();
             String name= String.valueOf(cart_list.get(i).get_name());
             int qty= cart_list.get(i).get_qty();
