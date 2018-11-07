@@ -82,12 +82,11 @@ public class select_item extends AppCompatActivity {
             while (item_list_cursour.moveToNext()) {
 
                 String itemname = item_list_cursour.getString(item_list_cursour.getColumnIndex(DBHelper.item_name));
-                String image = item_list_cursour.getString(item_list_cursour.getColumnIndex(DBHelper.image));
-                String price = item_list_cursour.getString(item_list_cursour.getColumnIndex(DBHelper.item_price));
+                //int cat_id = item_list_cursour.getInt(item_list_cursour.getColumnIndex(DBHelper.cat_id));
 
                 Toast.makeText(this,"item name"+ itemname, Toast.LENGTH_SHORT).show();
 
-                cat = new select_item_album(itemname,image,item_price);
+                cat = new select_item_album(itemname);
                 itemlist.add(cat);
             }
 

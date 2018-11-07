@@ -2,9 +2,7 @@ package kot.amits.com.kotsystem.select_item_adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -100,8 +98,6 @@ public class select_item_adapter extends RecyclerView.Adapter<select_item_adapte
         public TextView itemname,price;
         public ImageView itemimage;
         public RelativeLayout relativeLayout;
-        public CardView itemcard;
-
 
 
         public MyViewHolder(View view) {
@@ -110,9 +106,6 @@ public class select_item_adapter extends RecyclerView.Adapter<select_item_adapte
             price=(TextView)view.findViewById(R.id.price);
             itemimage=(ImageView)view.findViewById(R.id.item_image);
             relativeLayout=(RelativeLayout) view.findViewById(R.id.relative_layout);
-            itemcard=(CardView)view.findViewById(R.id.item_card);
-
-
 
             dBmanager=new DBmanager(mContext);
         }
@@ -137,17 +130,9 @@ public class select_item_adapter extends RecyclerView.Adapter<select_item_adapte
     public void onBindViewHolder(final select_item_adapter.MyViewHolder holder, final int position) {
         final select_item_album album = albumList1.get(position);
         holder.itemname.setText(album.getItem_name());
-        holder.price.setText(album.getPrice());
+//        holder.price.setText(album.getPrice());
 
-        Glide.with(mContext).load(album.getImage()).into(holder.itemimage);
-
-        holder.itemcard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
+//        Glide.with(mContext).load("https://st2.depositphotos.com/2808141/10024/i/950/depositphotos_100246242-stock-photo-green-spinach-kale-detox-smoothie.jpg").into(holder.itemimage);
 
 //       holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -287,7 +272,7 @@ public class select_item_adapter extends RecyclerView.Adapter<select_item_adapte
 
     @Override
     public int getItemCount() {
-        return albumList1 == null ? 0 : albumList1.size();
+        return albumList1.size();
     }
 
 
