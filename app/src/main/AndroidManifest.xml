@@ -39,6 +39,7 @@
         </activity>
         <activity android:name=".activity.select_item"></activity>
         <service android:name="com.phi.phiprintlib.PrintService" />
+        <activity android:name=".activity.printer_connect_activity"></activity>
 
     </application>
 

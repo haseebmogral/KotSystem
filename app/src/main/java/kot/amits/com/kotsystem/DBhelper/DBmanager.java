@@ -141,9 +141,19 @@ public class DBmanager {
 
     public Cursor getitemlist()
     {
-
         Cursor getitemlist=database.rawQuery("select * from item_table",new String[]{});
         return getitemlist;
+    }
+
+    public String add_space(int length,String str){
+        if (str.length()<length){
+            int count=length-str.length();
+            for (int c=0;c<count;c++){
+                str=str+" " ;
+            }
+        }
+        return str;
+
     }
 
 

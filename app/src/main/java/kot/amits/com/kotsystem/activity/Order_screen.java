@@ -13,12 +13,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Layout;
+import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -97,7 +100,19 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                 mydb.place_order(cart_list);
 
                 if (check_bt()){
-                    BTPrinter.printText("connected");
+                    TextPaint header;
+                    header=new TextPaint();
+                    header.setTextSize(30);
+                    header.setColor(Color.BLACK);
+                    header.setTypeface(Typeface.create(String.valueOf(Typeface.NORMAL), Typeface.BOLD));
+                    BTPrinter.printUnicodeText("Mims Cafe,Kasaragod",Layout.Alignment.ALIGN_CENTER,header);
+                    header.setTextSize(20);
+                    BTPrinter.printUnicodeText("Kitchen Order",Layout.Alignment.ALIGN_CENTER,header);
+                    BTPrinter.printText(mydb.add_space(40,"Bill No:"+mydb.CART_ID)+"Date:"+String.valueOf(cart_list.get(1).get_cart_id()));
+
+                    for (cart_items a : cart_list) {
+                        BTPrinter.printText(mydb.add_space(15,a.get_name())+mydb.add_space(5, String.valueOf(a.get_qty())) );
+                    }
                 }else {
                     Intent intent=new Intent(Order_screen.this,printer_connect_activity.class);
                     startActivityForResult(intent,1);
