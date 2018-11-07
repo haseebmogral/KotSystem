@@ -1,6 +1,7 @@
 package kot.amits.com.kotsystem.category_adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,8 @@ public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyViewHolder> 
        holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                holder.title.setTextColor( Color.parseColor("#000000"));
                 int cat_id=album.getCat_id();
 
                 Toast.makeText(mContext,holder. title.getText().toString(), Toast.LENGTH_SHORT).show();

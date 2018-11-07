@@ -79,7 +79,7 @@ public class main_screen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                dBmanager.CART_ID = String.valueOf(dBmanager.add_to_cart_details(dBmanager.get_date(), dBmanager.get_time()));
+                dBmanager.CART_ID = String.valueOf(dBmanager.add_to_cart_details());
                 Intent intent = new Intent(main_screen.this, Order_screen.class);
                 startActivity(intent);
             }

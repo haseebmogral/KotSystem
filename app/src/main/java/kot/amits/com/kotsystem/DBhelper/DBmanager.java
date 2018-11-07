@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,11 +57,11 @@ public class DBmanager {
 
     }
 
-    public long add_to_cart_details(String date,String time) {
+    public long add_to_cart_details() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.date, get_date());
         contentValues.put(dbHelper.time, get_time());
-        contentValues.put(dbHelper.status,"0");
+        contentValues.put(dbHelper.status,"1");
 
         return database.insert(dbHelper.cart_details, null, contentValues);
 
@@ -104,31 +105,37 @@ public class DBmanager {
     public void place_order(List<cart_items> cart){
         ContentValues contentValues = new ContentValues();
         for (int i=0;i<cart.size();i++){
-            contentValues.put(dbHelper.c_i_id, CART_ID);
-            contentValues.put(dbHelper.time, get_time());
-            contentValues.put(dbHelper.status,"0");
+            contentValues.put(dbHelper.cart_details_id, CART_ID);
+            contentValues.put(dbHelper.c_item_id,cart.get(i).getItem_id());
+            contentValues.put(dbHelper.c_qty,cart.get(i).get_qty());
+            contentValues.put(dbHelper.c_total,cart.get(i).get_total());
+            contentValues.put(dbHelper.c_item_order_status,"cart");
 
-            database.insert(dbHelper.cart_details, null, contentValues);
-            Toast.makeText(context, cart.get(i).getItem_id()+"\n"+
-                    cart.get(i).get_name()+"\n"+
-                    cart.get(i).get_qty()+"\n"+
-                    cart.get(i).get_price()+"\n"+
-                    cart.get(i).get_total()+"\n", Toast.LENGTH_SHORT).show();
+           long a= database.insert(dbHelper.cart_items_table, null, contentValues);
+            Toast.makeText(context, String.valueOf(a), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, cart.get(i).getItem_id()+"\n"+
+//                    cart.get(i).get_name()+"\n"+
+//                    cart.get(i).get_qty()+"\n"+
+//                    cart.get(i).get_price()+"\n"+
+//                    cart.get(i).get_total()+"\n", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     public String get_date(){
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = df.format(c);
         return formattedDate;
     }
 
+
+
     public String get_time(){
-        Date currentTime = Calendar.getInstance().getTime();
-        String time= String.valueOf(currentTime);
-        return time;
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
+        String strDate = mdformat.format(calendar.getTime());
+        return strDate;
 
     }
 
