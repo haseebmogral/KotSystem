@@ -50,6 +50,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String p_amount = "p_amount";
     public static final String p_upload_status = "p_upload_status";
 
+    //supplier table
+    public static final String supplier_table  = "supplier_table ";
+    public static final String supplier_id = "supplier_id";
+    public static final String supplier_name = "supplier_name";
+    public static final String supplier_address = "supplier_address";
+    public static final String supplier_contact = "supplier_contact";
+    public static final String supplier_upload_status = "supplier_upload_status";
+
 
 
 
@@ -65,6 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`customer_mob_no` REAL,`date` REAL NOT NULL,`time` REAL NOT NULL,`status` TEXT NOT NULL);";
     public static final String CREATE_CART_ITEMS_TABLE="CREATE TABLE `cart_items_table` (`c_i_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_details_id` INTEGER NOT NULL,`c_item_id` INTEGER NOT NULL,`c_qty` INTEGER NOT NULL,`c_total` REAL NOT NULL,`c_item_order_status` TEXT NOT NUll );";
     public static final String CREATE_PURCHASE_TABLE="CREATE TABLE `purchase_table` (`p_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`p_date` REAL NOT NULL,`p_description` REAL NOT NULL,`p_amount` REAL NOT NULL,`p_upload_status` TEXT NOT NULL );";
+    public static final String CREATE_SUPPLIER_TABLE="CREATE TABLE `supplier_table` (`supplier_id` INTEGER NOT NULL,`supplier_name` TEXT NOT NULL,`supplier_address` TEXT NOT NULL,`supplier_contact` REAL,`supplier_upload_status` TEXT,PRIMARY KEY(`supplier_id`));";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -74,6 +83,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CART_DETAILS_TABLE);
         db.execSQL(CREATE_CART_ITEMS_TABLE);
         db.execSQL(CREATE_PURCHASE_TABLE);
+        db.execSQL(CREATE_SUPPLIER_TABLE);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -83,6 +93,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS cart_details");
         db.execSQL("DROP TABLE IF EXISTS cart_items_table");
         db.execSQL("DROP TABLE IF EXISTS purchase_table");
+        db.execSQL("DROP TABLE IF EXISTS supplier_table");
         onCreate(db);
     }
 
