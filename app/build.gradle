@@ -10,6 +10,9 @@ android {
         versionName "1.0"
         multiDexEnabled true
 
+        resValue("string", "PORT_NUMBER", "8080")
+
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -50,6 +53,10 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.robinhood.ticker:ticker:2.0.0'
     implementation 'com.poovam:pin-edittext-field:1.1.0' //password verify editext box
+
+
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
 
 
 }

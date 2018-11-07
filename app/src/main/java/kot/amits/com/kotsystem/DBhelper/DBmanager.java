@@ -23,8 +23,7 @@ public class DBmanager {
 
     public SQLiteDatabase database;
 
-    public static String CART_ID="";
-
+    public static String CART_ID = "";
 
 
     public DBmanager(Context c) {
@@ -45,7 +44,8 @@ public class DBmanager {
         contentValues.put(dbHelper.cat_type, type);
         return database.insert(dbHelper.category, null, contentValues);
     }
-    public long insertitems(String name, String cat_id, String price,String itemimage) {
+
+    public long insertitems(String name, String cat_id, String price, String itemimage) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.item_name, name);
         contentValues.put(dbHelper.cat_cat_id, cat_id);
@@ -56,22 +56,21 @@ public class DBmanager {
 
     }
 
-    public long add_to_cart_details(String date,String time) {
+    public long add_to_cart_details(String date, String time) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.date, get_date());
         contentValues.put(dbHelper.time, get_time());
-        contentValues.put(dbHelper.status,"0");
+        contentValues.put(dbHelper.status, "0");
 
         return database.insert(dbHelper.cart_details, null, contentValues);
 
     }
 
 
-
     //get category
 
     public Cursor getData(String type) {
-        Cursor res = database.rawQuery("select * from category  where "+dbHelper.cat_type+"=?", new String[]{type});
+        Cursor res = database.rawQuery("select * from category  where " + dbHelper.cat_type + "=?", new String[]{type});
 
 
         return res;
@@ -79,65 +78,80 @@ public class DBmanager {
 
     //get items
 
-    public Cursor getitems(String category_id)
-    {
+    public Cursor getitems(String category_id) {
 
-        Cursor itemdetails=database.rawQuery("select * from item_table where "+dbHelper.cat_cat_id+" =?",new String[]{category_id});
+        Cursor itemdetails = database.rawQuery("select * from item_table where " + dbHelper.cat_cat_id + " =?", new String[]{category_id});
         return itemdetails;
     }
-    public Cursor get_ongoing_orders(){
-        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"0"});
+
+    public Cursor get_ongoing_orders() {
+        Cursor cursor = database.rawQuery("select * from cart_details where " + dbHelper.status + " =?", new String[]{"0"});
         return cursor;
     }
-    public Cursor get_sent_to_kitchen_order(){
-        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+
+    public Cursor get_sent_to_kitchen_order() {
+        Cursor cursor = database.rawQuery("select * from cart_details where " + dbHelper.status + " =?", new String[]{"1"});
         return cursor;
     }
-    public Cursor get_finished_orders(){
-        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+
+    public Cursor get_finished_orders() {
+        Cursor cursor = database.rawQuery("select * from cart_details where " + dbHelper.status + " =?", new String[]{"1"});
         return cursor;
     }
-    public Cursor get_cancelled_orders(){
-        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+
+    public Cursor get_cancelled_orders() {
+        Cursor cursor = database.rawQuery("select * from cart_details where " + dbHelper.status + " =?", new String[]{"1"});
         return cursor;
     }
-    public void place_order(List<cart_items> cart){
+
+    public void place_order(List<cart_items> cart) {
         ContentValues contentValues = new ContentValues();
-        for (int i=0;i<cart.size();i++){
+        for (int i = 0; i < cart.size(); i++) {
             contentValues.put(dbHelper.c_i_id, CART_ID);
             contentValues.put(dbHelper.time, get_time());
-            contentValues.put(dbHelper.status,"0");
+            contentValues.put(dbHelper.status, "0");
 
             database.insert(dbHelper.cart_details, null, contentValues);
-            Toast.makeText(context, cart.get(i).getItem_id()+"\n"+
-                    cart.get(i).get_name()+"\n"+
-                    cart.get(i).get_qty()+"\n"+
-                    cart.get(i).get_price()+"\n"+
-                    cart.get(i).get_total()+"\n", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, cart.get(i).getItem_id() + "\n" +
+                    cart.get(i).get_name() + "\n" +
+                    cart.get(i).get_qty() + "\n" +
+                    cart.get(i).get_price() + "\n" +
+                    cart.get(i).get_total() + "\n", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    public String get_date(){
+    public String get_date() {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String formattedDate = df.format(c);
         return formattedDate;
     }
 
-    public String get_time(){
+    public String get_time() {
         Date currentTime = Calendar.getInstance().getTime();
-        String time= String.valueOf(currentTime);
+        String time = String.valueOf(currentTime);
         return time;
 
     }
 
-    public Cursor getitemlist()
-    {
+    public Cursor getitemlist() {
 
-        Cursor getitemlist=database.rawQuery("select * from item_table",new String[]{});
+        Cursor getitemlist = database.rawQuery("select * from item_table", new String[]{});
         return getitemlist;
     }
+
+
+    public Cursor getpurchase_details() {
+
+        Cursor purchase_details = database.rawQuery("select * from purchase_table", new String[]{});
+        return purchase_details;
+
+    }
+
+
+
+
 
 
 }
