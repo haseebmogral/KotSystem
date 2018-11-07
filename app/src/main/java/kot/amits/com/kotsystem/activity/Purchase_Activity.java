@@ -42,6 +42,7 @@ public class Purchase_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_);
+        //delete this
         setTitle(R.string.purchase);
 
         Purchase_Recycler = findViewById(R.id.purchase_recycler);
