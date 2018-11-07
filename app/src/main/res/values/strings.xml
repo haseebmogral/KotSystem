@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">KotSystem</string>
     <string name="spinner_title">Select Branch</string>
+    <string name="purchase">Purchase</string>
 
 </resources>

@@ -6,8 +6,10 @@ public class select_item_album {
     private String price;
     private String image;
     private String item_id;
+    private boolean isSelected = false;
 
-    public select_item_album(String item_name) {
+
+    public select_item_album(String item_name,String image,String price) {
         this.item_name = item_name;
         this.price=price;
         this.image=image;
@@ -60,6 +62,15 @@ public class select_item_album {
     public  void setid(String item_id)
     {
         this.item_id=item_id;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
 }
