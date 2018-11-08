@@ -52,7 +52,7 @@ import kot.amits.com.kotsystem.printer_sdk.BTPrinter;
 public class Order_screen extends AppCompatActivity implements View.OnClickListener,item_adapter.CustomItemClickListener,cat_adapter.CustomItemClickListener {
     DBmanager mydb;
     long id;
-    Cursor category_cursor,item_cursor;
+    Cursor category_cursor,item_cursor,ordered_items_cursor;
 
     private ProgressDialog progress;
     int position;
@@ -62,6 +62,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     SearchView searchView;
     private int flag = 0;
     Button order;
+    String mode;
 
 
 //    private RecyclerView.Adapter mAdapter;
@@ -91,7 +92,52 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_screen);
 
+
+        mydb = new DBmanager(this);
+        mydb.open();
+        id = mydb.insertcategory("egg puffs", "snacks");
+        id = mydb.insertcategory("apple juice", "drinks");
+//
+        mydb.insertitems("avil milk", "2", "10", "https://tastyspotsmedia.s3.amazonaws.com/cache/86/43/8643ed2c03daad9a4cbf8333407e1a2e.jpg");
+        mydb.insertitems("Samosa", "1", "10", "https://www.indianhealthyrecipes.com/wp-content/uploads/2016/06/samosa-recipe.jpg");
+
+//        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
+
+        bill_items = (RecyclerView) findViewById(R.id.billrecycler);
+        categoy = (RecyclerView) findViewById(R.id.subcat_recycler);
+
+        itemrecycler=(RecyclerView)findViewById(R.id.item_recycler);
+        initSwipe();
+
+        cart_list=new ArrayList<>();
         total_textview =(TextView)findViewById(R.id.total_amount);
+
+
+        mode=getIntent().getStringExtra("mode");
+        if (mode.equals("new_order")){
+
+        }
+        else if (mode.equals("active_order")){
+            ordered_items_cursor=mydb.get_active_order_by_bill(mydb.CART_ID);
+            if (ordered_items_cursor.getCount()<=0){
+
+            }
+            else{
+                cart_items c;
+                while (ordered_items_cursor.moveToNext()){
+                    String i_name=ordered_items_cursor.getString(ordered_items_cursor.getColumnIndex(DBHelper.item_name));
+                    int i_id=ordered_items_cursor.getInt(ordered_items_cursor.getColumnIndex(DBHelper.item_id));
+                    long i_price=ordered_items_cursor.getLong(ordered_items_cursor.getColumnIndex(DBHelper.item_price));
+                    int i_qty=ordered_items_cursor.getInt(ordered_items_cursor.getColumnIndex(DBHelper.c_qty));
+                    long total=i_price*i_qty;
+                    c=new cart_items(Integer.parseInt(mydb.CART_ID),i_name,i_id,i_price,i_qty,total);
+                    cart_list.add(c);
+                }
+                load_cart_items();
+            }
+
+        }
+
         order =(Button) findViewById(R.id.order);
         order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,10 +155,23 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                     header.setTextSize(20);
                     BTPrinter.printUnicodeText("Kitchen Order",Layout.Alignment.ALIGN_CENTER,header);
                     BTPrinter.printText(mydb.add_space(32,"Bill No:"+mydb.CART_ID)+"Date:"+mydb.get_date());
+                    BTPrinter.printText("------------------------------------------------");
+                    BTPrinter.printText(mydb.get_header_title_for_kitchen());
+                    BTPrinter.printText("------------------------------------------------");
 
+                    int sl=1;
                     for (cart_items a : cart_list) {
-                        BTPrinter.printText(mydb.add_space(15,a.get_name())+mydb.add_space(5, String.valueOf(a.get_qty())) );
+                        BTPrinter.printText(mydb.add_space(10,String.valueOf(sl))+ mydb.add_space(30,a.get_name())+mydb.add_space(5, String.valueOf(a.get_qty())) );
+                        sl++;
                     }
+                    if (cart_list.size()<5){
+                        for (int c=0;c<=5-cart_list.size();c++){
+                            BTPrinter.printText("");
+                        }
+                    }
+                    BTPrinter.printText(mydb.get_footer());
+                    BTPrinter.printText(mydb.get_website());
+
                 }else {
                     Intent intent=new Intent(Order_screen.this,printer_connect_activity.class);
                     startActivityForResult(intent,1);
@@ -132,23 +191,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 //        progress.show();
 
 
-        mydb = new DBmanager(this);
-        mydb.open();
-        id = mydb.insertcategory("egg puffs", "snacks");
-        id = mydb.insertcategory("apple juice", "drinks");
-//
-        mydb.insertitems("avil milk", "2", "10", "https://tastyspotsmedia.s3.amazonaws.com/cache/86/43/8643ed2c03daad9a4cbf8333407e1a2e.jpg");
-        mydb.insertitems("Samosa", "1", "10", "https://www.indianhealthyrecipes.com/wp-content/uploads/2016/06/samosa-recipe.jpg");
 
-//        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
-
-        bill_items = (RecyclerView) findViewById(R.id.billrecycler);
-        categoy = (RecyclerView) findViewById(R.id.subcat_recycler);
-
-        itemrecycler=(RecyclerView)findViewById(R.id.item_recycler);
-        initSwipe();
-
-        cart_list=new ArrayList<>();
     }
 
     @Override
