@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
@@ -16,23 +18,14 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.Order_screen"
-            android:screenOrientation="landscape"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.Manager_Dashboard"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.main_screen"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity
-            android:name=".activity.Branch_selection"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
-        <activity android:name=".activity.select_item"></activity>
-        <activity android:name=".activity.category_selection"></activity>
-        <activity android:name=".activity.Purchase_Activity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,6 +33,14 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".activity.Branch_selection"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity android:name=".activity.select_item"></activity>
+        <service android:name="com.phi.phiprintlib.PrintService" />
+        <activity android:name=".activity.printer_connect_activity"></activity>
+
     </application>
 
 </manifest>
