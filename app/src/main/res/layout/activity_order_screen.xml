@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ececec"
+    android:padding="5dp"
     tools:context=".activity.Order_screen">
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,39 +74,14 @@
 
 
                 <android.support.v7.widget.RecyclerView
-                    android:layout_above="@+id/total_area"
                     android:id="@+id/billrecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_below="@+id/bill_items_title"
-                    android:scrollbars="none"
+                    android:scrollbars="vertical"
                     app:cardElevation="3dp"
                     tools:itemCount="16" />
-
-                <LinearLayout
-                    android:id="@+id/total_area"
-                    android:layout_above="@+id/actions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#29a133"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total: " />
-                    <TextView
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="00.00"
-                        android:id="@+id/total_amount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/actions"
                     android:layout_alignParentBottom="true"
@@ -128,6 +104,28 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_above="@+id/actions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#29a133"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total: " />
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="00.00"
+                        android:id="@+id/total_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
