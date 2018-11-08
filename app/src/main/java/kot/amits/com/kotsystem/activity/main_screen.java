@@ -24,7 +24,7 @@ import kot.amits.com.kotsystem.R;
 public class main_screen extends AppCompatActivity {
     DBmanager dBmanager;
     Button start;
-
+//ss
 
     ImageView myButton;
     View myView;
