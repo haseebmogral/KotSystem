@@ -108,7 +108,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                     BTPrinter.printUnicodeText("Mims Cafe,Kasaragod",Layout.Alignment.ALIGN_CENTER,header);
                     header.setTextSize(20);
                     BTPrinter.printUnicodeText("Kitchen Order",Layout.Alignment.ALIGN_CENTER,header);
-                    BTPrinter.printText(mydb.add_space(40,"Bill No:"+mydb.CART_ID)+"Date:"+String.valueOf(cart_list.get(1).get_cart_id()));
+                    BTPrinter.printText(mydb.add_space(32,"Bill No:"+mydb.CART_ID)+"Date:"+mydb.get_date());
 
                     for (cart_items a : cart_list) {
                         BTPrinter.printText(mydb.add_space(15,a.get_name())+mydb.add_space(5, String.valueOf(a.get_qty())) );

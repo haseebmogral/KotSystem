@@ -156,6 +156,13 @@ public class DBmanager {
 
     }
 
+    public String get_header_title(){
+        String sl_no="sl.no";
+        String item="sl.item";
+        String qty="sl.qty";
+        return "  ";
+    }
+
 
 }
 
