@@ -127,6 +127,15 @@ public class DBmanager {
 
     }
 
+
+    public Cursor getpurchase_details() {
+
+        Cursor purchase_details = database.rawQuery("select * from purchase_table", new String[]{});
+        return purchase_details;
+
+    }
+
+
     public Cursor get_active_orders(){
         Cursor cursor=database.rawQuery("select * from cart_details where status = ? order by cart_id desc",new String[]{"1"});
         return cursor;
