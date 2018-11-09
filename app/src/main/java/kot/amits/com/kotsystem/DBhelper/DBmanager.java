@@ -218,7 +218,7 @@ public class DBmanager {
         }
         return s;
     }
-    //some new stuffs are added to the project
+    //some new stuffs are added to the project but nothing shows
 
 
 
