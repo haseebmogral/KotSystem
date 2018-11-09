@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,10 +152,7 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                 final TextView edt = (TextView) dialogView.findViewById(R.id.quantity);
                 final Button plus = (Button) dialogView.findViewById(R.id.plus);
                 final Button minus = (Button) dialogView.findViewById(R.id.minus);
-                final TextView name_txt = (TextView) dialogView.findViewById(R.id.title);
 
-
-                name_txt.setText("add "+album.getItem_name()+" to cart");
 
 
 
@@ -183,7 +178,6 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                         else{
                             qty=qty-1;
                             edt.setText(String.valueOf(qty));
-                            qty= Integer.parseInt(edt.getText().toString());
                         }
 
 
@@ -191,7 +185,8 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                     }
                 });
 
-                dialogBuilder.setTitle("Enter the quantity");
+//                dialogBuilder.setTitle("Custom dialog");
+//                dialogBuilder.setMessage("Enter text below");
                 dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         qty= Integer.parseInt(edt.getText().toString());

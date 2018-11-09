@@ -6,6 +6,10 @@
     <color name="font_color">#2b2929</color>
     <color name="view_color">#e0747070</color>
     <color name="active_color_cat">#ff3636</color>
+    <color name="select_date_button">#f7f7f7</color>
+    <color name="confirm_button">#51d195</color>
+    <color name="cancel_button">#fc4d4d</color>
+    <color name="white_button">#ffffff</color>
 
 
 </resources>
