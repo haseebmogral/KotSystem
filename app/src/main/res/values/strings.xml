@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">KotSystem</string>
     <string name="spinner_title">Select Branch</string>
+    <string name="purchase">Purchase</string>
+    <string name="Select_Supplier">Select Supplier</string>
+    <string name="add_purchase_details">ENTER PURCHASE DETAILS</string>
+    <string name="date_of_purchase">Select date of purchase</string>
+    <string name="description">Description</string>
+    <string name="amount">amount</string>
+    <string name="paid_amount">Paid Amount</string>
 
 </resources>

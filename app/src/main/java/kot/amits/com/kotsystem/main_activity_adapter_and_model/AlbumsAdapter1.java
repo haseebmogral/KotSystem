@@ -46,7 +46,7 @@ public class AlbumsAdapter1 extends RecyclerView.Adapter<AlbumsAdapter1.MyViewHo
     public void claculate(){
         long tot=0;
         for (int i=0;i<albumList1.size();i++){
-//            Toast.makeText(mContext, String.valueOf(albumList1.get(i).getTotal()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, String.valueOf(albumList1.get(i).getTotal()), Toast.LENGTH_SHORT).show();
            tot=albumList1.get(i).getTotal()+tot;
            textView.setText(String.valueOf(tot));
         }

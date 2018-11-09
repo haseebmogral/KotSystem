@@ -24,7 +24,7 @@ public class cart_items {
     {
         return item_id;
     }
-    public int get_cart_id(){
+    public int cart_id(){
         return cart_id;
     }
     public long get_price(){
