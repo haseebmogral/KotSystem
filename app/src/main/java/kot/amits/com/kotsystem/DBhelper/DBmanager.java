@@ -109,18 +109,18 @@ public class DBmanager {
 
             global_Cursor=database.rawQuery("select * from cart_items_table where cart_details_id = ? and c_item_id = ?",new String[]{CART_ID, String.valueOf(cart.get(i).getItem_id())});
             if (global_Cursor.getCount()<=0){
-                Toast.makeText(context, "reaching if", Toast.LENGTH_SHORT).show();
-            }
-            else{
                 Toast.makeText(context, "Reaching else", Toast.LENGTH_SHORT).show();
                 contentValues.put(dbHelper.cart_details_id, CART_ID);
                 contentValues.put(dbHelper.c_item_id,cart.get(i).getItem_id());
                 contentValues.put(dbHelper.c_qty,cart.get(i).get_qty());
                 contentValues.put(dbHelper.c_total,cart.get(i).get_total());
-                contentValues.put(dbHelper.c_item_order_status,"cart");
+                contentValues.put(dbHelper.c_item_order_status,"sent");
 
                 long a= database.insert(dbHelper.cart_items_table, null, contentValues);
                 Toast.makeText(context, String.valueOf(a), Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(context, "reaching if", Toast.LENGTH_SHORT).show();
             }
 
         }
