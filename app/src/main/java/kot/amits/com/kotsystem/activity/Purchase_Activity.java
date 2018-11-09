@@ -133,8 +133,6 @@ public class Purchase_Activity extends AppCompatActivity {
                                 if (isChecked)
 
                                     paid_amount.setVisibility(View.INVISIBLE);
-
-
                                     break;
                             case R.id.credit:
                                 if (isChecked)
