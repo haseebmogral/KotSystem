@@ -58,6 +58,7 @@ public class Purchase_Activity extends AppCompatActivity {
     Calendar myCalendar = Calendar.getInstance();
     RadioGroup payment_mode_radio;
     EditText paid_amount;
+    //zsdfghjkl
 
 
     String[] languages = {"Android ", "java", "IOS", "SQL", "JDBC", "Web services"};
