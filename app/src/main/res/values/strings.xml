@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">KotSystem</string>
     <string name="spinner_title">Select Branch</string>
-    <string name="purchase">Purchase</string>
+    <string name="purchase" tools:ignore="ExtraTranslation">Purchase</string>
     <string name="Select_Supplier">Select Supplier</string>
     <string name="add_purchase_details">ENTER PURCHASE DETAILS</string>
     <string name="date_of_purchase">Select date of purchase</string>

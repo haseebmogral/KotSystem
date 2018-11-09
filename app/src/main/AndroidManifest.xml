@@ -40,6 +40,16 @@
             </intent-filter>
 
         </activity>
+
+        <service android:name="com.phi.phiprintlib.PrintService"
+            android:windowSoftInputMode="stateHidden"></service>
+
+        <activity android:name=".activity.printer_connect_activity"
+            android:theme="@style/AppTheme">
+
+        </activity>
+
+
     </application>
 
 </manifest>

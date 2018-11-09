@@ -146,15 +146,12 @@ public class DBmanager {
         return cursor;
     }
 
-
     public String get_date(){
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = df.format(c);
         return formattedDate;
     }
-
-
 
     public String get_time(){
         Calendar calendar = Calendar.getInstance();
