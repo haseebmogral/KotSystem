@@ -77,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:id="@+id/pending"
+        android:id="@+id/active"
         android:layout_toRightOf="@+id/order"
         android:orientation="vertical">
 
@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:id="@+id/settings"
-        android:layout_toRightOf="@+id/pending"
+        android:layout_toRightOf="@+id/active"
         android:orientation="vertical">
 
 

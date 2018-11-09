@@ -3,20 +3,25 @@ package kot.amits.com.kotsystem.activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Layout;
+import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -27,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.idescout.sql.SqlScoutServer;
+import com.phi.phiprintlib.PrintService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +47,12 @@ import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.Album1;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
+import kot.amits.com.kotsystem.printer_sdk.BTPrinter;
 
 public class Order_screen extends AppCompatActivity implements View.OnClickListener,item_adapter.CustomItemClickListener,cat_adapter.CustomItemClickListener {
     DBmanager mydb;
     long id;
-    Cursor category_cursor,item_cursor;
+    Cursor category_cursor,item_cursor,ordered_items_cursor;
 
     private ProgressDialog progress;
     int position;
@@ -55,6 +62,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     SearchView searchView;
     private int flag = 0;
     Button order;
+    String mode;
 
 
 //    private RecyclerView.Adapter mAdapter;
@@ -84,13 +92,90 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_screen);
 
+
+        mydb = new DBmanager(this);
+        mydb.open();
+        id = mydb.insertcategory("egg puffs", "snacks");
+        id = mydb.insertcategory("apple juice", "drinks");
+//
+        mydb.insertitems("avil milk", "2", "10", "https://tastyspotsmedia.s3.amazonaws.com/cache/86/43/8643ed2c03daad9a4cbf8333407e1a2e.jpg");
+        mydb.insertitems("Samosa", "1", "10", "https://www.indianhealthyrecipes.com/wp-content/uploads/2016/06/samosa-recipe.jpg");
+
+//        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
+
+        bill_items = (RecyclerView) findViewById(R.id.billrecycler);
+        categoy = (RecyclerView) findViewById(R.id.subcat_recycler);
+
+        itemrecycler=(RecyclerView)findViewById(R.id.item_recycler);
+        initSwipe();
+
+        cart_list=new ArrayList<>();
         total_textview =(TextView)findViewById(R.id.total_amount);
+
+
+        mode=getIntent().getStringExtra("mode");
+        if (mode.equals("new_order")){
+
+        }
+        else if (mode.equals("active_order")){
+            ordered_items_cursor=mydb.get_active_order_by_bill(mydb.CART_ID);
+            if (ordered_items_cursor.getCount()<=0){
+
+            }
+            else{
+                cart_items c;
+                while (ordered_items_cursor.moveToNext()){
+                    String i_name=ordered_items_cursor.getString(ordered_items_cursor.getColumnIndex(DBHelper.item_name));
+                    int i_id=ordered_items_cursor.getInt(ordered_items_cursor.getColumnIndex(DBHelper.item_id));
+                    long i_price=ordered_items_cursor.getLong(ordered_items_cursor.getColumnIndex(DBHelper.item_price));
+                    int i_qty=ordered_items_cursor.getInt(ordered_items_cursor.getColumnIndex(DBHelper.c_qty));
+                    long total=i_price*i_qty;
+                    c=new cart_items(Integer.parseInt(mydb.CART_ID),i_name,i_id,i_price,i_qty,total);
+                    cart_list.add(c);
+                }
+                load_cart_items();
+            }
+
+        }
+
         order =(Button) findViewById(R.id.order);
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //space to order place in database
                 mydb.place_order(cart_list);
+
+                if (check_bt()){
+                    TextPaint header;
+                    header=new TextPaint();
+                    header.setTextSize(30);
+                    header.setColor(Color.BLACK);
+                    header.setTypeface(Typeface.create(String.valueOf(Typeface.NORMAL), Typeface.BOLD));
+                    BTPrinter.printUnicodeText("Mims Cafe,Kasaragod",Layout.Alignment.ALIGN_CENTER,header);
+                    header.setTextSize(20);
+                    BTPrinter.printUnicodeText("Kitchen Order",Layout.Alignment.ALIGN_CENTER,header);
+                    BTPrinter.printText(mydb.add_space(32,"Bill No:"+mydb.CART_ID)+"Date:"+mydb.get_date());
+                    BTPrinter.printText("------------------------------------------------");
+                    BTPrinter.printText(mydb.get_header_title_for_kitchen());
+                    BTPrinter.printText("------------------------------------------------");
+
+                    int sl=1;
+                    for (cart_items a : cart_list) {
+                        BTPrinter.printText(mydb.add_space(10,String.valueOf(sl))+ mydb.add_space(30,a.get_name())+mydb.add_space(5, String.valueOf(a.get_qty())) );
+                        sl++;
+                    }
+                    if (cart_list.size()<5){
+                        for (int c=0;c<=5-cart_list.size();c++){
+                            BTPrinter.printText("");
+                        }
+                    }
+                    BTPrinter.printText(mydb.get_footer());
+                    BTPrinter.printText(mydb.get_website());
+
+                }else {
+                    Intent intent=new Intent(Order_screen.this,printer_connect_activity.class);
+                    startActivityForResult(intent,1);
+                }
             }
         });
 
@@ -106,23 +191,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 //        progress.show();
 
 
-        mydb = new DBmanager(this);
-        mydb.open();
-        id = mydb.insertcategory("egg puffs", "snacks");
-        id = mydb.insertcategory("apple juice", "drinks");
 
-        mydb.insertitems("avil milk", "2", "10", "https://tastyspotsmedia.s3.amazonaws.com/cache/86/43/8643ed2c03daad9a4cbf8333407e1a2e.jpg");
-        mydb.insertitems("Samosa", "1", "10", "https://www.indianhealthyrecipes.com/wp-content/uploads/2016/06/samosa-recipe.jpg");
-
-//        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
-
-        bill_items = (RecyclerView) findViewById(R.id.billrecycler);
-        categoy = (RecyclerView) findViewById(R.id.subcat_recycler);
-
-        itemrecycler=(RecyclerView)findViewById(R.id.item_recycler);
-        initSwipe();
-
-        cart_list=new ArrayList<>();
     }
 
     @Override
@@ -263,6 +332,10 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                                     albumList.remove(position);
                                     cart_list.remove(position);
 
+                                    if (cart_list.size()<=0){
+                                        total_textview.setText("00");
+                                    }
+
                                     Toast.makeText(Order_screen.this, "item removed", Toast.LENGTH_SHORT).show();
 
                                     adapter.notifyDataSetChanged();
@@ -274,14 +347,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                     alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             int size = albumList.size();
-//                            if (size > 0) {
-//                                for (int i = 0; i < size; i++) {
-//                                    albumList.remove(0);
-//                                }
-//
-//                                kot.amits.com.kotsystem.adapter.notifyDataSetChanged();
-//                            }
-//                            load_cart_items();
+
                             adapter.notifyDataSetChanged();
 
                         }
@@ -323,9 +389,9 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                         p.setColor(Color.parseColor("#D32F2F"));
                         RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                         c.drawRect(background, p);
-//                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete_white);
-//                        RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,(float) itemView.getTop() + width,(float) itemView.getRight() - width,(float)itemView.getBottom() - width);
-//                        c.drawBitmap(icon,null,icon_dest,p);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete_white);
+                        RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,(float) itemView.getTop() + width,(float) itemView.getRight() - width,(float)itemView.getBottom() - width);
+                        c.drawBitmap(icon,null,icon_dest,p);
                     }
                 }
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
@@ -385,7 +451,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
         itemrecycler.setLayoutAnimation(controller);
 
-//        itemrecycler.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(1), true));
+        itemrecycler.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(1), true));
         linearLayoutManager = new GridLayoutManager(Order_screen.this, 3);
         itemrecycler.setLayoutManager(linearLayoutManager);
         itemrecycler.setAdapter(item_adapter);
@@ -418,6 +484,81 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private int dpToPx(int dp) {
+        Resources r = getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
 
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing;
+                }
+                outRect.bottom = spacing; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (cart_list.size()>0){
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            finish();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure to cancel the order?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+
+        }
+        else{
+            finish();
+        }
+
+    }
+    public boolean check_bt(){
+        if (PrintService.printer==null){
+            return false;
+        }
+        else return true;
+
+    }
 
 }
