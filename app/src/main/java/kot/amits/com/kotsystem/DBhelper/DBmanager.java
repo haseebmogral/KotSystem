@@ -279,6 +279,25 @@ public class DBmanager {
 
     }
 
+    public String total_format(int length,String str){
+        if (str.length()<length){
+            int count=length-str.length();
+            for (int c=0;c<count;c++){
+                str=" "+str ;
+            }
+        }
+        return str;
+
+    }
+    public void finish_order(String cart_id,String total){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(DBHelper.cart_status,"3");
+        contentValues.put(DBHelper.total,total);
+        database.update(DBHelper.cart_details,contentValues,DBHelper.cart_id +" = ? ",new String []{cart_id});
+
+    }
+
+
     //new stuffs added
 
 
