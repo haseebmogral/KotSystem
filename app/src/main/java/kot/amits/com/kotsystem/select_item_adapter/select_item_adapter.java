@@ -50,43 +50,6 @@ public class select_item_adapter extends RecyclerView.Adapter<select_item_adapte
 
     }
 
-//    @Override
-//    public Filter getFilter() {
-//        return new Filter() {
-//            @Override
-//            protected FilterResults performFiltering(CharSequence constraint) {
-//                String charString = constraint.toString();
-//                Log.d("TANSEERFILT", charString);
-//                if (charString.isEmpty()) {
-//                    fruitsArrayListFiltered = albumList1;
-//                } else {
-//                    ArrayList<item_album> filteredList = new ArrayList<>();
-//                    for (item_album row : albumList1) {
-//
-//                        // name match condition. this might differ depending on your requirement
-//                        // here we are looking for name or phone number match
-//
-//                        if (row.getItem_name().toLowerCase().contains(charString.toLowerCase())) {
-//                            Toast.makeText(mContext, "got you", Toast.LENGTH_SHORT).show();
-//                            filteredList.add(row);
-//                        }
-//                    }
-//
-//                    fruitsArrayListFiltered = filteredList;
-//                }
-//
-//                FilterResults filterResults = new FilterResults();
-//                filterResults.values = fruitsArrayListFiltered;
-//                return filterResults;
-//            }
-//
-//            @Override
-//            protected void publishResults(CharSequence constraint, FilterResults results) {
-//                fruitsArrayListFiltered = (ArrayList<item_album>) results.values;
-//                notifyDataSetChanged();
-//            }
-//        };
-//    }
 
     public interface CustomItemClickListener{
         void onCustomItemClick(int position);
@@ -94,7 +57,6 @@ public class select_item_adapter extends RecyclerView.Adapter<select_item_adapte
     }
 
 
-    DBmanager dBmanager;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView itemname,price;
@@ -114,18 +76,10 @@ public class select_item_adapter extends RecyclerView.Adapter<select_item_adapte
 
 
 
-            dBmanager=new DBmanager(mContext);
         }
     }
 
 
-
-//    public select_item_adapter(Context mContext, List<item_album> albumList1) {
-//        this.mContext = mContext;
-//        this.albumList1 = albumList1;
-//        this.cart_items = cart_items;
-//        this.itemClickListener=customItemClickListener;
-//    }
 
     @Override
     public select_item_adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

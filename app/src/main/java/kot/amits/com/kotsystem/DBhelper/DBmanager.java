@@ -104,18 +104,18 @@ public class DBmanager {
         Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.cart_status+" =?",new String[]{"1"});
         return cursor;
     }
-    public Cursor place_order(List<cart_items> cart){
+    public void place_order(List<cart_items> cart){
         ContentValues contentValues = new ContentValues();
         for (int i=0;i<cart.size();i++){
 
-            global_Cursor=database.rawQuery("select * from cart_items_table where cart_details_id = ? and c_item_id = ? and c_item_order_status = ? ",new String[]{CART_ID, String.valueOf(cart.get(i).getItem_id()),"sent"});
+            global_Cursor=database.rawQuery("select * from cart_items_table where cart_details_id = ? and c_item_id = ?",new String[]{CART_ID, String.valueOf(cart.get(i).getItem_id())});
             if (global_Cursor.getCount()<=0){
                 Toast.makeText(context, "Reaching else", Toast.LENGTH_SHORT).show();
                 contentValues.put(dbHelper.cart_details_id, CART_ID);
                 contentValues.put(dbHelper.c_item_id,cart.get(i).getItem_id());
                 contentValues.put(dbHelper.c_qty,cart.get(i).get_qty());
                 contentValues.put(dbHelper.c_total,cart.get(i).get_total());
-                contentValues.put(dbHelper.c_item_order_status,cart.get(i).get_status());
+                contentValues.put(dbHelper.c_item_order_status,"sent");
 
                 long a= database.insert(dbHelper.cart_items_table, null, contentValues);
                 Toast.makeText(context, String.valueOf(a), Toast.LENGTH_SHORT).show();
@@ -124,17 +124,7 @@ public class DBmanager {
                 Toast.makeText(context, "reaching if", Toast.LENGTH_SHORT).show();
             }
 
-
         }
-        return get_active_order_by_bill(CART_ID);
-
-    }
-
-    public void finish_order(String cart_id,String total){
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(DBHelper.cart_status,"3");
-        contentValues.put(DBHelper.total,total);
-        database.update(DBHelper.cart_details,contentValues,DBHelper.cart_id +" = ? ",new String []{cart_id});
 
     }
 
@@ -178,6 +168,16 @@ public class DBmanager {
         return getitemlist;
     }
 
+    public String add_space(int length,String str){
+        if (str.length()<length){
+            int count=length-str.length();
+            for (int c=0;c<count;c++){
+                str=str+" " ;
+            }
+        }
+        return str;
+
+    }
 
     public String get_header_title_for_kitchen(){
         String sl_no="sl.no";
@@ -248,30 +248,36 @@ public class DBmanager {
         }
         return s;
     }
-    public String add_space(int length,String str){
-        if (str.length()<length){
-            int count=length-str.length();
-            for (int c=0;c<count;c++){
-                str=str+" " ;
-            }
-        }
-        return str;
 
+    //get supplier names to autocomplete view
+
+    public Cursor getSuppliername()
+    {
+        Cursor suppliername=database.rawQuery("select * from supplier_table",new String[]{});
+        return suppliername;
     }
 
-    public String total_format(int length,String str){
-        if (str.length()<length){
-            int count=length-str.length();
-            for (int c=0;c<count;c++){
-                str=" "+str ;
-            }
-        }
-        return str;
-
+    //insert items to purcase_details
+    public long addPurchase(String p_date,String p_description,String p_amount) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(dbHelper.p_date, p_date);
+        contentValues.put(dbHelper.p_description, p_description);
+        contentValues.put(dbHelper.p_amount, p_amount);
+        contentValues.put(dbHelper.p_upload_status, "added");
+        return database.insert(dbHelper.purchase_table, null, contentValues);
     }
 
 
-    //some new stuffs are added to the project but nothing shows
+    public long add_suppliers(String supplier_name, String supplier_address, String supplier_contact) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(dbHelper.supplier_name, supplier_name);
+        contentValues.put(dbHelper.supplier_address, supplier_address);
+        contentValues.put(dbHelper.supplier_contact, supplier_contact);
+        contentValues.put(dbHelper.supplier_upload_status,"0");
+
+        return database.insert(dbHelper.supplier_table, null, contentValues);
+
+    }
 
     //new stuffs added
 
