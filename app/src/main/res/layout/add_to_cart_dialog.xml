@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <TextView
+        android:layout_marginBottom="20dp"
         android:id="@+id/title"
         android:layout_centerHorizontal="true"
         android:textSize="20dp"
@@ -18,25 +19,26 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/minus"
-            android:textSize="20dp"
+            android:textSize="40dp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-"/>
         <EditText
+            android:enabled="false"
             android:lines="1"
             android:digits="1234567890"
             android:inputType="number"
             android:imeOptions="flagNoExtractUi"
             android:id="@+id/quantity"
             android:layout_gravity="center"
-            android:textSize="20dp"
+            android:textSize="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"/>
         <Button
             android:id="@+id/plus"
-            android:textSize="20dp"
+            android:textSize="40dp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

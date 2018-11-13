@@ -152,7 +152,9 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                 final TextView edt = (TextView) dialogView.findViewById(R.id.quantity);
                 final Button plus = (Button) dialogView.findViewById(R.id.plus);
                 final Button minus = (Button) dialogView.findViewById(R.id.minus);
+                final TextView title = (TextView) dialogView.findViewById(R.id.title);
 
+                title.setText("add "+album.getItem_name()+" to cart");
 
 
 
@@ -180,19 +182,17 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                             edt.setText(String.valueOf(qty));
                         }
 
-
-
                     }
                 });
 
-//                dialogBuilder.setTitle("Custom dialog");
-//                dialogBuilder.setMessage("Enter text below");
+//                dialogBuilder.setTitle("select the quantity");
+//                dialogBuilder.setMessage("select the quantity");
+
                 dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         qty= Integer.parseInt(edt.getText().toString());
                         if (has_value(item_id,qty)){
                             edt.setText(String.valueOf(qty));
-
                             Toast.makeText(mContext, "item already exists on cart", Toast.LENGTH_SHORT).show();
                             itemClickListener.onCustomItemClick(position);
                         }
@@ -201,7 +201,7 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
 //                                    Toast.makeText(mContext, String.valueOf(item_id)+"for else", Toast.LENGTH_SHORT).show();
                             qty= Integer.parseInt(edt.getText().toString());
                             total[0] =qty*price;
-                            items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0]);
+                            items[0] =new cart_items(cart_id,name,item_id,price,qty,total[0],"cart");
                             cart_items.add(items[0]);
                             itemClickListener.onCustomItemClick(position);
                         }
@@ -234,13 +234,19 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
         for (cart_items transactionLine : cart_items) {
             if (transactionLine.getItem_id()==name) {
                     transactionLine.set_qty(qty);
+                    transactionLine.set_total(transactionLine.get_price()*qty);
                 Toast.makeText(mContext,String.valueOf(cart_items.indexOf(transactionLine)) , Toast.LENGTH_SHORT).show();
                 return true;
             }
         }
-
         return false;
     }
+
+
+
+
+
+
 
 
 }

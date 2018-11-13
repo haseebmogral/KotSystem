@@ -62,7 +62,8 @@ public class DBmanager {
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.date, get_date());
         contentValues.put(dbHelper.time, get_time());
-        contentValues.put(dbHelper.status,"1");
+        contentValues.put(dbHelper.cart_status,"1");
+        contentValues.put(dbHelper.total,"0");
 
         return database.insert(dbHelper.cart_details, null, contentValues);
 
@@ -88,33 +89,33 @@ public class DBmanager {
         return itemdetails;
     }
     public Cursor get_ongoing_orders(){
-        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"0"});
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.cart_status+" =?",new String[]{"0"});
         return cursor;
     }
     public Cursor get_sent_to_kitchen_order(){
-        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.cart_status+" =?",new String[]{"1"});
         return cursor;
     }
     public Cursor get_finished_orders(){
-        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.cart_status+" =?",new String[]{"1"});
         return cursor;
     }
     public Cursor get_cancelled_orders(){
-        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.status+" =?",new String[]{"1"});
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.cart_status+" =?",new String[]{"1"});
         return cursor;
     }
-    public void place_order(List<cart_items> cart){
+    public Cursor place_order(List<cart_items> cart){
         ContentValues contentValues = new ContentValues();
         for (int i=0;i<cart.size();i++){
 
-            global_Cursor=database.rawQuery("select * from cart_items_table where cart_details_id = ? and c_item_id = ?",new String[]{CART_ID, String.valueOf(cart.get(i).getItem_id())});
+            global_Cursor=database.rawQuery("select * from cart_items_table where cart_details_id = ? and c_item_id = ? and c_item_order_status = ? ",new String[]{CART_ID, String.valueOf(cart.get(i).getItem_id()),"sent"});
             if (global_Cursor.getCount()<=0){
                 Toast.makeText(context, "Reaching else", Toast.LENGTH_SHORT).show();
                 contentValues.put(dbHelper.cart_details_id, CART_ID);
                 contentValues.put(dbHelper.c_item_id,cart.get(i).getItem_id());
                 contentValues.put(dbHelper.c_qty,cart.get(i).get_qty());
                 contentValues.put(dbHelper.c_total,cart.get(i).get_total());
-                contentValues.put(dbHelper.c_item_order_status,"sent");
+                contentValues.put(dbHelper.c_item_order_status,cart.get(i).get_status());
 
                 long a= database.insert(dbHelper.cart_items_table, null, contentValues);
                 Toast.makeText(context, String.valueOf(a), Toast.LENGTH_SHORT).show();
@@ -123,7 +124,17 @@ public class DBmanager {
                 Toast.makeText(context, "reaching if", Toast.LENGTH_SHORT).show();
             }
 
+
         }
+        return get_active_order_by_bill(CART_ID);
+
+    }
+
+    public void finish_order(String cart_id,String total){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(DBHelper.cart_status,"3");
+        contentValues.put(DBHelper.total,total);
+        database.update(DBHelper.cart_details,contentValues,DBHelper.cart_id +" = ? ",new String []{cart_id});
 
     }
 
@@ -137,12 +148,12 @@ public class DBmanager {
 
 
     public Cursor get_active_orders(){
-        Cursor cursor=database.rawQuery("select * from cart_details where status = ? order by cart_id desc",new String[]{"1"});
+        Cursor cursor=database.rawQuery("select * from cart_details where cart_status = ? order by cart_id desc",new String[]{"1"});
         return cursor;
     }
 
     public Cursor get_active_order_by_bill(String cart_id){
-        Cursor cursor=database.rawQuery("select * from item_table,cart_items_table where cart_items_table.cart_details_id=item_table.item_id and cart_items_table.cart_details_id= ?",new String[]{cart_id});
+        Cursor cursor=database.rawQuery("select * from item_table,cart_items_table,cart_details where cart_details.cart_id=cart_items_table.cart_details_id and cart_items_table.c_item_id=item_table.item_id and cart_details.cart_id= ?",new String[]{cart_id});
         return cursor;
     }
 
@@ -167,16 +178,6 @@ public class DBmanager {
         return getitemlist;
     }
 
-    public String add_space(int length,String str){
-        if (str.length()<length){
-            int count=length-str.length();
-            for (int c=0;c<count;c++){
-                str=str+" " ;
-            }
-        }
-        return str;
-
-    }
 
     public String get_header_title_for_kitchen(){
         String sl_no="sl.no";
@@ -191,6 +192,24 @@ public class DBmanager {
 
         return output;
     }
+    public String get_header_title_for_bill(){
+        String sl_no="no";
+        String item="item";
+        String qty="qty";
+        String price="price";
+        String total="total";
+        String output;
+
+        sl_no=add_space(5,sl_no);
+        item=add_space(27,item);
+        price=add_space(6,price);
+        qty=add_space(4,qty);
+        total=add_space(5,total);
+        output=sl_no+item+qty+price+total;
+
+        return output;
+    }
+
     public String get_footer(){
         String power="Powered by Amitech Solutions";
         String line="------------------------------------------------";
@@ -204,6 +223,11 @@ public class DBmanager {
         String footer=line+"\n"
                 +add_space(power);
         return footer+"\n"+line;
+    }
+
+    public String get_line(){
+        String line="------------------------------------------------";
+        return line;
     }
 
 
@@ -224,6 +248,29 @@ public class DBmanager {
         }
         return s;
     }
+    public String add_space(int length,String str){
+        if (str.length()<length){
+            int count=length-str.length();
+            for (int c=0;c<count;c++){
+                str=str+" " ;
+            }
+        }
+        return str;
+
+    }
+
+    public String total_format(int length,String str){
+        if (str.length()<length){
+            int count=length-str.length();
+            for (int c=0;c<count;c++){
+                str=" "+str ;
+            }
+        }
+        return str;
+
+    }
+
+
     //some new stuffs are added to the project but nothing shows
 
     //new stuffs added

@@ -7,13 +7,15 @@ public class cart_items {
     private int item_id;
     private long price;
     private int qty;
+    private String status;
     private long total;
 
-    public cart_items(int cart_id,String name, int item_id, long price, int qty,long total) {
+    public cart_items(int cart_id,String name, int item_id, long price, int qty,long total,String status) {
         this.cart_id = cart_id;
         this.item_id=item_id;
         this.price=price;
         this.qty=qty;
+        this.status=status;
         this.total=total;
         this.name=name;
 
@@ -42,6 +44,17 @@ public class cart_items {
 
     public void set_qty(int qty){
         this.qty=qty;
+    }
+
+    public String get_status(){
+        return status;
+    }
+
+    public void set_status(String status){
+        this.status=status;
+    }
+    public void set_total(long total){
+        this.total=total;
     }
 
 

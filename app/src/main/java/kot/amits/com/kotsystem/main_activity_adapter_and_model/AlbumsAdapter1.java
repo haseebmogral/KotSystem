@@ -70,6 +70,7 @@ public class AlbumsAdapter1 extends RecyclerView.Adapter<AlbumsAdapter1.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Album1 album = albumList1.get(position);
         holder.title.setText(album.getName());
+        holder.title.setSelected(true);
         holder.qty.setText(String.valueOf(album.getQty()));
         holder.price.setText(String.valueOf(album.getprice()));
         holder.total.setText(String.valueOf(album.getTotal()));
