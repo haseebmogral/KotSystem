@@ -20,9 +20,14 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.Manager_Dashboard"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
         <activity
             android:name=".activity.main_screen"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".activity.Branch_selection"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
 
@@ -32,29 +37,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
         </activity>
+        <activity android:name=".activity.select_item">
+
+
+
+
+        </activity>
+        <activity android:name=".activity.category_selection">
+
+
+
+
+        </activity>
+        <activity android:name=".activity.Purchase_Activity"></activity>
+
+        <service
+            android:name="com.phi.phiprintlib.PrintService"
+            android:windowSoftInputMode="stateHidden" />
+
         <activity
-            android:name=".activity.Branch_selection"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
-        <activity android:name=".activity.select_item"></activity>
-        <activity android:name=".activity.category_selection"></activity>
-        <activity android:name=".activity.Purchase_Activity">
-
-
-
-        </activity>
-
-        <service android:name="com.phi.phiprintlib.PrintService"
-            android:windowSoftInputMode="stateHidden"></service>
-
-        <activity android:name=".activity.printer_connect_activity"
-            android:theme="@style/AppTheme">
-
-        </activity>
-
-
+            android:name=".activity.printer_connect_activity"
+            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".activity.Add_supplier"></activity>
     </application>
 
 </manifest>

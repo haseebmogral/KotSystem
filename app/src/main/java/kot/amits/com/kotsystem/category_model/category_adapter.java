@@ -20,18 +20,22 @@ public class category_adapter extends ArrayAdapter {
 
     private ArrayList dataSet;
     Context mContext;
+    ArrayList<String> cat_List;
+
 
     // View lookup cache
     private static class ViewHolder {
         TextView txtName;
         CheckBox checkBox;
         TextView catid;
+
     }
 
-    public category_adapter(ArrayList data, Context context) {
+    public category_adapter(ArrayList data, Context context,ArrayList<String> list) {
         super(context, R.layout.row_item, data);
         this.dataSet = data;
         this.mContext = context;
+        this.cat_List = list;
 
     }
     @Override
@@ -77,7 +81,10 @@ public class category_adapter extends ArrayAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (buttonView.isChecked()){
                     Toast.makeText(mContext,String.valueOf(item.cat_id) , Toast.LENGTH_SHORT).show();
-
+                    cat_List.add(String.valueOf(item.cat_id));
+                }
+                else if (!buttonView.isChecked()){
+                    cat_List.remove(String.valueOf(item.cat_id));
                 }
             }
         });

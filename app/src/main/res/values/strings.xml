@@ -8,5 +8,12 @@
     <string name="description">Description</string>
     <string name="amount">amount</string>
     <string name="paid_amount">Paid Amount</string>
+    <string name="add_suplier">Add Supplier</string>
+    <string name="Suplier_name">Name</string>
+    <string name="Suplier_address">Address</string>
+    <string name="Suplier_contact">Contact</string>
+    <string name="Add_buton">Add</string>
+    <string name="item_removed_message">Enter supplier name</string>
+    <string name="login_failed">Login Failed</string>
 
 </resources>

@@ -52,16 +52,13 @@ public class Purchase_Activity extends AppCompatActivity {
     private purchase_adapter purchase_adapter;
     private List<purchase_model> purchaseModelList;
     DBmanager mydb;
-    Cursor purchase_list_Cursor;
+    Cursor purchase_list_Cursor,supplier_list;
     TextView emptyview;
     Button select_date;
     Calendar myCalendar = Calendar.getInstance();
     RadioGroup payment_mode_radio;
-    EditText paid_amount;
-    //zsdfghjkl
-
-
-    String[] languages = {"Android ", "java", "IOS", "SQL", "JDBC", "Web services"};
+    EditText paid_amount,p_description,p_amount;
+    Button add_purchase_details;
 
 
     @Override
@@ -70,9 +67,6 @@ public class Purchase_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_purchase_);
         setTitle(R.string.purchase);
 
-         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, languages); //supplier name adapter
-
-
         Purchase_Recycler = findViewById(R.id.purchase_recycler);
 
 
@@ -80,24 +74,10 @@ public class Purchase_Activity extends AppCompatActivity {
         emptyview.setVisibility(View.INVISIBLE);
 
         mydb = new DBmanager(this);
-
         mydb.open();
-        purchase_list_Cursor = mydb.getpurchase_details();
+        supplier_list=mydb.getSuppliername();
 
-
-        if (mydb.getpurchase_details().getCount() <= 0) {
-
-            Toast.makeText(this, String.valueOf(mydb.getpurchase_details().getCount()), Toast.LENGTH_SHORT).show();
-            emptyview.setVisibility(View.VISIBLE);
-
-        } else {
-
-            emptyview.setVisibility(View.INVISIBLE);
-            Load_purchase_details();
-            Toast.makeText(this, "data stored" + String.valueOf(mydb.getpurchase_details().getCount()), Toast.LENGTH_SHORT).show();
-
-
-        }
+        Load_purchase_details();
 
 
         add_purchase = findViewById(R.id.add_purchase);
@@ -116,11 +96,74 @@ public class Purchase_Activity extends AppCompatActivity {
                 LayoutInflater inflater = (LayoutInflater) Purchase_Activity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View dialogView = inflater.inflate(R.layout.add_purchase_layout, null);
                 dialogBuilder.setView(dialogView);
+                final AlertDialog alertDialog;
+                alertDialog = dialogBuilder.create();
                 dialogBuilder.setTitle(R.string.add_purchase_details);
+
+
 
                 suplierName = dialogView.findViewById(R.id.suplierName);
                 select_date=dialogView.findViewById(R.id.purchase_date);
                 payment_mode_radio=dialogView.findViewById(R.id.payment_mode_radio);
+                add_purchase_details=dialogView.findViewById(R.id.add_purchase_details);
+                p_description=dialogView.findViewById(R.id.description);
+                p_amount=dialogView.findViewById(R.id.amount);
+
+
+
+
+                //getting supplier name to array
+                List<String> array = new ArrayList<String>();
+                while(supplier_list.moveToNext()){
+                    String uname = supplier_list.getString(supplier_list.getColumnIndex("supplier_name"));
+                    String supplier_id = supplier_list.getString(supplier_list.getColumnIndex("supplier_id"));
+                    array.add(uname);
+                }
+
+                adapter = new ArrayAdapter(Purchase_Activity.this, android.R.layout.simple_list_item_1, array);
+                suplierName.setAdapter(adapter);
+                //end of adapter
+
+
+                add_purchase_details.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        String date=select_date.getText().toString();
+                        String descr=p_description.getText().toString();
+                        String amount=p_amount.getText().toString();
+
+
+
+                        long a = mydb.addPurchase(date,descr,amount);
+
+
+                        Toast.makeText(Purchase_Activity.this, String.valueOf(a), Toast.LENGTH_SHORT).show();
+
+
+//                        if (String.valueOf(a).equals("1")){
+//
+//                            Toast.makeText(Purchase_Activity.this, "Purchase details added", Toast.LENGTH_SHORT).show();
+//
+//
+//                        }
+//                        else{
+//
+//                            Toast.makeText(Purchase_Activity.this, "failed to insert", Toast.LENGTH_SHORT).show();
+//                        }
+
+
+                        alertDialog.dismiss();
+
+                        Load_purchase_details();
+
+//                        purchase_adapter.notifyDataSetChanged();
+
+
+                    }
+                });
+
                 paid_amount=dialogView.findViewById(R.id.paid_amount);
 
                 payment_mode_radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -173,13 +216,10 @@ public class Purchase_Activity extends AppCompatActivity {
 
                     }
                 });
-                suplierName.setAdapter(adapter);
 
 
-                AlertDialog alertDialog = dialogBuilder.create();
+
                 alertDialog.show();
-
-
 
 
             }
@@ -197,34 +237,49 @@ public class Purchase_Activity extends AppCompatActivity {
 
     private void Load_purchase_details() {
 
-        purchaseModelList = new ArrayList<>();
-        purchase_adapter = new purchase_adapter(Purchase_Activity.this, purchaseModelList);
+        purchase_list_Cursor = mydb.getpurchase_details();
 
 
-        LinearLayoutManager linearLayoutManager;
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
-        linearLayoutManager.setReverseLayout(false);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(Purchase_Activity.this, 1);
-        Purchase_Recycler.setLayoutManager(mLayoutManager);
-        Purchase_Recycler.setAdapter(purchase_adapter);
+        if (mydb.getpurchase_details().getCount() <= 0) {
 
-        purchase_model cat;
+//            Toast.makeText(this, String.valueOf(mydb.getpurchase_details().getCount()), Toast.LENGTH_SHORT).show();
+            emptyview.setVisibility(View.VISIBLE);
+
+        } else {
+
+            emptyview.setVisibility(View.INVISIBLE);
+//            Toast.makeText(this, "data stored" + String.valueOf(mydb.getpurchase_details().getCount()), Toast.LENGTH_SHORT).show();
 
 
-        while (purchase_list_Cursor.moveToNext()) {
+            purchaseModelList = new ArrayList<>();
+            purchase_adapter = new purchase_adapter(Purchase_Activity.this, purchaseModelList);
 
-            String pdate = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_id));
-            String p_descr = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_description));
-            String p_amount = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_amount));
 
-            Toast.makeText(this, "item name" + p_descr, Toast.LENGTH_SHORT).show();
+            LinearLayoutManager linearLayoutManager;
+            linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+            linearLayoutManager.setReverseLayout(false);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(Purchase_Activity.this, 1);
+            Purchase_Recycler.setLayoutManager(mLayoutManager);
+            Purchase_Recycler.setAdapter(purchase_adapter);
 
-            cat = new purchase_model(p_descr);
-            purchaseModelList.add(cat);
+            purchase_model cat;
+
+
+            while (purchase_list_Cursor.moveToNext()) {
+
+                String pdate = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_id));
+                String p_descr = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_description));
+                String p_amount = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_amount));
+
+//                Toast.makeText(this, "item name" + p_descr, Toast.LENGTH_SHORT).show();
+
+                cat = new purchase_model(p_descr);
+                purchaseModelList.add(cat);
+            }
+
+
+            purchase_adapter.notifyDataSetChanged();
         }
-
-
-        purchase_adapter.notifyDataSetChanged();
 
     }
 

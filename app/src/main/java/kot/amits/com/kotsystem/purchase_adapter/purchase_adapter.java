@@ -37,7 +37,6 @@ public class purchase_adapter extends RecyclerView.Adapter<purchase_adapter.MyVi
     public purchase_adapter(Context mContext, List<purchase_model> albumList1) {
         this.mContext = mContext;
         this.albumList1 = albumList1;
-        Toast.makeText(mContext, "samana eede ethi", Toast.LENGTH_SHORT).show();
 //        this.itemClickListener=itemClickListener;
 
     }
@@ -53,7 +52,6 @@ public class purchase_adapter extends RecyclerView.Adapter<purchase_adapter.MyVi
     public void onBindViewHolder(final purchase_adapter.MyViewHolder holder, final int position) {
         final purchase_model album = albumList1.get(position);
         holder.description.setText(album.getP_description());
-        Toast.makeText(mContext, "ash eedeyum ethi"+albumList1.get(position).getP_description(), Toast.LENGTH_SHORT).show();
 
 //        holder.title.setOnClickListener(new View.OnClickListener() {
 //            @Override

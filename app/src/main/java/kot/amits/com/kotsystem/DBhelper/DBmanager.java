@@ -109,7 +109,6 @@ public class DBmanager {
 
             global_Cursor=database.rawQuery("select * from cart_items_table where cart_details_id = ? and c_item_id = ?",new String[]{CART_ID, String.valueOf(cart.get(i).getItem_id())});
             if (global_Cursor.getCount()<=0){
-                Toast.makeText(context, "Reaching else", Toast.LENGTH_SHORT).show();
                 contentValues.put(dbHelper.cart_details_id, CART_ID);
                 contentValues.put(dbHelper.c_item_id,cart.get(i).getItem_id());
                 contentValues.put(dbHelper.c_qty,cart.get(i).get_qty());
@@ -224,9 +223,38 @@ public class DBmanager {
         }
         return s;
     }
-    //some new stuffs are added to the project but nothing shows
 
-    //new stuffs added
+    //get supplier names to autocomplete view
+
+    public Cursor getSuppliername()
+    {
+        Cursor suppliername=database.rawQuery("select * from supplier_table",new String[]{});
+        return suppliername;
+    }
+
+    //insert items to purcase_details
+    public long addPurchase(String p_date,String p_description,String p_amount) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(dbHelper.p_date, p_date);
+        contentValues.put(dbHelper.p_description, p_description);
+        contentValues.put(dbHelper.p_amount, p_amount);
+        contentValues.put(dbHelper.p_upload_status, "added");
+        return database.insert(dbHelper.purchase_table, null, contentValues);
+    }
+
+
+    public long add_suppliers(String supplier_name, String supplier_address, String supplier_contact) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(dbHelper.supplier_name, supplier_name);
+        contentValues.put(dbHelper.supplier_address, supplier_address);
+        contentValues.put(dbHelper.supplier_contact, supplier_contact);
+        contentValues.put(dbHelper.supplier_upload_status,"0");
+
+        return database.insert(dbHelper.supplier_table, null, contentValues);
+
+    }
+
+
 
 
 
