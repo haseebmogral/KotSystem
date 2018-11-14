@@ -298,6 +298,14 @@ public class DBmanager {
     }
 
 
+    public Cursor get_supplier_details() {
+
+        Cursor supplier_details = database.rawQuery("select * from supplier_table", new String[]{});
+        return supplier_details;
+
+    }
+
+
     //new stuffs added
 
 

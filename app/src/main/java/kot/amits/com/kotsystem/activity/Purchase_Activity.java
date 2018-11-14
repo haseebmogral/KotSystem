@@ -110,8 +110,6 @@ public class Purchase_Activity extends AppCompatActivity {
                 p_amount=dialogView.findViewById(R.id.amount);
 
 
-
-
                 //getting supplier name to array
                 List<String> array = new ArrayList<String>();
                 while(supplier_list.moveToNext()){
@@ -242,7 +240,7 @@ public class Purchase_Activity extends AppCompatActivity {
 
         if (mydb.getpurchase_details().getCount() <= 0) {
 
-//            Toast.makeText(this, String.valueOf(mydb.getpurchase_details().getCount()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.valueOf(mydb.getpurchase_details().getCount()), Toast.LENGTH_SHORT).show();
             emptyview.setVisibility(View.VISIBLE);
 
         } else {

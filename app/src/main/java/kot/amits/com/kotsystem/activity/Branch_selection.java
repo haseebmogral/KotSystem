@@ -44,8 +44,6 @@ public class Branch_selection extends AppCompatActivity implements View.OnClickL
     String[] loc_id;
     String loc;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

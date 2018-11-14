@@ -15,5 +15,7 @@
     <string name="Add_buton">Add</string>
     <string name="item_removed_message">Enter supplier name</string>
     <string name="login_failed">Login Failed</string>
+    <string name="supplier_name">Supplier Name</string>
+    <string name="add_supplier">Add Supplier</string>
 
 </resources>

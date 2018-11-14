@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -13,16 +15,17 @@ import kot.amits.com.kotsystem.R;
 public class Manager_Dashboard extends AppCompatActivity {
 
     public GridView gridview;
-    private static String [] app_name = {"Category", "Items", "Supplier", "Purchase", "Docs", "Earth", "Fit", "Home",
-            "Keep", "Maps", "Phone", "Settings", "Sheet", "Slides", "Translate", "Youtube"};
+    private static String [] app_name = {"Category", "Items", "Supplier", "Purchase", "Expense", "Attendance", "Sales", "Salary",
+            "Daily stock manage", "Feedback"};
     private static int [] app_icon = {R.drawable.circle_shape, R.drawable.items, R.drawable.circle_shape, R.drawable.circle_shape,
             R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape,
-            R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape,
-            R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape};
+            R.drawable.circle_shape};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_manager__dashboard);
 
 
@@ -36,7 +39,6 @@ public class Manager_Dashboard extends AppCompatActivity {
                 switch (position)
                 {
                     case 0:
-
                         break;
                     case 1:
                         break;
