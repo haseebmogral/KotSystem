@@ -9,6 +9,7 @@ public class cart_items {
     private int qty;
     private String status;
     private long total;
+    private  int rate;
 
     public cart_items(int cart_id,String name, int item_id, long price, int qty,long total,String status) {
         this.cart_id = cart_id;
@@ -57,5 +58,10 @@ public class cart_items {
         this.total=total;
     }
 
-
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+    public int getrate(){
+        return this.rate;
+    }
 }

@@ -15,5 +15,6 @@
     <string name="Add_buton">Add</string>
     <string name="item_removed_message">Enter supplier name</string>
     <string name="login_failed">Login Failed</string>
+    <string name="please_rate_the_food_to_make_us_improve_better">Please rate the food to make us improve better</string>
 
 </resources>

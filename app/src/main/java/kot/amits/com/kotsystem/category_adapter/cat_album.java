@@ -4,10 +4,21 @@ public class cat_album {
 
     private String title;
     private int  cat_id;
+    private boolean  selected;
 
-    public cat_album(String title,int cat_id) {
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+
+        return selected;
+    }
+
+    public cat_album(String title, int cat_id, boolean selected) {
         this.title = title;
         this.cat_id = cat_id;
+        this.selected = selected;
 
     }
 

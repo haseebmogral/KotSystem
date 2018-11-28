@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat"
         android:layout_marginBottom="20dp"
         android:id="@+id/title"
         android:layout_centerHorizontal="true"
@@ -17,13 +19,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/minus"
-            android:textSize="40dp"
-            android:textStyle="bold"
+
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-"/>
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.FloatingActionButton
+                app:rippleColor="@color/colorAccent"
+                android:backgroundTint="@color/active_color_cat"
+                android:id="@+id/minus"
+                app:fabSize="normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_remove_black_24dp" />
+
+        </FrameLayout>
         <EditText
             android:enabled="false"
             android:lines="1"
@@ -36,13 +46,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"/>
-        <Button
-            android:id="@+id/plus"
-            android:textSize="40dp"
-            android:textStyle="bold"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+"/>
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.FloatingActionButton
+                app:rippleColor="@color/colorAccent"
+                android:backgroundTint="@color/confirm_button"
+                android:id="@+id/plus"
+                app:fabSize="normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_black_24dp" />
+
+        </FrameLayout>
 
     </LinearLayout>
 

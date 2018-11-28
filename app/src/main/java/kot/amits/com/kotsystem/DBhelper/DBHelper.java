@@ -27,11 +27,12 @@ public class DBHelper extends SQLiteOpenHelper {
     //cart_details table
     public static final String cart_details  = "cart_details ";
     public static final String cart_id = "cart_id";
-    public static final String customer_mob_no = "customer_mob_no";
+    public static final String cart_customer_id = "cart_customer_id";
     public static final String date = "date";
     public static final String time = "time";
     public static final String cart_status = "cart_status";
     public static final String total = "total";
+    public static final String cart_type = "cart_type";
     public static final String upload_status = "upload_status";
 
     //cart_items table
@@ -61,25 +62,52 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String supplier_contact = "supplier_contact";
     public static final String supplier_upload_status = "supplier_upload_status";
 
+    //customer table
+    public static String customer_table="customer_table";
+    public static String customer_id="customer_id";
+    public static String customer_name="customer_name";
+    public static String customer_contact="customer_contact";
+    public static String customer_upload_status="customer_upload_status";
+
+    //feedback_table
+    public static String feedback_table="feedback_table";
+    public static String feedback_id="feedback_id";
+    public static String feedback_order_id="feedback_order_id";
+    public static String ambience_rating="ambience_rating";
+    public static String staff_rating="staff_rating";
+    public static String feedback_review="feedback_review";
+    public static String feedback_upload_status="feedback_upload_status";
+
+    //feedback_items_table
+    public static String feedback_items_table="feedback_items_table";
+    public static String feedback_id_id="feedback_id_id";//id of feedback
+    public static String feedback_items_id="feedback_items_id";//id of feedbacking item id
+    public static String rating="rating";
+    public static String rating_upload_status="rating_upload_status";
 
 
 
 
+    public static final String ORDER_CANCEL="0";
+    public static final String ORDER_CART="1";
+    public static final String ORDER_SENT="2";
+    public static final String ORDER_FINISHED="3";
 
 
-
-    private HashMap hp;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
     public static final String CREATE_CAT_TABLE="CREATE TABLE `category` (`cat_id`INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cat_name` TEXT NOT NULL,`cat_type` TEXT NOT NULL);";
-    public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` (`item_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL ,`image` REAL NOT NULL);";
-    public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`customer_mob_no` REAL,`date` REAL NOT NULL,`time` REAL NOT NULL,`total` REAL NOT NULL , `cart_status` TEXT NOT NULL);";
+    public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` (`item_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL ,`image` REAL NOT NULL );";
+    public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_customer_id` REAL,`date` REAL NOT NULL,`time` REAL NOT NULL,`total` REAL NOT NULL , `cart_status` TEXT NOT NULL,`cart_type` TEXT);";
     public static final String CREATE_CART_ITEMS_TABLE="CREATE TABLE `cart_items_table` (`c_i_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_details_id` INTEGER NOT NULL,`c_item_id` INTEGER NOT NULL,`c_qty` INTEGER NOT NULL,`c_total` REAL NOT NULL,`c_item_order_status` TEXT NOT NUll );";
     public static final String CREATE_PURCHASE_TABLE="CREATE TABLE `purchase_table` (`p_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, p_supplier_id REAL NOT NULL,`p_date` REAL NOT NULL,`p_description` REAL NOT NULL,`p_amount` REAL NOT NULL,`p_upload_status` TEXT NOT NULL );";
     public static final String CREATE_SUPPLIER_TABLE="CREATE TABLE `supplier_table` (`supplier_id` INTEGER NOT NULL,`supplier_name` TEXT NOT NULL,`supplier_address` TEXT NOT NULL,`supplier_contact` REAL,`supplier_upload_status` TEXT,PRIMARY KEY(`supplier_id`));";
+    public static final String CREATE_CUSTOMER_TABLE="CREATE TABLE `customer_table` (\n" + "\t`customer_id`\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" + "\t`customer_name`\tREAL,\n" + "\t`customer_contact`\tREAL,\n" + "\t`customer_upload_status`\tREAL\n" + ");";
+    public static final String CREATE_FEEDBACK_TABLE="CREATE TABLE `feedback_table` (\n" + "\t`feedback_id`\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" + "\t`feedback_order_id`\tINTEGER,\n" + "\t`ambience_rating`\tINTEGER,\n" + "\t`staff_rating`\tINTEGER,\n" + "\t`feedback_review`\tTEXT,\n" +"\t`feedback_upload_status`\tINTEGER\n" + ");";
+    public static final String CREATE_ITEMS_TABLE="CREATE TABLE `feedback_items_table` (\n" + "\t`feedback_id_id`\tINTEGER,\n" + "\t`feedback_items_id`\tINTEGER,\n" + "\t`rating`\tINTEGER,\n" + "\t`rating_upload_status`\tINTEGER\n" + ");";
 
 
     @Override
@@ -91,17 +119,23 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CART_ITEMS_TABLE);
         db.execSQL(CREATE_PURCHASE_TABLE);
         db.execSQL(CREATE_SUPPLIER_TABLE);
+        db.execSQL(CREATE_CUSTOMER_TABLE);
+        db.execSQL(CREATE_FEEDBACK_TABLE);
+        db.execSQL(CREATE_ITEMS_TABLE);
 
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS category");
-        db.execSQL("DROP TABLE IF EXISTS item_table");
-        db.execSQL("DROP TABLE IF EXISTS cart_details");
-        db.execSQL("DROP TABLE IF EXISTS cart_items_table");
-        db.execSQL("DROP TABLE IF EXISTS purchase_table");
-        db.execSQL("DROP TABLE IF EXISTS supplier_table");
+        db.execSQL("DROP TABLE IF EXISTS "+category);
+        db.execSQL("DROP TABLE IF EXISTS "+item_table);
+        db.execSQL("DROP TABLE IF EXISTS "+cart_details);
+        db.execSQL("DROP TABLE IF EXISTS "+cart_items_table);
+        db.execSQL("DROP TABLE IF EXISTS "+purchase_table);
+        db.execSQL("DROP TABLE IF EXISTS "+supplier_table);
+        db.execSQL("DROP TABLE IF EXISTS "+customer_table);
+        db.execSQL("DROP TABLE IF EXISTS "+feedback_table);
+        db.execSQL("DROP TABLE IF EXISTS "+feedback_items_table);
 
         onCreate(db);
     }

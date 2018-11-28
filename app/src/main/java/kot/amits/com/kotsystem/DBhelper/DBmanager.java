@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -25,7 +26,9 @@ public class DBmanager {
     public SQLiteDatabase database;
 
     public static String CART_ID="";
+    public static String ORDER_TYPE="";
     Cursor global_Cursor;
+    public static ArrayList<cart_items> cart_list ;
 
 
 
@@ -37,9 +40,10 @@ public class DBmanager {
         dbHelper = new DBHelper(context);
         database = dbHelper.getWritableDatabase();
         String path = database.getPath();
-        Toast.makeText(context, path, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, path, Toast.LENGTH_SHORT).show();
         return this;
     }
+
 
     public long insertcategory(String name, String type) {
         ContentValues contentValues = new ContentValues();
@@ -64,9 +68,17 @@ public class DBmanager {
         contentValues.put(dbHelper.time, get_time());
         contentValues.put(dbHelper.cart_status,"1");
         contentValues.put(dbHelper.total,"0");
-
+        contentValues.put(dbHelper.cart_type,ORDER_TYPE);
         return database.insert(dbHelper.cart_details, null, contentValues);
 
+    }
+    public String get_order_status(String cart_id){
+        global_Cursor=database.rawQuery("select * from "+DBHelper.cart_details+" where "+DBHelper.cart_id+" = ?",new String[]{cart_id});
+        global_Cursor.moveToNext();
+        String status=global_Cursor.getString(global_Cursor.getColumnIndex(DBHelper.cart_status));
+        Log.d("order_status",status);
+
+        return status;
     }
 
 
@@ -82,10 +94,14 @@ public class DBmanager {
 
     //get items
 
-    public Cursor getitems(String category_id)
-    {
-
-        Cursor itemdetails=database.rawQuery("select * from item_table where "+dbHelper.cat_cat_id+" =?",new String[]{category_id});
+    public Cursor getitems(String category_id) {
+        Cursor itemdetails;
+        if (category_id.equals("999")){
+             itemdetails=database.rawQuery("SELECT i.item_id, i.item_name,i.item_price,i.image\n" + "FROM `cart_items_table` AS c\n" + "    INNER JOIN `item_table` AS i\n" + "    ON c.`c_item_id` = i.`item_id`\n" + "GROUP BY c.`c_item_id`\n" + "ORDER BY SUM(c.`c_qty`) DESC, i.`item_name` ASC\n" + "LIMIT 10",new String[]{});
+        }
+        else {
+            itemdetails=database.rawQuery("select * from item_table where "+dbHelper.cat_cat_id+" =? order by "+dbHelper.item_name +" asc ",new String[]{category_id});
+        }
         return itemdetails;
     }
     public Cursor get_ongoing_orders(){
@@ -119,6 +135,12 @@ public class DBmanager {
 
                 long a= database.insert(dbHelper.cart_items_table, null, contentValues);
                 Toast.makeText(context, String.valueOf(a), Toast.LENGTH_SHORT).show();
+
+
+                ContentValues contentValues1=new ContentValues();
+                contentValues1.put(dbHelper.cart_status,"2");
+
+                database.update(dbHelper.cart_details,contentValues1,dbHelper.cart_id +" =?",new String[]{CART_ID});
             }
             else{
                 Toast.makeText(context, "reaching if", Toast.LENGTH_SHORT).show();
@@ -138,7 +160,7 @@ public class DBmanager {
 
 
     public Cursor get_active_orders(){
-        Cursor cursor=database.rawQuery("select * from cart_details where cart_status = ? order by cart_id desc",new String[]{"1"});
+        Cursor cursor=database.rawQuery("select * from cart_details where "+dbHelper.cart_status+" = ? or "+dbHelper.cart_status+" ="+dbHelper.ORDER_SENT+" order by cart_id desc",new String[]{DBHelper.ORDER_CART});
         return cursor;
     }
 
@@ -226,8 +248,7 @@ public class DBmanager {
     }
 
     public String get_line(){
-        String line="------------------------------------------------";
-        return line;
+        return "------------------------------------------------";
     }
 
 
@@ -291,12 +312,71 @@ public class DBmanager {
     }
     public void finish_order(String cart_id,String total){
         ContentValues contentValues=new ContentValues();
-        contentValues.put(DBHelper.cart_status,"3");
+        contentValues.put(DBHelper.cart_status,dbHelper.ORDER_FINISHED);
         contentValues.put(DBHelper.total,total);
         database.update(DBHelper.cart_details,contentValues,DBHelper.cart_id +" = ? ",new String []{cart_id});
+        }
 
-    }
+        public void cancel_order(String order_id){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(dbHelper.cart_status,dbHelper.ORDER_CANCEL);
+        database.update(dbHelper.cart_details,contentValues,dbHelper.cart_id+" =? ",new String[]{order_id});
+        }
 
+        public void feedback(String customer_name,String contact,String cart_id, ArrayList<cart_items> cart_lis,int ambience,int staff,String custom_feedback){
+
+        int customer_id;
+
+            global_Cursor=database.rawQuery("select * from "+dbHelper.customer_table+" where "+dbHelper.customer_contact+" = ?",new String[]{contact});
+            if (global_Cursor.getCount()<=0){
+                //new customer adding
+                ContentValues contentValues=new ContentValues();
+                contentValues.put(dbHelper.customer_name,customer_name);
+                contentValues.put(dbHelper.customer_contact,contact);
+                contentValues.put(dbHelper.customer_upload_status,"0");
+                customer_id= (int) database.insert(dbHelper.customer_table,null,contentValues);
+                add_feedback(customer_id,cart_id,cart_lis,ambience,staff,custom_feedback);
+            }
+            else{
+                global_Cursor.moveToFirst();
+                customer_id=global_Cursor.getInt(global_Cursor.getColumnIndex(dbHelper.customer_id));
+                add_feedback(customer_id,cart_id,cart_lis,ambience,staff,custom_feedback);
+            }
+
+
+        }
+        public void add_feedback(int customer_id,String cart_id,ArrayList<cart_items> cart_lis,int ambience,int staff,String custom_feedback ){
+            long feedback_id;
+
+            Log.d("customer_id",String.valueOf(customer_id));
+            //feedback adding
+            global_Cursor.moveToNext();
+            ContentValues contentValues=new ContentValues();
+            contentValues.put(dbHelper.feedback_order_id,CART_ID);
+            contentValues.put(dbHelper.ambience_rating,ambience);
+            contentValues.put(dbHelper.staff_rating,staff);
+            contentValues.put(dbHelper.feedback_review,custom_feedback);
+            contentValues.put(dbHelper.feedback_upload_status,0);
+            feedback_id=database.insert(dbHelper.feedback_table,null,contentValues);
+
+
+            //feedback for each item in bill
+            ContentValues item_rater=new ContentValues();
+            for (cart_items a:cart_lis){
+                int item_id=a.getItem_id();
+                int rate=a.getrate();
+
+                item_rater.put(dbHelper.feedback_id_id,feedback_id);
+                item_rater.put(dbHelper.feedback_items_id,item_id);
+                item_rater.put(dbHelper.rating,rate);
+                item_rater.put(dbHelper.rating_upload_status,0);
+                database.insert(dbHelper.feedback_items_table,null,item_rater);
+            }
+
+            ContentValues contentValues1=new ContentValues();
+            contentValues1.put(dbHelper.cart_customer_id,customer_id);
+            database.update(dbHelper.cart_details,contentValues1,dbHelper.cart_id +" = ?",new String[]{cart_id});
+        }
 
     //new stuffs added
 

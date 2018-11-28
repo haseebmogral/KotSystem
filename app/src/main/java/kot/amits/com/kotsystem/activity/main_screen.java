@@ -1,11 +1,16 @@
 package kot.amits.com.kotsystem.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import com.shashank.sony.fancygifdialoglib.FancyGifDialog;
+import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -39,8 +46,6 @@ public class main_screen extends AppCompatActivity {
     CarouselView carouselView;
 
     Cursor orders;
-
-
     int[] sampleImages = {R.drawable.burg, R.drawable.burg};
 
     @Override
@@ -49,6 +54,8 @@ public class main_screen extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main_screen);
+
+        isStoragePermissionGranted();
 
 
         carouselView = (CarouselView) findViewById(R.id.carouselView);
@@ -65,11 +72,42 @@ public class main_screen extends AppCompatActivity {
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String[] type = new String[1];
+                new FancyGifDialog.Builder(main_screen.this)
+                        .setTitle("Select the type of order")
+                        .setNegativeBtnText("Take away")
+                        .setPositiveBtnBackground("#28e031")
+                        .setPositiveBtnText("Dine in")
+                        .setNegativeBtnBackground("#e02828")
+                        .setGifResource(R.drawable.cooking)
+                        .isCancellable(true)
+                        //Pass your Gif here
+                        .OnPositiveClicked(new FancyGifDialogListener() {
+                            @Override
+                            public void OnClick() {
+                                type[0] ="Dine in";
+                                dBmanager.ORDER_TYPE =type[0];
+                                dBmanager.CART_ID = String.valueOf(dBmanager.add_to_cart_details());
+                                Intent intent = new Intent(main_screen.this, Order_screen.class);
+                                intent.putExtra("mode","new_order");
+                                startActivity(intent);
+                            }
+                        })
+                        .OnNegativeClicked(new FancyGifDialogListener() {
+                            @Override
+                            public void OnClick() {
+                                type[0] ="Take away";
+                                dBmanager.ORDER_TYPE =type[0];
+                                dBmanager.CART_ID = String.valueOf(dBmanager.add_to_cart_details());
+                                Intent intent = new Intent(main_screen.this, Order_screen.class);
+                                intent.putExtra("mode","new_order");
+                                startActivity(intent);
+                                }
+                        })
+                        .build();
 
-                dBmanager.CART_ID = String.valueOf(dBmanager.add_to_cart_details());
-                Intent intent = new Intent(main_screen.this, Order_screen.class);
-                intent.putExtra("mode","new_order");
-                startActivity(intent);
+
+
             }
         });
 
@@ -80,6 +118,7 @@ public class main_screen extends AppCompatActivity {
                 AlertDialog.Builder builderSingle = new AlertDialog.Builder(main_screen.this);
                 builderSingle.setIcon(R.drawable.category_back);
                 builderSingle.setTitle("Select Bill");
+                final ArrayList<String> items =new ArrayList<String>();
                 final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(main_screen.this, android.R.layout.simple_list_item_1);
 
                 if (orders.getCount()<=0){
@@ -87,11 +126,13 @@ public class main_screen extends AppCompatActivity {
                 }
                 else{
                     while (orders.moveToNext()){
-                        arrayAdapter.add(String.valueOf(orders.getInt(orders.getColumnIndex(DBHelper.cart_id))));
+                        String order_type=orders.getString(orders.getColumnIndex(DBHelper.cart_type));
+                        String order_id=String.valueOf(orders.getInt(orders.getColumnIndex(DBHelper.cart_id)));
+                        items.add(order_id);
+                        arrayAdapter.add(order_id+"  -  "+order_type);
 
                     }
                 }
-
                 builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -103,8 +144,9 @@ public class main_screen extends AppCompatActivity {
                 builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String cart_id = arrayAdapter.getItem(which);
+                        String cart_id = items.get(which);
                         dBmanager.CART_ID=cart_id;
+                        Log.d("cart_id",cart_id);
                         Intent intent=new Intent(main_screen.this,Order_screen.class);
                         intent.putExtra("mode","active_order");
                         startActivity(intent);
@@ -126,46 +168,30 @@ public class main_screen extends AppCompatActivity {
         }
     };
 
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+//                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
 
-//    public void slideUp(View view){
-//        view.setVisibility(View.VISIBLE);
-//        TranslateAnimation animate = new TranslateAnimation(
-//                0,                 // fromXDelta
-//                0,                 // toXDelta
-//                view.getHeight(),  // fromYDelta
-//                0);                // toYDelta
-//        animate.setDuration(500);
-//        animate.setFillAfter(true);
-//        view.startAnimation(animate);
-//    }
-//
-//    public void slideDown(View view){
-//        myView.setVisibility(View.GONE);
-//        TranslateAnimation animate = new TranslateAnimation(
-//                0,                 // fromXDelta
-//                0,                 // toXDelta
-//                0,                 // fromYDelta
-//                view.getHeight()); // toYDelta
-//        animate.setDuration(500);
-//        animate.setFillAfter(true);
-//        view.startAnimation(animate);
-//    }
-//
-//    public void onSlideViewButtonClick(View view) {
-//        if (isUp) {
-//            slideDown(myView);
-//        } else {
-//            slideUp(myView);
-//            myView.setVisibility(View.GONE);
-//
-//        }
-//        isUp = !isUp;
-//    }
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+//            Log.v(TAG,"Permission is granted");
+            return true;
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+//            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+        }
+    }
 
-//    ImageListener imageListener = new ImageListener() {
-//        @Override
-//        public void setImageForPosition(int position, ImageView imageView) {
-//            imageView.setImageResource(sampleImages[position]);
-//        }
-//    };
 }

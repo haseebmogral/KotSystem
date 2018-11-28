@@ -21,7 +21,6 @@
             app:cardElevation="5dp"
             app:cardPreventCornerOverlap="true"
             android:id="@+id/item_card"
-
             card_view:cardUseCompatPadding="true"
             tools:style="@style/CardView">
 

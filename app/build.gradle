@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "kot.amits.com.kotsystem"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -54,7 +54,14 @@ dependencies {
     //password verify editext box
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
     implementation files('printerlib.v1.0.jar')
+    implementation 'com.github.sujithkanna:smileyrating:1.6.8'
+    //stylish alert dialog
+    implementation 'com.github.Shashank02051997:FancyGifDialog-Android:1.1'
+
+
+
 
     implementation 'com.android.volley:volley:1.1.0'
+
 
 }

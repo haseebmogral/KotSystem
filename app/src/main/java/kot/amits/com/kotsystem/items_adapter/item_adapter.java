@@ -2,6 +2,7 @@ package kot.amits.com.kotsystem.items_adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -34,50 +35,11 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
     private Context mContext;
     private List<item_album> albumList1;
     private List<cart_items> cart_items;
-    private List<item_album> fruitsArrayListFiltered;
 
     int  qty;
 
 
     private CustomItemClickListener itemClickListener;
-//item search code here
-//    @Override
-//    public Filter getFilter() {
-//        return new Filter() {
-//            @Override
-//            protected FilterResults performFiltering(CharSequence constraint) {
-//                String charString = constraint.toString();
-//                Log.d("TANSEERFILT", charString);
-//                if (charString.isEmpty()) {
-//                    fruitsArrayListFiltered = albumList1;
-//                } else {
-//                    ArrayList<item_album> filteredList = new ArrayList<>();
-//                    for (item_album row : albumList1) {
-//
-//                        // name match condition. this might differ depending on your requirement
-//                        // here we are looking for name or phone number match
-//
-//                        if (row.getItem_name().toLowerCase().contains(charString.toLowerCase())) {
-//                            Toast.makeText(mContext, "got you", Toast.LENGTH_SHORT).show();
-//                            filteredList.add(row);
-//                        }
-//                    }
-//
-//                    fruitsArrayListFiltered = filteredList;
-//                }
-//
-//                FilterResults filterResults = new FilterResults();
-//                filterResults.values = fruitsArrayListFiltered;
-//                return filterResults;
-//            }
-//
-//            @Override
-//            protected void publishResults(CharSequence constraint, FilterResults results) {
-//                fruitsArrayListFiltered = (ArrayList<item_album>) results.values;
-//                notifyDataSetChanged();
-//            }
-//        };
-//    }
 
     public interface CustomItemClickListener{
         void onCustomItemClick(int position);
@@ -103,14 +65,14 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
             dBmanager=new DBmanager(mContext);
         }
     }
-
-
-
     public item_adapter(Context mContext, List<item_album> albumList1,List<cart_items> cart_items,CustomItemClickListener customItemClickListener) {
         this.mContext = mContext;
         this.albumList1 = albumList1;
         this.cart_items = cart_items;
         this.itemClickListener=customItemClickListener;
+
+        Log.d("size_in_adapter",String.valueOf(albumList1.size()));
+
     }
 
     @Override
@@ -122,15 +84,15 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
     @Override
     public void onBindViewHolder(final item_adapter.MyViewHolder holder, final int position) {
         final item_album album = albumList1.get(position);
+
         holder.itemname.setText(album.getItem_name());
-        holder.price.setText(album.getPrice());
+        holder.price.setText("₹"+album.getPrice());
 
         Glide.with(mContext).load(album.getImage()).into(holder.itemimage);
 
        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 qty=1;
 //                Toast.makeText(mContext, albumList1.get(position).getid(), Toast.LENGTH_SHORT).show();
                 final kot.amits.com.kotsystem.items_adapter.cart_items[] items = new cart_items[1];
@@ -139,6 +101,8 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                 final long price= Long.parseLong(album.getPrice());
                 final long[] total = {0};
                 final String name=album.getItem_name();
+
+                Log.d("value_in_adapter",String.valueOf(albumList1.size()));
 
 
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
@@ -150,8 +114,8 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
 
 
                 final TextView edt = (TextView) dialogView.findViewById(R.id.quantity);
-                final Button plus = (Button) dialogView.findViewById(R.id.plus);
-                final Button minus = (Button) dialogView.findViewById(R.id.minus);
+                final FloatingActionButton plus = (FloatingActionButton) dialogView.findViewById(R.id.plus);
+                final FloatingActionButton minus = (FloatingActionButton) dialogView.findViewById(R.id.minus);
                 final TextView title = (TextView) dialogView.findViewById(R.id.title);
 
                 title.setText("add "+album.getItem_name()+" to cart");
@@ -180,6 +144,13 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                         else{
                             qty=qty-1;
                             edt.setText(String.valueOf(qty));
+                            qty= Integer.parseInt(edt.getText().toString());
+                            if (qty<=0){
+                                qty=1;
+                                edt.setText(String.valueOf(qty));
+                            }
+
+
                         }
 
                     }
@@ -214,11 +185,6 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
                 });
                 AlertDialog b = dialogBuilder.create();
                 b.show();
-
-
-
-
-
             }
         });
 
