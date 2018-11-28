@@ -4,94 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
     android:id="@+id/supplier_layout"
     tools:context=".activity.Add_supplier">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/item_card"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+
+
+
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/add_supplier"
-            android:layout_centerHorizontal="true"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="5dp"
-            app:cardPreventCornerOverlap="true"
-            card_view:cardUseCompatPadding="true">
+            android:id="@+id/supplier_recycler">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/supplier_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/Suplier_name"
-                        android:inputType="textPersonName"
-                        android:drawableLeft="@drawable/ic_account_circle_black_24dp"
-                        android:maxLines="1"
-                        android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/supplier_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/Suplier_address"
-                        android:inputType="text"
-                        android:maxLines="2"
-                        android:drawableLeft="@drawable/ic_location_on_black_24dp"
-                        android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/supplier_contact"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/Suplier_contact"
-                        android:inputType="number"
-                        android:maxLength="10"
-                        android:drawableLeft="@drawable/ic_phone_black_24dp"
-                        android:maxLines="1"
-                        android:singleLine="true" />
-
-
-                </android.support.design.widget.TextInputLayout>
+        </android.support.v7.widget.RecyclerView>
 
 
 
-            </LinearLayout>
-
-
-        </android.support.v7.widget.CardView>
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_supplier"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:background="@color/confirm_button"
-            android:text="@string/Add_buton" />
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add_black_24dp" />
+
+        <!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/item_card"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--app:cardPreventCornerOverlap="true"-->
+            <!--card_view:cardUseCompatPadding="true">-->
+
+
+
+
+        <!--</android.support.v7.widget.CardView>-->
+
 
 
     </RelativeLayout>

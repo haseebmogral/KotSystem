@@ -40,10 +40,9 @@ public class DBmanager {
         dbHelper = new DBHelper(context);
         database = dbHelper.getWritableDatabase();
         String path = database.getPath();
-//        Toast.makeText(context, path, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, path, Toast.LENGTH_SHORT).show();
         return this;
     }
-
 
     public long insertcategory(String name, String type) {
         ContentValues contentValues = new ContentValues();
@@ -153,7 +152,7 @@ public class DBmanager {
 
     public Cursor getpurchase_details() {
 
-        Cursor purchase_details = database.rawQuery("select * from purchase_table", new String[]{});
+        Cursor purchase_details = database.rawQuery("select * from supplier_table s,purchase_table p where p.p_supplier_id=s.supplier_id", new String[]{});
         return purchase_details;
 
     }
@@ -279,12 +278,16 @@ public class DBmanager {
     }
 
     //insert items to purcase_details
-    public long addPurchase(String p_date,String p_description,String p_amount) {
+    public long addPurchase(String supplier_id, String p_date,String p_description,String p_amount,String p_paid,String p_bal) {
         ContentValues contentValues = new ContentValues();
+
+        contentValues.put(dbHelper.p_supplier_id, supplier_id);
         contentValues.put(dbHelper.p_date, p_date);
         contentValues.put(dbHelper.p_description, p_description);
         contentValues.put(dbHelper.p_amount, p_amount);
-        contentValues.put(dbHelper.p_upload_status, "added");
+        contentValues.put(dbHelper.p_paid, p_paid);
+        contentValues.put(dbHelper.p_bal, p_bal);
+        contentValues.put(dbHelper.p_upload_status,"0");
         return database.insert(dbHelper.purchase_table, null, contentValues);
     }
 
@@ -378,8 +381,59 @@ public class DBmanager {
             database.update(dbHelper.cart_details,contentValues1,dbHelper.cart_id +" = ?",new String[]{cart_id});
         }
 
-    //new stuffs added
+    public Cursor get_supplier_details() {
 
+        Cursor supplier_details = database.rawQuery("select * from supplier_table", new String[]{});
+        return supplier_details;
+
+    }
+
+    public Cursor get_expense_details() {
+
+        Cursor expense_details = database.rawQuery("select * from expense_table", new String[]{});
+        return expense_details;
+
+    }
+
+
+    //add expense to db
+
+
+    public long add_expense(String exp_type, String exp_date, String exp_desc,String exp_amount) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(dbHelper.e_type, exp_type);
+        contentValues.put(dbHelper.e_amount, exp_amount);
+        contentValues.put(dbHelper.e_desc, exp_desc);
+        contentValues.put(dbHelper.e_date,exp_date);
+        contentValues.put(dbHelper.e_upload_status,"0");
+        return database.insert(dbHelper.expense_table, null, contentValues);
+
+    }
+
+
+    //get employee details
+    public Cursor get_employee_details() {
+
+        Cursor employee_details = database.rawQuery("select * from employee_table", new String[]{});
+        return employee_details;
+
+    }
+
+    //add employee
+
+    public long add_employee(String emp_name, String emp_address, String emp_desig,String emp_salary,String emp_doj,String emp_contact) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(dbHelper.emp_name, emp_name);
+        contentValues.put(dbHelper.emp_address, emp_address);
+        contentValues.put(dbHelper.emp_designation, emp_desig);
+        contentValues.put(dbHelper.emp_salary,emp_salary);
+        contentValues.put(dbHelper.emp_doj,emp_doj);
+        contentValues.put(dbHelper.emp_status,"1");
+        contentValues.put(dbHelper.emp_contact,emp_contact);
+        contentValues.put(dbHelper.emp_upload_status,"0");
+        return database.insert(dbHelper.employee_table, null, contentValues);
+
+    }
 
 
 }

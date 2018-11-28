@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String cat_type = "cat_type";
 
     //item table
-    public static final String item_table  = "item_table ";
+    public static final String item_table = "item_table ";
     public static final String item_id = "item_id";
     public static final String item_name = "item_name";
     public static final String cat_cat_id = "cat_cat_id";
@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String image = "image";
 
     //cart_details table
-    public static final String cart_details  = "cart_details ";
+    public static final String cart_details = "cart_details ";
     public static final String cart_id = "cart_id";
     public static final String cart_customer_id = "cart_customer_id";
     public static final String date = "date";
@@ -36,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String upload_status = "upload_status";
 
     //cart_items table
-    public static final String cart_items_table  = "cart_items_table ";
+    public static final String cart_items_table = "cart_items_table ";
     public static final String c_i_id = "c_i_id";
     public static final String cart_details_id = "cart_details_id";
     public static final String c_item_id = "c_item_id";
@@ -45,17 +45,19 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String c_item_order_status = "c_item_order_status";
 
     //purchase table
-    public static final String purchase_table  = "purchase_table ";
+    public static final String purchase_table = "purchase_table ";
     public static final String p_id = "p_id";
-    public static final String p_supplier_id= "p_supplier_id";
+    public static final String p_supplier_id = "p_supplier_id";
     public static final String p_date = "p_date";
     public static final String p_description = "p_description";
     public static final String p_amount = "p_amount";
     public static final String p_upload_status = "p_upload_status";
+    public static final String p_paid = "p_paid";
+    public static final String p_bal = "p_bal";
 
 
     //supplier table
-    public static final String supplier_table  = "supplier_table ";
+    public static final String supplier_table = "supplier_table ";
     public static final String supplier_id = "supplier_id";
     public static final String supplier_name = "supplier_name";
     public static final String supplier_address = "supplier_address";
@@ -77,6 +79,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String staff_rating="staff_rating";
     public static String feedback_review="feedback_review";
     public static String feedback_upload_status="feedback_upload_status";
+    //expense table
+    public static final String expense_table = "expense_table";
+    public static final String e_id = "e_id";
+    public static final String e_type = "e_type";
+    public static final String e_amount = "e_amount";
+    public static final String e_desc = "e_desc";
+    public static final String e_date = "e_date";
+    public static final String e_upload_status = "e_upload_status";
 
     //feedback_items_table
     public static String feedback_items_table="feedback_items_table";
@@ -85,15 +95,24 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String rating="rating";
     public static String rating_upload_status="rating_upload_status";
 
-
-
+    //employee table
+    public static final String employee_table = "employee_table";
+    public static final String emp_id = "emp_id";
+    public static final String emp_name = "emp_name";
+    public static final String emp_address = "emp_address";
+    public static final String emp_contact = "emp_contact";
+    public static final String emp_designation = "emp_designation";
+    public static final String emp_status = "emp_status";
+    public static final String emp_salary = "emp_salary";
+    public static final String emp_doj = "emp_doj";
+    public static final String emp_upload_status = "emp_upload_status";
 
     public static final String ORDER_CANCEL="0";
     public static final String ORDER_CART="1";
     public static final String ORDER_SENT="2";
     public static final String ORDER_FINISHED="3";
 
-
+    private HashMap hp;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -108,6 +127,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CREATE_CUSTOMER_TABLE="CREATE TABLE `customer_table` (\n" + "\t`customer_id`\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" + "\t`customer_name`\tREAL,\n" + "\t`customer_contact`\tREAL,\n" + "\t`customer_upload_status`\tREAL\n" + ");";
     public static final String CREATE_FEEDBACK_TABLE="CREATE TABLE `feedback_table` (\n" + "\t`feedback_id`\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" + "\t`feedback_order_id`\tINTEGER,\n" + "\t`ambience_rating`\tINTEGER,\n" + "\t`staff_rating`\tINTEGER,\n" + "\t`feedback_review`\tTEXT,\n" +"\t`feedback_upload_status`\tINTEGER\n" + ");";
     public static final String CREATE_ITEMS_TABLE="CREATE TABLE `feedback_items_table` (\n" + "\t`feedback_id_id`\tINTEGER,\n" + "\t`feedback_items_id`\tINTEGER,\n" + "\t`rating`\tINTEGER,\n" + "\t`rating_upload_status`\tINTEGER\n" + ");";
+    public static final String CREATE_EXPENSE_TABLE = "CREATE TABLE `expense_table` (`e_id` INTEGER NOT NULL,`e_type` TEXT NOT NULL,`e_amount` TEXT NOT NULL,`e_desc` TEXT,e_date REAL,`e_upload_status` TEXT,PRIMARY KEY(`e_id`));";
+    public static final String CREATE_EMPLOYEE_TABLE = "CREATE TABLE `employee_table` (`emp_id` INTEGER NOT NULL,`emp_name` TEXT NOT NULL,`emp_address`TEXT NOT NULL,`emp_contact` REAL,`emp_designation` TEXT NOT NULL,`emp_status` TEXT NOT NULL,`emp_salary` REAL,`emp_doj` TEXT NOT NULL,`emp_upload_status` TEXT NOT NULL,PRIMARY KEY(`emp_id`));";
+
+
 
 
     @Override
@@ -122,6 +145,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CUSTOMER_TABLE);
         db.execSQL(CREATE_FEEDBACK_TABLE);
         db.execSQL(CREATE_ITEMS_TABLE);
+        db.execSQL(CREATE_EXPENSE_TABLE);
+        db.execSQL(CREATE_EMPLOYEE_TABLE);
+
 
     }
     @Override
@@ -136,6 +162,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+customer_table);
         db.execSQL("DROP TABLE IF EXISTS "+feedback_table);
         db.execSQL("DROP TABLE IF EXISTS "+feedback_items_table);
+        db.execSQL("DROP TABLE IF EXISTS employee_table");
+        db.execSQL("DROP TABLE IF EXISTS expense_table");
+        db.execSQL("DROP TABLE IF EXISTS employee_table");
 
         onCreate(db);
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,15 +12,12 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/item_card"
         android:layout_width="match_parent"
-        android:layout_below="@+id/title"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="5dp"
         app:cardElevation="5dp"
-
         app:ignore="NamespaceTypo"
         card_view:cardUseCompatPadding="true">
-
 
 
 
@@ -30,10 +28,6 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Select_Supplier" />
 
             <AutoCompleteTextView
                 android:id="@+id/suplierName"
@@ -41,35 +35,13 @@
                 android:layout_height="wrap_content"
                 android:completionThreshold="1"
                 android:maxLines="1"
+                android:drawableLeft="@drawable/ic_account_circle_black_24dp"
                 android:fontFamily="@font/montserrat"
                 android:imeOptions="flagNoExtractUi"
                 android:hint="Supplier Name">
 
             </AutoCompleteTextView>
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/payment_mode_radio"
-                android:orientation="horizontal">
-
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/cash"
-                    android:fontFamily="@font/montserrat"
-                    android:text="Cash"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:id="@+id/credit"
-                    android:text="Credit"/>
-
-
-            </RadioGroup>
 
             <Button
                 android:layout_width="match_parent"
@@ -78,6 +50,8 @@
                 android:drawableLeft="@drawable/ic_date_range_black_24dp"
                 android:background="@color/white_button"
                 android:layout_marginTop="5dp"
+                android:textAlignment="textStart"
+                android:drawablePadding="5dp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/date_of_purchase"/>
 
@@ -106,7 +80,71 @@
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/paid_amount"/>
 
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="5dp"
 
+              >
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="17sp"
+                  android:id="@+id/title"
+                  android:maxLines="1"
+                  android:text="@string/Balance"/>
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="17sp"
+                  android:maxLines="1"
+                  android:id="@+id/rs_icon"
+                  android:layout_toRightOf="@+id/title"
+                  android:text="@string/rsicon"/>
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="40000"
+                  android:singleLine="true"
+                  android:maxLines="1"
+                  android:id="@+id/balance"
+                  android:textSize="18sp"
+                  android:layout_alignBaseline="@+id/rs_icon"
+                  android:layout_toRightOf="@+id/rs_icon"/>
+
+
+
+          </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentBottom="true"
+                android:weightSum="2">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/white_button"
+                    android:text="Cancel"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/add_purchase_details"
+                    android:background="@color/white_button"
+                    android:text="Add purchase"/>
+
+
+
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -117,31 +155,6 @@
     </android.support.v7.widget.CardView>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:weightSum="2">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white_button"
-            android:text="Cancel"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/add_purchase_details"
-            android:background="@color/white_button"
-            android:text="Add purchase"/>
-
-
-
-    </LinearLayout>
 
 
 </RelativeLayout>

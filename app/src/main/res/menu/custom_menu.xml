@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/filter"
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_filter_filled_tool_symbol" />
+    <item
+        android:id="@+id/add_expense"
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_add_objects" />
+</menu>
