@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +94,7 @@ public class view_supplier_adapter extends RecyclerView.Adapter<view_supplier_ad
         holder.supplier_name.setText(album.getSupplier_name());
         holder.supplier_address.setText(album.getSupplier_address());
         holder.supplier_contact.setText(album.getSupplier_contact());
+
         Toast.makeText(mContext, "coming value is "+
                 album.getSupplier_contact(), Toast.LENGTH_SHORT).show();
 

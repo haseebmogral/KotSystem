@@ -15,9 +15,6 @@ public class view_supplier_model {
         this.supplier_contact=supplier_contact;
         this.item_id=item_id;
 
-
-
-
     }
 
     public String getSupplier_name()

@@ -23,12 +23,17 @@ public class purchase_adapter extends RecyclerView.Adapter<purchase_adapter.MyVi
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView description;
+        public TextView description,supplier_name,date,amount,paid_amount,balance;
 
 
         public MyViewHolder(View view) {
             super(view);
             description = (TextView) view.findViewById(R.id.description);
+            supplier_name = (TextView) view.findViewById(R.id.supplier_name);
+            date = (TextView) view.findViewById(R.id.date);
+            amount = (TextView) view.findViewById(R.id.amount);
+            paid_amount = (TextView) view.findViewById(R.id.paid);
+            balance = (TextView) view.findViewById(R.id.balance);
         }
 
     }
@@ -52,6 +57,11 @@ public class purchase_adapter extends RecyclerView.Adapter<purchase_adapter.MyVi
     public void onBindViewHolder(final purchase_adapter.MyViewHolder holder, final int position) {
         final purchase_model album = albumList1.get(position);
         holder.description.setText(album.getP_description());
+        holder.supplier_name.setText(album.getSupplier_name());
+        holder.date.setText(album.getP_date());
+        holder.amount.setText(album.getP_amount());
+        holder.paid_amount.setText(album.getPaid_amount());
+        holder.balance.setText(album.getBalance());
 
 //        holder.title.setOnClickListener(new View.OnClickListener() {
 //            @Override

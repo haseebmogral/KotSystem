@@ -13,10 +13,13 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -31,6 +34,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +46,8 @@ import kot.amits.com.kotsystem.purchase_adapter.purchase_model;
 import kot.amits.com.kotsystem.select_item_adapter.select_item_album;
 
 import static kot.amits.com.kotsystem.DBhelper.DBHelper.item_price;
+import static kot.amits.com.kotsystem.DBhelper.DBHelper.p_bal;
+import static kot.amits.com.kotsystem.DBhelper.DBHelper.supplier_name;
 
 public class Purchase_Activity extends AppCompatActivity {
 
@@ -52,13 +58,17 @@ public class Purchase_Activity extends AppCompatActivity {
     private purchase_adapter purchase_adapter;
     private List<purchase_model> purchaseModelList;
     DBmanager mydb;
-    Cursor purchase_list_Cursor,supplier_list;
+    Cursor purchase_list_Cursor, supplier_list;
     TextView emptyview;
     Button select_date;
     Calendar myCalendar = Calendar.getInstance();
     RadioGroup payment_mode_radio;
-    EditText paid_amount,p_description,p_amount;
+    EditText paid_amount, p_description, amount;
     Button add_purchase_details;
+    TextView p_bal;
+    String[] supplier_id;
+    String sid;
+    int amnt = 0, p_amnt = 0, bal = 0;
 
 
     @Override
@@ -75,7 +85,6 @@ public class Purchase_Activity extends AppCompatActivity {
 
         mydb = new DBmanager(this);
         mydb.open();
-        supplier_list=mydb.getSuppliername();
 
         Load_purchase_details();
 
@@ -88,9 +97,7 @@ public class Purchase_Activity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
-
-
+                supplier_list = mydb.getSuppliername();
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Purchase_Activity.this);
 
                 LayoutInflater inflater = (LayoutInflater) Purchase_Activity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -101,60 +108,129 @@ public class Purchase_Activity extends AppCompatActivity {
                 dialogBuilder.setTitle(R.string.add_purchase_details);
 
 
-
                 suplierName = dialogView.findViewById(R.id.suplierName);
-                select_date=dialogView.findViewById(R.id.purchase_date);
-                payment_mode_radio=dialogView.findViewById(R.id.payment_mode_radio);
-                add_purchase_details=dialogView.findViewById(R.id.add_purchase_details);
-                p_description=dialogView.findViewById(R.id.description);
-                p_amount=dialogView.findViewById(R.id.amount);
+                select_date = dialogView.findViewById(R.id.purchase_date);
+                add_purchase_details = dialogView.findViewById(R.id.add_purchase_details);
+                p_description = dialogView.findViewById(R.id.description);
+                amount = dialogView.findViewById(R.id.amount);
+                p_bal = dialogView.findViewById(R.id.balance);
+                paid_amount = dialogView.findViewById(R.id.paid_amount);
+
+
+                paid_amount.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start,
+                                                  int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (s.length() != 0)
+
+
+
+
+                            if (paid_amount.getText().toString().equals("") || paid_amount.getText().toString().equals(null))
+                            {
+
+
+
+                                paid_amount.setText("0");
+                                p_bal.setText("0");
+
+                            }
+
+
+
+                            else {
+
+
+
+                                amnt = Integer.parseInt(amount.getText().toString());
+                                p_amnt = Integer.parseInt(paid_amount.getText().toString());
+
+                                bal = amnt - p_amnt;
+                                p_bal.setText(String.valueOf(bal));
+
+                            }
+
+                    }
+                });
 
 
                 //getting supplier name to array
-                List<String> array = new ArrayList<String>();
-                while(supplier_list.moveToNext()){
-                    String uname = supplier_list.getString(supplier_list.getColumnIndex("supplier_name"));
-                    String supplier_id = supplier_list.getString(supplier_list.getColumnIndex("supplier_id"));
-                    array.add(uname);
+                final List<String> array = new ArrayList<String>();
+                final LinkedHashMap<String, String> lH = new LinkedHashMap<String, String>();
+                int i = 0;
+                while (supplier_list.moveToNext()) {
+                    String s_name = supplier_list.getString(supplier_list.getColumnIndex("supplier_name"));
+                    String supplierid = supplier_list.getString(supplier_list.getColumnIndex("supplier_id"));
+                    array.add(s_name);
+                    lH.put(s_name, supplierid);
+
+                    i++;
                 }
 
                 adapter = new ArrayAdapter(Purchase_Activity.this, android.R.layout.simple_list_item_1, array);
                 suplierName.setAdapter(adapter);
                 //end of adapter
+                suplierName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String selection = (String) parent.getItemAtPosition(position);
+                        sid = lH.get(selection);
+                        Toast.makeText(Purchase_Activity.this, selection + "\n" + sid, Toast.LENGTH_SHORT).show();
 
-
+                    }
+                });
                 add_purchase_details.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
 
-                        String date=select_date.getText().toString();
-                        String descr=p_description.getText().toString();
-                        String amount=p_amount.getText().toString();
+                        String date = select_date.getText().toString();
+                        String descr = p_description.getText().toString();
+                        String amount1 = amount.getText().toString();
+                        String paidamount = paid_amount.getText().toString();
+                        String pbalance = p_bal.getText().toString();
+
+
+                        if (date.equals("Select date of purchase"))
+                        {
+                            Toast.makeText(Purchase_Activity.this, "Enter Purchase date", Toast.LENGTH_SHORT).show();
+                        }
+                        else  if (descr.equals(""))
+                        {
+                            Toast.makeText(Purchase_Activity.this, "Enter description", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (amount1.equals(""))
+                        {
+                            Toast.makeText(Purchase_Activity.this, "Enter amount", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (paidamount.equals("")){
+                            Toast.makeText(Purchase_Activity.this, "Enter paid amount", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+
+
+                            long a = mydb.addPurchase(sid, date, descr, amount1,paidamount,pbalance);
+
+
+                            Toast.makeText(Purchase_Activity.this, String.valueOf(a), Toast.LENGTH_SHORT).show();
+
+                            alertDialog.dismiss();
+
+                            Load_purchase_details();
+                        }
 
 
 
-                        long a = mydb.addPurchase(date,descr,amount);
 
-
-                        Toast.makeText(Purchase_Activity.this, String.valueOf(a), Toast.LENGTH_SHORT).show();
-
-
-//                        if (String.valueOf(a).equals("1")){
-//
-//                            Toast.makeText(Purchase_Activity.this, "Purchase details added", Toast.LENGTH_SHORT).show();
-//
-//
-//                        }
-//                        else{
-//
-//                            Toast.makeText(Purchase_Activity.this, "failed to insert", Toast.LENGTH_SHORT).show();
-//                        }
-
-
-                        alertDialog.dismiss();
-
-                        Load_purchase_details();
 
 //                        purchase_adapter.notifyDataSetChanged();
 
@@ -162,30 +238,7 @@ public class Purchase_Activity extends AppCompatActivity {
                     }
                 });
 
-                paid_amount=dialogView.findViewById(R.id.paid_amount);
-
-                payment_mode_radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        RadioButton checkedRadioButton = (RadioButton)group.findViewById(checkedId);
-                        boolean isChecked = checkedRadioButton.isChecked();
-
-                        switch(dialogView.getId()) {
-                            case R.id.cash:
-                                if (isChecked)
-
-                                    paid_amount.setVisibility(View.INVISIBLE);
-                                    break;
-                            case R.id.credit:
-                                if (isChecked)
-
-                                    paid_amount.setVisibility(View.VISIBLE);
-                                    break;
-                        }
-
-
-                    }
-                });
+                paid_amount = dialogView.findViewById(R.id.paid_amount);
 
 
                 final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -214,7 +267,6 @@ public class Purchase_Activity extends AppCompatActivity {
 
                     }
                 });
-
 
 
                 alertDialog.show();
@@ -260,18 +312,39 @@ public class Purchase_Activity extends AppCompatActivity {
             Purchase_Recycler.setLayoutManager(mLayoutManager);
             Purchase_Recycler.setAdapter(purchase_adapter);
 
+
+            Purchase_Recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    if (dy > 0 || dy < 0 && add_purchase.isShown())
+                        add_purchase.hide();
+                }
+
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        add_purchase.show();
+                    }
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+            });
+
             purchase_model cat;
 
 
             while (purchase_list_Cursor.moveToNext()) {
+                String s_name = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.supplier_name));
 
-                String pdate = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_id));
+                String pdate = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_date));
                 String p_descr = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_description));
                 String p_amount = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_amount));
+                String p_paid = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_paid));
+                String balance = purchase_list_Cursor.getString(purchase_list_Cursor.getColumnIndex(DBHelper.p_bal));
 
 //                Toast.makeText(this, "item name" + p_descr, Toast.LENGTH_SHORT).show();
 
-                cat = new purchase_model(p_descr);
+                cat = new purchase_model(s_name, pdate, p_descr, p_amount,p_paid,balance);
                 purchaseModelList.add(cat);
             }
 

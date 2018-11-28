@@ -17,5 +17,39 @@
     <string name="login_failed">Login Failed</string>
     <string name="supplier_name">Supplier Name</string>
     <string name="add_supplier">Add Supplier</string>
+    <string name="Balance">Balance :</string>
+    <string name="rsicon"> ₹ </string>
+    <string name="salesicon">salesicon</string>
+    <string name="manage_cafe">Manage Café</string>
+    <string name="Inventory">Inventory</string>
+    <string name="add_employee">Add\nemployee</string>
+    <string name="take_attendance">Manage\nAttendance</string>
+    <string name="manage_category">Manage\nCategory</string>
+    <string name="manage_item">Manage\nItem</string>
+    <string name="manage_supplier">Manage\nSupplier</string>
+    <string name="manage_purchase">Manage\nPurchase</string>
+    <string name="manage_sales">Manage\nSales</string>
+    <string name="manage_salary">Manage\nSalary</string>
+    <string name="manage_feedback">Manage\nFeedback</string>
+    <string name="manage_expense">Manage\nExpense</string>
+    <string name="manage_stocks">Manage Daily \n Stocks</string>
+    <string name="_1000k">1000k</string>
+    <string name="today_s_purchase">Today\'s Purchase</string>
+    <string name="_3245k">3245k</string>
+    <string name="today_s_sales">Today\'s Sales</string>
+    <string name="todo">TODO</string>
+    <string name="value">2500k</string>
+    <string name="expense_type">Select expense type</string>
+    <string name="date">Select date</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="cancel">Cancel</string>
+    <string name="manage_employee">Manage\nEmployee</string>
+    <string name="emp_name">Emplolyee Name</string>
+    <string name="emp_address">Emplolyee Address</string>
+    <string name="emp_desig">Select employee designation</string>
+    <string name="emp_doj">Select date of join</string>
+    <string name="emp_salary">Salary</string>
+    <string name="add_emp">Add employee</string>
+
 
 </resources>

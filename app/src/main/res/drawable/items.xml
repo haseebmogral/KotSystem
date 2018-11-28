@@ -2,18 +2,14 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="#e9e9e9"/>
-            <stroke
-                android:color="#C7B299"
-                android:dashWidth="10px"
-                android:dashGap="10px"
-                android:width="1dp"/>
+            <solid android:color="#4A148C"/>
+
         </shape>
     </item>
     <item
-        android:drawable="@drawable/ic_burger"
-        android:bottom="20dp"
-        android:left="20dp"
-        android:right="20dp"
-        android:top="20dp"/>
+        android:drawable="@drawable/ic_coffee_paper_cup"
+        android:bottom="10dp"
+        android:left="10dp"
+        android:right="10dp"
+        android:top="10dp"/>
 </layer-list>

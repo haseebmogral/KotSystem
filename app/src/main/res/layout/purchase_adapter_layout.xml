@@ -12,7 +12,7 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/item_card"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         app:cardCornerRadius="3dp"
@@ -33,14 +33,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/amount_title"
+                    android:id="@+id/supplier_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:maxLines="1"
+                    android:drawablePadding="3dp"
+                    android:drawableLeft="@drawable/ic_account_circle_black_24dp"
                     android:singleLine="true"
                     android:text="M.G store Kasaragod"
                     android:textAllCaps="true"
+                    android:fontFamily="@font/montserrat"
                     android:textSize="15sp" />
 
 
@@ -50,6 +53,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="5dp"
+                    android:layout_centerInParent="true"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/montserrat"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
                     android:layout_weight="1"
                     android:text="21/02/2018" />
 
@@ -59,32 +67,44 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#83a1a1a1" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:maxLines="2"
-                android:textColor="#9b9b9b"
-                android:text="Item Description"
-                android:textSize="11dp" />
+                android:layout_marginLeft="25dp"
+                android:background="#75a1a1a1" />
+
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:maxLines="2"-->
+                <!--android:textColor="#9b9b9b"-->
+                <!--android:text="Item Description"-->
+                <!--android:textSize="11dp" />-->
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:textSize="12sp"
+                android:maxLines="3"
+                android:fontFamily="@font/montserrat"
+                android:textSize="13sp"
+                android:textColor="#999797"
+                android:layout_marginTop="10dp"
                 android:text="Fruots purchased from mg store kasaragod as credit on today and tomorrow needs" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:layout_marginTop="10dp"
+                android:background="#83a1a1a1" />
 
 
             <RelativeLayout
                 android:id="@+id/main_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content">
 
 
                 <!--<TextView-->
@@ -120,18 +140,26 @@
                     android:id="@+id/total_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+
                     android:text="Total : " />
                 <TextView
-                    android:id="@+id/rs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+
                     android:text="₹ " />
 
 
                 <TextView
-                    android:id="@+id/sfdg"
+                    android:id="@+id/amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:maxLines="1"
+
                     android:text="435465" />
 
                 </LinearLayout>
@@ -147,18 +175,27 @@
                         android:id="@+id/paid_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+
                         android:text="Paid : " />
 
                     <TextView
-                        android:id="@+id/rs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+
                         android:text="₹ " />
 
                 <TextView
                     android:id="@+id/paid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/confirm_button"
+                    android:singleLine="true"
+                    android:maxLines="1"
+
+
                     android:text="435465" />
 
                 </LinearLayout>
@@ -175,6 +212,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toStartOf="@+id/balance"
+                        android:fontFamily="@font/montserrat"
+
                         android:text="Bal : "
 
                         />
@@ -183,6 +222,8 @@
                         android:id="@+id/rs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+
                         android:text="₹ " />
 
                 <TextView
@@ -190,6 +231,11 @@
                     android:layout_height="wrap_content"
                     android:text="234567"
                     android:id="@+id/balance"
+                    android:textColor="@color/cancel_button"
+                    android:fontFamily="@font/montserrat"
+                    android:singleLine="true"
+                    android:maxLines="1"
+
                     />
 
 
