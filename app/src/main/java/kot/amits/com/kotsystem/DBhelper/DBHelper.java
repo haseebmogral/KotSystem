@@ -79,6 +79,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String staff_rating="staff_rating";
     public static String feedback_review="feedback_review";
     public static String feedback_upload_status="feedback_upload_status";
+
+    //feedback_items_table
+    public static String feedback_items_table="feedback_items_table";
+    public static String feedback_id_id="feedback_id_id";//id of feedback
+    public static String feedback_items_id="feedback_items_id";//id of feedbacking item id
+    public static String rating="rating";
+    public static String rating_upload_status="rating_upload_status";
+
     //expense table
     public static final String expense_table = "expense_table";
     public static final String e_id = "e_id";
@@ -88,12 +96,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String e_date = "e_date";
     public static final String e_upload_status = "e_upload_status";
 
-    //feedback_items_table
-    public static String feedback_items_table="feedback_items_table";
-    public static String feedback_id_id="feedback_id_id";//id of feedback
-    public static String feedback_items_id="feedback_items_id";//id of feedbacking item id
-    public static String rating="rating";
-    public static String rating_upload_status="rating_upload_status";
+
 
     //employee table
     public static final String employee_table = "employee_table";

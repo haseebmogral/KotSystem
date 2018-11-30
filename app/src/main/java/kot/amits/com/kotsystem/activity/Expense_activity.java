@@ -27,7 +27,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daasuu.cat.CountAnimationTextView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

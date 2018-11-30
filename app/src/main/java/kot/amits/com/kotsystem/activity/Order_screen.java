@@ -2,8 +2,10 @@ package kot.amits.com.kotsystem.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -55,6 +57,8 @@ import kot.amits.com.kotsystem.main_activity_adapter_and_model.Album1;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
 import kot.amits.com.kotsystem.printer_sdk.BTPrinter;
 
+import static kot.amits.com.kotsystem.DBhelper.DBmanager.sharedpreferences;
+
 public class Order_screen extends AppCompatActivity implements View.OnClickListener, item_adapter.CustomItemClickListener, cat_adapter.CustomItemClickListener {
     DBmanager mydb;
     long id;
@@ -90,6 +94,8 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
     RecyclerView bill_items, categoy, itemrecycler;
     TextView total_textview;
 
+    int column_count;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +105,20 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
         mydb = new DBmanager(this);
         mydb.open();
+        sharedpreferences = getSharedPreferences("mypreference", Context.MODE_PRIVATE);
+        if (sharedpreferences.getString("column","")==null ||sharedpreferences.getString("column","").equals("") ){
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+
+            editor.putString("column","4");
+            editor.commit();
+            column_count=4;
+        }
+        else{
+            column_count= Integer.parseInt(sharedpreferences.getString("column",""));
+
+        }
+
+
 
 //        add_cat_item();
 
@@ -152,10 +172,9 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
         itemrecycler.setLayoutAnimation(controller);
 
-        itemrecycler.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(1), true));
-        linearLayoutManager = new GridLayoutManager(Order_screen.this, 3);
+        itemrecycler.addItemDecoration(new GridSpacingItemDecoration(column_count, dpToPx(1), true));
+        linearLayoutManager = new GridLayoutManager(Order_screen.this, column_count);
         itemrecycler.setLayoutManager(linearLayoutManager);
-        progressBar.setVisibility(View.VISIBLE);
 
 
 

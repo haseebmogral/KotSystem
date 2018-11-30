@@ -1,6 +1,8 @@
 package kot.amits.com.kotsystem.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -35,6 +37,8 @@ import java.util.Map;
 
 import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.constants.constant;
+
+import static kot.amits.com.kotsystem.DBhelper.DBmanager.sharedpreferences;
 
 public class Branch_selection extends AppCompatActivity implements View.OnClickListener {
     Spinner spinner;
@@ -215,6 +219,11 @@ public class Branch_selection extends AppCompatActivity implements View.OnClickL
                           String b=  response.getString("msg");
 //                            Toast.makeText(Branch_selection.this, a, Toast.LENGTH_SHORT).show();
                             if (a.equals("success")){
+                                sharedpreferences = getSharedPreferences("mypreference", Context.MODE_PRIVATE);
+
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString("password",pin_number.getText().toString());
+                                editor.commit();
 
                                 Intent intent=new Intent(Branch_selection.this,category_selection.class);
                                 startActivity(intent);

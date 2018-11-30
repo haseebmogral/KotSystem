@@ -51,15 +51,21 @@
                         android:layout_alignParentLeft="true"
                         android:layout_toLeftOf="@+id/price"
                         android:fontFamily="@font/montserrat"
-                        android:maxLines="2"
                         android:text="Orange Juice "
                         android:textColor="#464444"
                         android:textSize="12sp"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:freezesText="true"
 
                         />
 
                     <TextView
-
+                        android:layout_marginLeft="5dp"
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

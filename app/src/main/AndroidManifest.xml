@@ -19,7 +19,7 @@
         <activity
             android:name=".activity.Order_screen"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.Manager_Dashboard"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -40,33 +40,31 @@
         <activity android:name=".activity.category_selection" />
         <activity android:name=".activity.Purchase_Activity" />
 
-
         <service
             android:name="com.phi.phiprintlib.PrintService"
             android:windowSoftInputMode="stateHidden" />
 
-        <service
-            android:name="com.phi.phiprintlib.PrintService"
-            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.Add_supplier"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.Expense_activity"
             android:parentActivityName=".activity.Manager_Dashboard" />
-
         <activity
             android:name=".activity.printer_connect_activity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.feedback_activity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".activity.recyclerview_test_activity"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.recyclerview_test_activity" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".activity.Manage_employee"></activity>
+        <activity android:name=".activity.Manage_employee" />
+        <activity android:name=".activity.settings_activity" />
+        <activity android:name=".activity.login_activity"></activity>
     </application>
 
 </manifest>

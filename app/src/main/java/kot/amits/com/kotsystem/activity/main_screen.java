@@ -42,7 +42,7 @@ public class main_screen extends AppCompatActivity {
     ImageView myButton;
     View myView;
     boolean isUp;
-    LinearLayout order,active_orders;
+    LinearLayout order,active_orders,settings;
     CarouselView carouselView;
 
     Cursor orders;
@@ -67,6 +67,7 @@ public class main_screen extends AppCompatActivity {
 
         order=(LinearLayout) findViewById(R.id.order);
         active_orders=(LinearLayout) findViewById(R.id.active);
+        settings=(LinearLayout) findViewById(R.id.settings);
 
 
         order.setOnClickListener(new View.OnClickListener() {
@@ -158,8 +159,17 @@ public class main_screen extends AppCompatActivity {
             }
         });
 
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(main_screen.this,login_activity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
+
 
     ImageListener imageListener = new ImageListener() {
         @Override

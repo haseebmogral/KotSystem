@@ -2,6 +2,7 @@ package kot.amits.com.kotsystem.DBhelper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,6 +30,8 @@ public class DBmanager {
     public static String ORDER_TYPE="";
     Cursor global_Cursor;
     public static ArrayList<cart_items> cart_list ;
+    public static SharedPreferences sharedpreferences;
+
 
 
 
@@ -40,7 +43,6 @@ public class DBmanager {
         dbHelper = new DBHelper(context);
         database = dbHelper.getWritableDatabase();
         String path = database.getPath();
-        Toast.makeText(context, path, Toast.LENGTH_SHORT).show();
         return this;
     }
 
@@ -433,6 +435,28 @@ public class DBmanager {
         contentValues.put(dbHelper.emp_upload_status,"0");
         return database.insert(dbHelper.employee_table, null, contentValues);
 
+    }
+
+    public Cursor get_all_sales(){
+       return database.rawQuery("select * from "+dbHelper.cart_details,new String[]{});
+    }
+    public Cursor get_all_sales_items(){
+       return database.rawQuery("select * from "+dbHelper.cart_items_table,new String[]{});
+    }
+    public Cursor get_purchase(){
+       return database.rawQuery("select * from "+dbHelper.purchase_table,new String[]{});
+    }
+    public Cursor get_supplier(){
+       return database.rawQuery("select * from "+dbHelper.supplier_table,new String[]{});
+    }
+    public Cursor get_feedback(){
+       return database.rawQuery("select * from "+dbHelper.feedback_table,new String[]{});
+    }
+    public Cursor get_expense(){
+       return database.rawQuery("select * from "+dbHelper.expense_table,new String[]{});
+    }
+    public Cursor get_employee(){
+       return database.rawQuery("select * from "+dbHelper.employee_table,new String[]{});
     }
 
 
