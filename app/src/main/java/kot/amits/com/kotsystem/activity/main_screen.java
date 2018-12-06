@@ -162,7 +162,7 @@ public class main_screen extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(main_screen.this,login_activity.class);
+                Intent intent=new Intent(main_screen.this,Manager_Dashboard.class);
                 startActivity(intent);
             }
         });

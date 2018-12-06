@@ -1,15 +1,12 @@
 package kot.amits.com.kotsystem.activity;
 
-import android.content.Intent;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -17,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -25,15 +21,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.category_model.DataModel;
 import kot.amits.com.kotsystem.category_model.category_adapter;
-import kot.amits.com.kotsystem.constants.AppController;
 import kot.amits.com.kotsystem.constants.constant;
+
+import static kot.amits.com.kotsystem.DBhelper.DBmanager.*;
 
 public class category_selection extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,6 +44,7 @@ public class category_selection extends AppCompatActivity implements View.OnClic
     ArrayList<String> cat_List;
     Bundle extras;
     String output = "";
+    DBmanager dBmanager;
 
 
 
@@ -54,6 +54,10 @@ public class category_selection extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_selection);
         setTitle("Select Category");
+        dBmanager=new DBmanager(this);
+        dBmanager.open();
+        sharedpreferences = getSharedPreferences(sharedpreference_name, Context.MODE_PRIVATE);
+
         gotonext = findViewById(R.id.next);
         gotonext.setOnClickListener(this);
         requestQueue = Volley.newRequestQueue(this);
@@ -158,6 +162,8 @@ public class category_selection extends AppCompatActivity implements View.OnClic
             String myConcatedString = cat_List.get(i).concat(",");
 
             output = output + myConcatedString;
+            ArrayList<Serializable> dataBeanArrayList = new ArrayList();
+
 
             Toast.makeText(this, output, Toast.LENGTH_SHORT).show();
         }
@@ -169,7 +175,9 @@ public class category_selection extends AppCompatActivity implements View.OnClic
 
 
 
-            StringRequest postcat_id = new StringRequest(Request.Method.GET, constant.BASE_URL + constant.INSERT_CATEGORY_TO_DB+output,
+            StringRequest postcat_id = new StringRequest(Request.Method.POST, constant.BASE_URL + constant.INSERT_CATEGORY_BY_BRANCH
+
+                    ,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -199,9 +207,9 @@ public class category_selection extends AppCompatActivity implements View.OnClic
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
+                    params.put("data",output);
+                    params.put("bid",sharedpreferences.getString(sharedpreference_branch_id,""));
 
-//                    params.put("cat_id",output);
-//
                     return params;
                 }
             };

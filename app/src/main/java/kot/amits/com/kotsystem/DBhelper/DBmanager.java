@@ -30,7 +30,15 @@ public class DBmanager {
     public static String ORDER_TYPE="";
     Cursor global_Cursor;
     public static ArrayList<cart_items> cart_list ;
+
+
     public static SharedPreferences sharedpreferences;
+    public static String sharedpreference_name="mypreference";
+    public static String sharedpreference_password="password";
+    public static String sharedpreference_branch_id="branch_id";
+    public static String sharedpreference_branch_name="branch_name";
+
+    public static String sharedpreference_column="column";
 
 
 

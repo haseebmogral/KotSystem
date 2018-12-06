@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".activity.Branch_selection"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".activity.select_item" />
         <activity android:name=".activity.category_selection" />
         <activity android:name=".activity.Purchase_Activity" />
@@ -64,7 +64,8 @@
 
         <activity android:name=".activity.Manage_employee" />
         <activity android:name=".activity.settings_activity" />
-        <activity android:name=".activity.login_activity"></activity>
+        <activity android:name=".activity.login_activity" />
+        <activity android:name=".activity.manage_sales"></activity>
     </application>
 
 </manifest>

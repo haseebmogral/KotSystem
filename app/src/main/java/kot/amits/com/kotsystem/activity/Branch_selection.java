@@ -35,10 +35,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.constants.constant;
 
-import static kot.amits.com.kotsystem.DBhelper.DBmanager.sharedpreferences;
+import static kot.amits.com.kotsystem.DBhelper.DBmanager.*;
+
 
 public class Branch_selection extends AppCompatActivity implements View.OnClickListener {
     Spinner spinner;
@@ -219,11 +221,14 @@ public class Branch_selection extends AppCompatActivity implements View.OnClickL
                           String b=  response.getString("msg");
 //                            Toast.makeText(Branch_selection.this, a, Toast.LENGTH_SHORT).show();
                             if (a.equals("success")){
-                                sharedpreferences = getSharedPreferences("mypreference", Context.MODE_PRIVATE);
+                                sharedpreferences = getSharedPreferences(sharedpreference_name, Context.MODE_PRIVATE);
 
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString("password",pin_number.getText().toString());
+                                editor.putString(DBmanager.sharedpreference_password,pin_number.getText().toString());
+                                editor.putString(DBmanager.sharedpreference_branch_id,loc);
                                 editor.commit();
+
+                                Log.d("bid",sharedpreferences.getString(DBmanager.sharedpreference_branch_id,""));
 
                                 Intent intent=new Intent(Branch_selection.this,category_selection.class);
                                 startActivity(intent);

@@ -2,10 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 <android.support.design.widget.TextInputLayout
+    android:layout_margin="10dp"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <EditText
-        android:layout_margin="10dp"
+        android:inputType="number"
         android:id="@+id/columns"
         android:hint="Enter colun number"
         android:layout_width="match_parent"

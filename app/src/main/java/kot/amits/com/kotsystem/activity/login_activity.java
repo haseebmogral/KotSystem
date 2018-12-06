@@ -1,6 +1,7 @@
 package kot.amits.com.kotsystem.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,9 +12,10 @@ import android.widget.Toast;
 
 import com.poovam.pinedittextfield.SquarePinField;
 
+import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 
-import static kot.amits.com.kotsystem.DBhelper.DBmanager.sharedpreferences;
+import static kot.amits.com.kotsystem.DBhelper.DBmanager.*;
 
 public class login_activity extends AppCompatActivity {
     SquarePinField pin_number;
@@ -29,13 +31,14 @@ public class login_activity extends AppCompatActivity {
 
         nextstep=(Button)findViewById(R.id.next);
 
-        sharedpreferences = getSharedPreferences("mypreference", Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(DBmanager.sharedpreference_name, Context.MODE_PRIVATE);
 
         nextstep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pin_number.getText().toString().equals(sharedpreferences.getString("password",""))){
-
+                if (pin_number.getText().toString().equals(sharedpreferences.getString(DBmanager.sharedpreference_password,""))){
+                    Intent intent=new Intent(login_activity.this,Manager_Dashboard.class);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(login_activity.this, "Password error", Toast.LENGTH_SHORT).show();

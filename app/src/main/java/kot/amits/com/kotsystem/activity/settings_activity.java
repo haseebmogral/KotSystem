@@ -22,8 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +32,7 @@ import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.MySingleton;
 
-import static kot.amits.com.kotsystem.DBhelper.DBmanager.sharedpreferences;
+import static kot.amits.com.kotsystem.DBhelper.DBmanager.*;
 
 public class settings_activity extends AppCompatActivity {
     LinearLayout sync,column;
@@ -54,7 +53,7 @@ public class settings_activity extends AppCompatActivity {
         dBmanager = new DBmanager(this);
         dBmanager.open();
 
-        sharedpreferences = getSharedPreferences("mypreference", Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(DBmanager.sharedpreference_name, Context.MODE_PRIVATE);
 
 
 
@@ -88,7 +87,7 @@ public class settings_activity extends AppCompatActivity {
                 final EditText userInput = (EditText) promptsView
                         .findViewById(R.id.columns);
 
-                userInput.setText(sharedpreferences.getString("column",""));
+                userInput.setText(sharedpreferences.getString(dBmanager.sharedpreference_column,""));
 
                 // set dialog message
                 alertDialogBuilder
@@ -102,7 +101,7 @@ public class settings_activity extends AppCompatActivity {
 
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
 
-                                        editor.putString("column",userInput.getText().toString());
+                                        editor.putString(dBmanager.sharedpreference_column,userInput.getText().toString());
                                         editor.commit();
                                     }
                                 })

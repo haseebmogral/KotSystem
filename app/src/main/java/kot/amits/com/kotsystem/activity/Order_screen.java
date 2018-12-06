@@ -57,7 +57,7 @@ import kot.amits.com.kotsystem.main_activity_adapter_and_model.Album1;
 import kot.amits.com.kotsystem.main_activity_adapter_and_model.AlbumsAdapter1;
 import kot.amits.com.kotsystem.printer_sdk.BTPrinter;
 
-import static kot.amits.com.kotsystem.DBhelper.DBmanager.sharedpreferences;
+import static kot.amits.com.kotsystem.DBhelper.DBmanager.*;
 
 public class Order_screen extends AppCompatActivity implements View.OnClickListener, item_adapter.CustomItemClickListener, cat_adapter.CustomItemClickListener {
     DBmanager mydb;
@@ -105,16 +105,16 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
         mydb = new DBmanager(this);
         mydb.open();
-        sharedpreferences = getSharedPreferences("mypreference", Context.MODE_PRIVATE);
-        if (sharedpreferences.getString("column","")==null ||sharedpreferences.getString("column","").equals("") ){
+        sharedpreferences = getSharedPreferences(DBmanager.sharedpreference_name, Context.MODE_PRIVATE);
+        if (sharedpreferences.getString(DBmanager.sharedpreference_column,"")==null ||sharedpreferences.getString(DBmanager.sharedpreference_column,"").equals("") ){
             SharedPreferences.Editor editor = sharedpreferences.edit();
 
-            editor.putString("column","4");
+            editor.putString(DBmanager.sharedpreference_column,"4");
             editor.commit();
             column_count=4;
         }
         else{
-            column_count= Integer.parseInt(sharedpreferences.getString("column",""));
+            column_count= Integer.parseInt(sharedpreferences.getString(DBmanager.sharedpreference_column,""));
 
         }
 
