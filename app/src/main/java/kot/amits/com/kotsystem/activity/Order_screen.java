@@ -120,7 +120,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
 
 
-//        add_cat_item();
+        add_cat_item();
 
         bill_items = (RecyclerView) findViewById(R.id.billrecycler);
         categoy = (RecyclerView) findViewById(R.id.subcat_recycler);

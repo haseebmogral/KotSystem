@@ -116,6 +116,8 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
 
 
         } else if (v == manage_sales) {
+            Intent intent=new Intent(Manager_Dashboard.this,manage_sales.class);
+            startActivity(intent);
 
         } else if (v == manage_salary) {
 

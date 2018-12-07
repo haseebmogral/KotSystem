@@ -232,7 +232,7 @@ public class Purchase_Activity extends AppCompatActivity {
 
 
 
-//                        purchase_adapter.notifyDataSetChanged();
+//                        sales_adapter.notifyDataSetChanged();
 
 
                     }

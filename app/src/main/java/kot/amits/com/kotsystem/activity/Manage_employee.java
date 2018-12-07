@@ -34,8 +34,6 @@ import java.util.Locale;
 import kot.amits.com.kotsystem.DBhelper.DBHelper;
 import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
-import kot.amits.com.kotsystem.expense_adapter.view_expense_adapter;
-import kot.amits.com.kotsystem.expense_adapter.view_expense_model;
 import kot.amits.com.kotsystem.manage_employee_adapter.manage_employee_adapter;
 import kot.amits.com.kotsystem.manage_employee_adapter.manage_employee_model;
 

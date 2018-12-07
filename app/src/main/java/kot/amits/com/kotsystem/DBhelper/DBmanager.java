@@ -448,6 +448,9 @@ public class DBmanager {
     public Cursor get_all_sales(){
        return database.rawQuery("select * from "+dbHelper.cart_details,new String[]{});
     }
+    public Cursor get_all_sales_report(){
+        return database.rawQuery("select * from "+dbHelper.cart_details,new String[]{});
+    }
     public Cursor get_all_sales_items(){
        return database.rawQuery("select * from "+dbHelper.cart_items_table,new String[]{});
     }
