@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,9 +87,13 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
         final item_album album = albumList1.get(position);
 
         holder.itemname.setText(album.getItem_name());
-        holder.price.setText("₹"+album.getPrice());
+        holder.price.setText("₹ "+album.getPrice());
 
-        Glide.with(mContext).load(album.getImage()).into(holder.itemimage);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.title);
+//        requestOptions.error();
+
+        Glide.with(mContext).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.mims_logo).error(R.drawable.mims_logo)).load(album.getImage()).into(holder.itemimage);
 
        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

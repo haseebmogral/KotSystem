@@ -37,14 +37,8 @@ import kot.amits.com.kotsystem.R;
 
 public class main_screen extends AppCompatActivity {
     DBmanager dBmanager;
-    Button start;
-
-    ImageView myButton;
-    View myView;
-    boolean isUp;
     LinearLayout order,active_orders,settings;
     CarouselView carouselView;
-
     Cursor orders;
     int[] sampleImages = {R.drawable.burg, R.drawable.burg};
 

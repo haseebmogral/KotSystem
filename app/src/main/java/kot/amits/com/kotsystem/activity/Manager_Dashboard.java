@@ -1,31 +1,41 @@
 package kot.amits.com.kotsystem.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import kot.amits.com.kotsystem.DBhelper.DBHelper;
 import kot.amits.com.kotsystem.DBhelper.DBmanager;
-import kot.amits.com.kotsystem.adapter.CustomAdapter;
 import kot.amits.com.kotsystem.R;
 
 public class Manager_Dashboard extends AppCompatActivity implements View.OnClickListener {
     DBmanager dBmanager;
 
     LinearLayout manage_category, manage_item, manage_supplier, manage_purchase, manage_sales, manage_salary, manage_attendace,
-            manage_expense, manage_stocks, manage_feedback,manage_employee;
+            manage_expense, manage_stocks, manage_feedback,manage_employee,settings;
+    TextView sales,purchase,expense,cash_in_hand,cafe_feedback;
 
-    public GridView gridview;
-    private static String[] app_name = {"Category", "Items", "Supplier", "Purchase", "Expense", "Attendance", "Sales", "Salary",
-            "Daily stock manage", "Feedback"};
-    private static int[] app_icon = {R.drawable.circle_shape, R.drawable.items, R.drawable.circle_shape, R.drawable.circle_shape,
-            R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape,
-            R.drawable.circle_shape};
+    CardView top_items,feedback;
+
+//    public GridView gridview;
+//    private static String[] app_name = {"Category", "Items", "Supplier", "Purchase", "Expense", "Attendance", "Sales", "Salary",
+//            "Daily stock manage", "Feedback"};
+//    private static int[] app_icon = {R.drawable.circle_shape, R.drawable.items, R.drawable.circle_shape, R.drawable.circle_shape,
+//            R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape,
+//            R.drawable.circle_shape};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,78 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
         manage_stocks = findViewById(R.id.manage_stocks);
         manage_feedback = findViewById(R.id.manage_feedback);
         manage_employee = findViewById(R.id.manage_employee);
+        settings = findViewById(R.id.settings);
+
+        sales=findViewById(R.id.sales);
+        purchase=findViewById(R.id.purchase);
+        expense=findViewById(R.id.expense);
+        cash_in_hand=findViewById(R.id.cash_in_hand);
+        cafe_feedback=findViewById(R.id.customer_feedback);
+        top_items=findViewById(R.id.top_item_card);
+        feedback=findViewById(R.id.feedback_card);
+
+        sales.setText("₹ "+dBmanager.get_todays_total_sales());
+        purchase.setText("₹ "+dBmanager.get_todays_total_purchase());
+        expense.setText("₹ "+dBmanager.get_todays_total_expense());
+        cash_in_hand.setText("₹ "+dBmanager.get_todays_cash_in_hand());
+        Cursor feedback_cursor=dBmanager.get_branch_feedbacks();
+        feedback_cursor.moveToFirst();
+        String f=feedback_cursor.getString(feedback_cursor.getColumnIndex("staff"));
+        if (f==null){
+            f="";
+        }
+        cafe_feedback.setText(f+"/5");
+
+        top_items.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("click","click");
+
+                    // Prepare grid view
+                    GridView gridView = new GridView(Manager_Dashboard.this);
+
+                    List<String> mList = new ArrayList<String>();
+
+
+                                Cursor item_cursor=dBmanager.get_top_items();
+                                int i=1;
+                while (item_cursor.moveToNext()) {
+//                    String item_id = String.valueOf(item_cursor.getInt(item_cursor.getColumnIndex(DBHelper.item_id)));
+                    String itemname = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_name));
+//                    String iteprice = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_price));
+//                    String image = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.image));
+                    mList.add(String.valueOf(i)+"."+itemname);
+                    i++;
+                }
+//
+
+                    gridView.setAdapter(new ArrayAdapter(Manager_Dashboard.this, android.R.layout.simple_list_item_1, mList));
+                    gridView.setNumColumns(3);
+                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            // do something here
+                        }
+                    });
+
+                    // Set grid view to alertDialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Manager_Dashboard.this);
+                    builder.setView(gridView);
+                    builder.setTitle("Top sold items");
+                    builder.show();
+                }
+
+
+
+        });
+
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent manage_feedback=new Intent(Manager_Dashboard.this,manage_feedback.class);
+                startActivity(manage_feedback);
+            }
+        });
 
 
         manage_category.setOnClickListener(this);
@@ -60,6 +142,7 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
         manage_stocks.setOnClickListener(this);
         manage_feedback.setOnClickListener(this);
         manage_employee.setOnClickListener(this);
+        settings.setOnClickListener(this);
 
 
 //        gridview=(GridView)findViewById(R.id.gridView);
@@ -133,15 +216,15 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
         } else if (v == manage_stocks) {
 
         } else if (v == manage_feedback) {
-
+            Intent manage_feedback=new Intent(Manager_Dashboard.this,manage_feedback.class);
+            startActivity(manage_feedback);
         } else if (v == manage_employee) {
-
-
-
             Intent manage_employee=new Intent(Manager_Dashboard.this,Manage_employee.class);
             startActivity(manage_employee);
-
-
+        }
+        else if (v == settings) {
+            Intent manage_employee=new Intent(Manager_Dashboard.this,settings_activity.class);
+            startActivity(manage_employee);
         }
 
     }

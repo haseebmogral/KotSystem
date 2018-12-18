@@ -62,7 +62,7 @@
 
 
                             <TextView
-                                android:id="@+id/todaysale"
+                                android:id="@+id/sales"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@+id/sales_icon"
@@ -76,7 +76,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/todaysale"
+                                android:layout_below="@+id/sales"
                                 android:layout_toEndOf="@+id/sales_icon"
                                 android:fontFamily="@font/montserrat"
                                 android:text="@string/today_s_sales"
@@ -117,7 +117,7 @@
 
 
                             <TextView
-                                android:id="@+id/todays_purchase"
+                                android:id="@+id/purchase"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@+id/purchaseicon"
@@ -131,7 +131,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/todays_purchase"
+                                android:layout_below="@+id/purchase"
                                 android:layout_toRightOf="@+id/purchaseicon"
                                 android:fontFamily="@font/montserrat"
                                 android:text="@string/today_s_purchase"
@@ -282,7 +282,9 @@
                         android:layout_weight="1"
                         app:cardElevation="5dp"
                         app:cardPreventCornerOverlap="true"
-                        card_view:cardUseCompatPadding="true">
+                        card_view:cardUseCompatPadding="true"
+                        android:id="@+id/top_item_card"
+                        android:clickable="true">
 
 
                         <RelativeLayout
@@ -303,7 +305,8 @@
 
 
                             <TextView
-                                android:id="@+id/purchase"
+                                android:visibility="invisible"
+                                android:id="@+id/top_products"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@+id/purchase_icon"
@@ -317,7 +320,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/purchase"
+                                android:layout_below="@+id/top_products"
                                 android:layout_toRightOf="@+id/purchase_icon"
                                 android:fontFamily="@font/montserrat"
                                 android:text="Top products"
@@ -335,7 +338,7 @@
                         android:layout_weight="1"
                         app:cardElevation="5dp"
                         app:cardPreventCornerOverlap="true"
-
+                        android:id="@+id/feedback_card"
                         card_view:cardUseCompatPadding="true">
 
 
@@ -355,7 +358,7 @@
                                 android:src="@drawable/cust_rating" />
 
                             <TextView
-                                android:id="@+id/todaypurchase"
+                                android:id="@+id/customer_feedback"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@+id/exp_icon"
@@ -370,7 +373,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/todaypurchase"
+                                android:layout_below="@+id/customer_feedback"
                                 android:layout_toEndOf="@+id/exp_icon"
                                 android:fontFamily="@font/montserrat"
                                 android:text="Customer rating" />
@@ -751,6 +754,33 @@
                             android:maxEms="10"
                             android:maxLines="2"
                             android:text="@string/manage_employee"
+                            android:textFontWeight="2" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/settings"
+                        android:orientation="vertical">
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/m_employee" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/montserrat"
+                            android:gravity="center"
+                            android:maxEms="10"
+                            android:maxLines="2"
+                            android:text="@string/Settings"
                             android:textFontWeight="2" />
 
 

@@ -10,6 +10,10 @@
     <color name="confirm_button">#51d195</color>
     <color name="cancel_button">#fc4d4d</color>
     <color name="white_button">#ffffff</color>
+    <color name="ambiencecolor">#FF9000</color>
+    <color name="chart_layout_color">#cacaca</color>
+    <color name="staff_pie_chart">#50cc5e</color>
+    <color name="food_pie_chart">#45bfb3</color>
 
 
 </resources>

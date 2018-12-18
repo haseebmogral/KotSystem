@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +17,10 @@ import java.util.Date;
 import java.util.List;
 
 import kot.amits.com.kotsystem.items_adapter.cart_items;
+
+import static kot.amits.com.kotsystem.DBhelper.DBHelper.cart_details;
+import static kot.amits.com.kotsystem.DBhelper.DBHelper.cart_items_table;
+import static kot.amits.com.kotsystem.DBhelper.DBHelper.item_table;
 
 public class DBmanager {
 
@@ -34,10 +38,11 @@ public class DBmanager {
 
     public static SharedPreferences sharedpreferences;
     public static String sharedpreference_name="mypreference";
+
     public static String sharedpreference_password="password";
     public static String sharedpreference_branch_id="branch_id";
+    public static String sharedpreference_business_id="business_id";
     public static String sharedpreference_branch_name="branch_name";
-
     public static String sharedpreference_column="column";
 
 
@@ -67,7 +72,7 @@ public class DBmanager {
         contentValues.put(dbHelper.item_price, price);
         contentValues.put(dbHelper.image, itemimage);
 
-        return database.insert(dbHelper.item_table, null, contentValues);
+        return database.insert(item_table, null, contentValues);
 
     }
 
@@ -75,14 +80,14 @@ public class DBmanager {
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.date, get_date());
         contentValues.put(dbHelper.time, get_time());
-        contentValues.put(dbHelper.cart_status,"1");
+        contentValues.put(dbHelper.cart_status,dbHelper.ORDER_CART);
         contentValues.put(dbHelper.total,"0");
         contentValues.put(dbHelper.cart_type,ORDER_TYPE);
-        return database.insert(dbHelper.cart_details, null, contentValues);
+        return database.insert(cart_details, null, contentValues);
 
     }
     public String get_order_status(String cart_id){
-        global_Cursor=database.rawQuery("select * from "+DBHelper.cart_details+" where "+DBHelper.cart_id+" = ?",new String[]{cart_id});
+        global_Cursor=database.rawQuery("select * from "+cart_details+" where "+DBHelper.cart_id+" = ?",new String[]{cart_id});
         global_Cursor.moveToNext();
         String status=global_Cursor.getString(global_Cursor.getColumnIndex(DBHelper.cart_status));
         Log.d("order_status",status);
@@ -142,14 +147,15 @@ public class DBmanager {
                 contentValues.put(dbHelper.c_total,cart.get(i).get_total());
                 contentValues.put(dbHelper.c_item_order_status,"sent");
 
-                long a= database.insert(dbHelper.cart_items_table, null, contentValues);
+                long a= database.insert(cart_items_table, null, contentValues);
                 Toast.makeText(context, String.valueOf(a), Toast.LENGTH_SHORT).show();
 
 
                 ContentValues contentValues1=new ContentValues();
-                contentValues1.put(dbHelper.cart_status,"2");
+                contentValues1.put(dbHelper.cart_status,DBHelper.ORDER_SENT);
+                contentValues1.put(dbHelper.upload_status,DBHelper.UPLOAD_STATUS_FAILED);
 
-                database.update(dbHelper.cart_details,contentValues1,dbHelper.cart_id +" =?",new String[]{CART_ID});
+                database.update(cart_details,contentValues1,dbHelper.cart_id +" =?",new String[]{CART_ID});
             }
             else{
                 Toast.makeText(context, "reaching if", Toast.LENGTH_SHORT).show();
@@ -180,14 +186,14 @@ public class DBmanager {
 
     public String get_date(){
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c);
         return formattedDate;
     }
 
     public String get_time(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat mdformat = new SimpleDateFormat("hh:mm a");
         String strDate = mdformat.format(calendar.getTime());
         return strDate;
 
@@ -327,13 +333,13 @@ public class DBmanager {
         ContentValues contentValues=new ContentValues();
         contentValues.put(DBHelper.cart_status,dbHelper.ORDER_FINISHED);
         contentValues.put(DBHelper.total,total);
-        database.update(DBHelper.cart_details,contentValues,DBHelper.cart_id +" = ? ",new String []{cart_id});
+        database.update(cart_details,contentValues,DBHelper.cart_id +" = ? ",new String []{cart_id});
         }
 
         public void cancel_order(String order_id){
         ContentValues contentValues=new ContentValues();
         contentValues.put(dbHelper.cart_status,dbHelper.ORDER_CANCEL);
-        database.update(dbHelper.cart_details,contentValues,dbHelper.cart_id+" =? ",new String[]{order_id});
+        database.update(cart_details,contentValues,dbHelper.cart_id+" =? ",new String[]{order_id});
         }
 
         public void feedback(String customer_name,String contact,String cart_id, ArrayList<cart_items> cart_lis,int ambience,int staff,String custom_feedback){
@@ -388,7 +394,7 @@ public class DBmanager {
 
             ContentValues contentValues1=new ContentValues();
             contentValues1.put(dbHelper.cart_customer_id,customer_id);
-            database.update(dbHelper.cart_details,contentValues1,dbHelper.cart_id +" = ?",new String[]{cart_id});
+            database.update(cart_details,contentValues1,dbHelper.cart_id +" = ?",new String[]{cart_id});
         }
 
     public Cursor get_supplier_details() {
@@ -446,13 +452,19 @@ public class DBmanager {
     }
 
     public Cursor get_all_sales(){
-       return database.rawQuery("select * from "+dbHelper.cart_details,new String[]{});
+       return database.rawQuery("select * from "+cart_details+" where "+ dbHelper.cart_status +" =? order by "+dbHelper.cart_id+" DESC ",new String[]{dbHelper.ORDER_FINISHED});
+    }
+    public Cursor get_sales_items(String bill_no){
+        return database.rawQuery("select * from "+cart_items_table+" cit ,"+cart_details+" cdt, "+item_table+" i  where cdt.cart_id=cit.cart_details_id and cit.c_item_id=i.item_id and cdt.cart_id=?",new String[]{bill_no});
     }
     public Cursor get_all_sales_report(){
-        return database.rawQuery("select * from "+dbHelper.cart_details,new String[]{});
+        return database.rawQuery("select * from "+cart_details +" where "+ dbHelper.cart_status +" = ? AND "+dbHelper.upload_status+" = ?",new String[]{dbHelper.ORDER_FINISHED,DBHelper.UPLOAD_STATUS_FAILED});
     }
     public Cursor get_all_sales_items(){
-       return database.rawQuery("select * from "+dbHelper.cart_items_table,new String[]{});
+       return database.rawQuery("select * from "+cart_items_table,new String[]{});
+    }
+    public Cursor get_all_sales_items_upload(){
+        return database.rawQuery("select * from "+cart_items_table + " cit ,"+cart_details+" cdt where cdt."+dbHelper.cart_status+" = "+dbHelper.ORDER_FINISHED +" AND cdt."+dbHelper.cart_id+" = cit."+dbHelper.c_i_id ,new String[]{});
     }
     public Cursor get_purchase(){
        return database.rawQuery("select * from "+dbHelper.purchase_table,new String[]{});
@@ -461,15 +473,97 @@ public class DBmanager {
        return database.rawQuery("select * from "+dbHelper.supplier_table,new String[]{});
     }
     public Cursor get_feedback(){
-       return database.rawQuery("select * from "+dbHelper.feedback_table,new String[]{});
+       return database.rawQuery("select * from "+dbHelper.feedback_table+" ft, "+dbHelper.customer_table+" ct, "+dbHelper.cart_details+" cdt  where" +
+               " ft.feedback_order_id=cdt.cart_id and cdt.cart_customer_id=ct.customer_id",new String[]{});
+    }
+    //last code from this date
+    public Cursor get_feedback_items(String f_id){
+       return database.rawQuery("select * from  feedback_items_table,item_table  where item_table.item_id=feedback_items_table.feedback_items_id and feedback_items_table.feedback_id_id=?",new String[]{f_id});
     }
     public Cursor get_expense(){
        return database.rawQuery("select * from "+dbHelper.expense_table,new String[]{});
+    }
+    public Cursor get_expense_for_sync(){
+       return database.rawQuery("select * from "+dbHelper.expense_table +" where "+dbHelper.e_upload_status+" =?",new String[]{dbHelper.UPLOAD_STATUS_FAILED});
     }
     public Cursor get_employee(){
        return database.rawQuery("select * from "+dbHelper.employee_table,new String[]{});
     }
 
+    public void update_expense_upload_status(String id){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(dbHelper.e_upload_status,dbHelper.UPLOAD_STATUS_SUCCESS);
+        database.update(dbHelper.expense_table,contentValues,dbHelper.e_id+" = ? ",new String[]{id});
 
+
+    }
+    public void update_sales_details_upload_status(String id){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(dbHelper.upload_status,dbHelper.UPLOAD_STATUS_SUCCESS);
+        database.update(cart_details,contentValues,dbHelper.cart_id+" = ? ",new String[]{id});
+
+
+    }
+
+    public Cursor get_branch_feedbacks(){
+        return database.rawQuery("select avg("+dbHelper.ambience_rating+") as ambience ,avg("+dbHelper.staff_rating+") as staff from "+dbHelper.feedback_table,new String[]{});
+    }
+    public Cursor get_branch_food_feedbacks(){
+        return database.rawQuery("select avg("+dbHelper.rating+") as food_rate  from "+dbHelper.feedback_items_table,new String[]{});
+    }
+
+
+    //dashboard reports
+    public String get_todays_total_sales() {
+        String amount = "0";
+        Cursor cursor = database.rawQuery("select sum(" + dbHelper.total + ") as total from " + dbHelper.cart_details + " where " + dbHelper.date + " = ?", new String[]{get_date()});
+        cursor.moveToFirst();
+        amount = cursor.getString(cursor.getColumnIndex("total"));
+        if (amount==null){
+            amount="0";
+            return amount;
+        }
+        return amount;
+    }
+
+    public String get_todays_total_purchase(){
+        String amount="0";
+        Cursor cursor= database.rawQuery("select sum("+dbHelper.p_amount+") as total from "+dbHelper.purchase_table+" where "+dbHelper.p_date+" = ?",new String[]{get_date()});
+        cursor.moveToFirst();
+        amount=cursor.getString(cursor.getColumnIndex("total"));
+        if (amount==null){
+            amount="0";
+            return amount;
+        }
+        return amount;
+    }
+    public String get_todays_total_expense(){
+        String amount="0";
+        Cursor cursor= database.rawQuery("select sum("+dbHelper.e_amount+") as total from "+dbHelper.expense_table+" where "+dbHelper.e_date+" = ?",new String[]{get_date()});
+        cursor.moveToFirst();
+        amount=cursor.getString(cursor.getColumnIndex("total"));
+        if (amount==null){
+            amount="0";
+            return amount;
+        }
+
+        return amount;
+    }
+    public String get_todays_cash_in_hand(){
+        long sales,expense,purchase,cash_in_hand=0;
+        sales= Long.parseLong(get_todays_total_sales());
+        expense= Long.parseLong(get_todays_total_expense());
+        purchase= Long.parseLong(get_todays_total_purchase());
+        cash_in_hand=sales-(expense+purchase);
+//        Log.d("sales", String.valueOf(sales));
+//        Log.d("sales1", String.valueOf(purchase));
+//        Log.d("sales2", String.valueOf(expense));
+//        Log.d("sales3", String.valueOf(cash_in_hand));
+        return String.valueOf(cash_in_hand);
+    }
+    public Cursor get_top_items(){
+        Cursor item_cursor=database.rawQuery("SELECT i.item_id, i.item_name,i.item_price,i.image\n" + "FROM `cart_items_table` AS c\n" + "    INNER JOIN `item_table` AS i\n" + "    ON c.`c_item_id` = i.`item_id`\n" + "GROUP BY c.`c_item_id`\n" + "ORDER BY SUM(c.`c_qty`) DESC, i.`item_name` ASC\n" + "LIMIT 10",new String[]{});
+        return item_cursor;
+    }
 }
 

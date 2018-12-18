@@ -51,6 +51,18 @@
     <string name="emp_doj">Select date of join</string>
     <string name="emp_salary">Salary</string>
     <string name="add_emp">Add employee</string>
+    <string name="dine_in">Dine in</string>
+    <string name="take_away">Take away</string>
+    <string name="Settings">Settings</string>
+
+    <string name="bill_no">Bill no :</string>
+    <string name="fdate">Date:</string>
+    <string name="billnumber">Bill no:</string>
+    <string name="ratings">Ratings</string>
+    <string name="cafe_ambience">Cafe Ambience</string>
+    <string name="feedback">" \"Good atmosphere\"</string>
+    <string name="cafe_service">Cafe Service</string>
+    <string name="cafe_food">Cafe Food</string>
 
 
 </resources>

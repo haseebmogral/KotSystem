@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.manage_feedback">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            app:cardElevation="5dp"
+            app:cardPreventCornerOverlap="true"
+            tools:style="@style/CardView">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+
+                        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/item_card"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1"
+                            app:cardElevation="5dp"
+                            app:cardPreventCornerOverlap="true"
+                            card_view:cardUseCompatPadding="true">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="5dp">
+
+
+                                <ImageView
+                                    android:id="@+id/sales_icon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/salesicon"
+                                    android:padding="5dp"
+                                    android:src="@drawable/sales_icon" />
+
+
+                                <TextView
+                                    android:id="@+id/sales"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignBaseline="@+id/sales_icon"
+                                    android:layout_toEndOf="@+id/sales_icon"
+                                    android:fontFamily="@font/montserrat"
+                                    android:text="@string/_1000k"
+                                    android:textColor="#ffc550"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/sales"
+                                    android:layout_toEndOf="@+id/sales_icon"
+                                    android:fontFamily="@font/montserrat"
+                                    android:text="@string/cafe_ambience"
+                                    android:textSize="14sp" />
+
+
+                            </RelativeLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_weight="1"
+                            app:cardElevation="5dp"
+                            app:cardPreventCornerOverlap="true"
+
+                            card_view:cardUseCompatPadding="true">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="5dp">
+
+
+                                <ImageView
+                                    android:id="@+id/purchaseicon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/salesicon"
+                                    android:padding="5dp"
+                                    android:src="@drawable/exp_icon" />
+
+
+                                <TextView
+                                    android:id="@+id/purchase"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignBaseline="@+id/purchaseicon"
+                                    android:layout_toRightOf="@+id/purchaseicon"
+                                    android:fontFamily="@font/montserrat"
+                                    android:text="@string/value"
+                                    android:textColor="#fc62ce"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/purchase"
+                                    android:layout_toRightOf="@+id/purchaseicon"
+                                    android:fontFamily="@font/montserrat"
+                                    android:text="@string/cafe_service"
+                                    android:textSize="14sp" />
+
+
+                            </RelativeLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1"
+                            app:cardElevation="5dp"
+                            app:cardPreventCornerOverlap="true"
+
+                            card_view:cardUseCompatPadding="true">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="5dp">
+
+
+                                <ImageView
+                                    android:id="@+id/expense_icon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:padding="5dp"
+                                    android:src="@drawable/purchase_icon" />
+
+                                <TextView
+                                    android:id="@+id/expense"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignBaseline="@+id/expense_icon"
+                                    android:layout_toRightOf="@+id/expense_icon"
+                                    android:fontFamily="@font/montserrat"
+                                    android:text="3245k"
+
+                                    android:textColor="#418fdc"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/expense"
+                                    android:layout_toEndOf="@+id/expense_icon"
+                                    android:fontFamily="@font/montserrat"
+                                    android:text="@string/cafe_food" />
+
+
+                            </RelativeLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/amount_layout"
+            android:layout_below="@+id/main_card">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/feedback_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp">
+
+
+            </android.support.v7.widget.RecyclerView>
+
+
+            <TextView
+                android:id="@+id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="No result found" />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/add_expense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_add_black_24dp"
+                android:visibility="invisible" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

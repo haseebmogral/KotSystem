@@ -42,13 +42,8 @@ public class category_selection extends AppCompatActivity implements View.OnClic
     RequestQueue requestQueue;
     Button gotonext;
     ArrayList<String> cat_List;
-    Bundle extras;
     String output = "";
     DBmanager dBmanager;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,14 +64,6 @@ public class category_selection extends AppCompatActivity implements View.OnClic
         listView = (ListView) findViewById(R.id.listView);
 
         dataModels = new ArrayList();
-
-
-
-//        dataModels.add(new DataModel(1, "Apple Pie", false));
-//        dataModels.add(new DataModel(2, "Apple ", false));
-//        dataModels.add(new DataModel(3, " Pie", false));
-
-
         adapter = new category_adapter(dataModels, getApplicationContext(), cat_List);
 
 
@@ -101,10 +88,8 @@ public class category_selection extends AppCompatActivity implements View.OnClic
                                 String[] cat_id = c.getString("f_cat_id").split(",");
                                 String[] cat_name = c.getString("food_cat").split(",");
 
-
                                 int catid = Integer.parseInt(cat_id[0]);
                                 String catname = cat_name[0];
-
 
                                 dataModels.add(new DataModel(catid, catname, false));
 

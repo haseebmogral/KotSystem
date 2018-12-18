@@ -8,11 +8,14 @@
     android:background="@drawable/background_selector">
 
 
+<android.support.v7.widget.CardView
+    android:id="@+id/title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <TableLayout
-        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="6">
+        android:weightSum="5">
 
 
         <TableRow android:padding="5dp">
@@ -52,14 +55,6 @@
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/customer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="customer"
-                android:textAlignment="textEnd" />
-            <TextView
                 android:id="@+id/type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -79,6 +74,8 @@
 
 
     </TableLayout>
+
+</android.support.v7.widget.CardView>
     <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/title"
         android:layout_above="@+id/footer"

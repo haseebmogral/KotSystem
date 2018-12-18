@@ -10,10 +10,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -47,17 +50,11 @@ public class manage_sales extends AppCompatActivity {
 
         sales_recycler=findViewById(R.id.recyclerview);
         total=findViewById(R.id.total_amount);
-        total.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sales_adapter.getFilter().filter("2018");
 
-            }
-        });
 
         mydb=new DBmanager(this);
         mydb.open();
-        sales_cursor=mydb.get_all_sales_report();
+        sales_cursor=mydb.get_all_sales();
         Log.d("size", String.valueOf(sales_cursor.getCount()));
 
         load();
@@ -65,7 +62,7 @@ public class manage_sales extends AppCompatActivity {
 
     private void load() {
         sales_modals = new ArrayList<>();
-        sales_adapter = new sales_adapter(manage_sales.this, sales_modals);
+        sales_adapter = new sales_adapter(manage_sales.this, sales_modals,total);
 
 
         LinearLayoutManager linearLayoutManager;
@@ -78,9 +75,8 @@ public class manage_sales extends AppCompatActivity {
         sales_recycler.setAdapter(sales_adapter);
 
         sales_modal s;
-        s=new sales_modal( "11",  "11/08/2017",  "11:05 AM",  "Haseeb",  "Take away",  1000);
-        sales_modals.add(s);
 
+        int sl=1;
         while (sales_cursor.moveToNext()){
             String bill_no=sales_cursor.getString(sales_cursor.getColumnIndex(DBHelper.cart_id));
             String date=sales_cursor.getString(sales_cursor.getColumnIndex(DBHelper.date));;
@@ -88,9 +84,11 @@ public class manage_sales extends AppCompatActivity {
             String customer=sales_cursor.getString(sales_cursor.getColumnIndex(DBHelper.cart_customer_id));;
             String type=sales_cursor.getString(sales_cursor.getColumnIndex(DBHelper.cart_type));;
             float amount= Float.parseFloat(sales_cursor.getString(sales_cursor.getColumnIndex(DBHelper.total)));;
-            s=new sales_modal( bill_no,  date,  time,  customer,  type,  amount);
+            s=new sales_modal(sl, bill_no,  date,  time,  customer,  type,  amount);
             sales_modals.add(s);
+            sl++;
         }
+        sales_adapter.getFilter().filter("");
     }
 
     @Override
@@ -126,22 +124,77 @@ public class manage_sales extends AppCompatActivity {
                                    myCalendar.set(Calendar.YEAR, year);
                                    myCalendar.set(Calendar.MONTH, monthOfYear);
                                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                               }
+                                   updateLabel();
 
+                               }
+                               private void updateLabel() {
+                                   String myFormat = "yyyy-MM-dd"; //In which you need put here
+                                   SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                   setTitle(sdf.format(myCalendar.getTime()));
+                                   sales_adapter.getFilter().filter(sdf.format(myCalendar.getTime()));
+                               }
                            };
+
 
                            new DatePickerDialog(manage_sales.this, date, myCalendar
                                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 
-                           String myFormat = "dd-MM-yyyy"; //In which you need put here
-                           SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-                           setTitle(sdf.format(myCalendar.getTime()));
+
 
                        }
                        else if (which==1){
+                           final String[] type = new String[1];
+                           LayoutInflater li = LayoutInflater.from(manage_sales.this);
+                           View promptsView = li.inflate(R.layout.filter_view_radiobuttons, null);
 
+                           AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                   manage_sales.this);
+
+                           // set prompts.xml to alertdialog builder
+                           alertDialogBuilder.setView(promptsView);
+
+                           final RadioGroup userInput = (RadioGroup) promptsView
+                                   .findViewById(R.id.radiogroup);
+
+                           userInput.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                               @Override
+                               public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                   if (checkedId==R.id.dine_in){
+                                       type[0] ="Dine in";
+                                   }
+                                   else if (checkedId==R.id.take_away){
+                                       type[0] ="Take away";
+
+                                   }
+                               }
+                           });
+
+                           // set dialog message
+                           alertDialogBuilder
+                                   .setCancelable(false)
+                                   .setPositiveButton("OK",
+                                           new DialogInterface.OnClickListener() {
+                                               public void onClick(DialogInterface dialog,int id) {
+                                                   // get user input and set it to result
+                                                   // edit text
+                                                   sales_adapter.getFilter().filter(type[0]);
+
+                                               }
+                                           })
+                                   .setNegativeButton("Cancel",
+                                           new DialogInterface.OnClickListener() {
+                                               public void onClick(DialogInterface dialog,int id) {
+                                                   dialog.cancel();
+                                               }
+                                           });
+
+                           // create alert dialog
+                           AlertDialog alertDialog = alertDialogBuilder.create();
+
+                           // show it
+                           alertDialog.show();
                        }
                     }
                 });
@@ -152,4 +205,6 @@ public class manage_sales extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

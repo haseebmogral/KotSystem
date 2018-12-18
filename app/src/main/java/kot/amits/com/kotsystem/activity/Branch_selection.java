@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,15 +22,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.poovam.pinedittextfield.SquarePinField;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,8 +43,8 @@ public class Branch_selection extends AppCompatActivity implements View.OnClickL
     Button nextstep;
     SquarePinField pin_number;
     RequestQueue requestQueue;
-    String[] loc_id;
-    String loc;
+    String[] branch_ids, business_ids,spinnerArray ;
+    String loc,bsns_id,branch_location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,9 @@ public class Branch_selection extends AppCompatActivity implements View.OnClickL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-               loc=loc_id[position];
+               loc= branch_ids[position];
+               bsns_id= business_ids[position];
+               branch_location= spinnerArray[position];
                 Toast.makeText(Branch_selection.this, loc, Toast.LENGTH_SHORT).show();
             }
 
@@ -77,19 +75,6 @@ public class Branch_selection extends AppCompatActivity implements View.OnClickL
 
 
         nextstep.setOnClickListener(this);
-
-//        categories.add("MIMS Cafe,Uppala");
-//        categories.add("MIMS Cafe,Kanhagngad");
-//        categories.add("MIMS Cafe,Kochi");
-
-
-        // Creating adapter for spinner
-
-        // Drop down layout style - list view with radio button
-
-        // attaching data adapter to spinner
-
-
         load_branches();
 
     }
@@ -100,36 +85,24 @@ public class Branch_selection extends AppCompatActivity implements View.OnClickL
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-//                        Toast.makeText(select_item.this, response, Toast.LENGTH_SHORT).show();
-
-
                         try {
-
-
-
                             JSONArray data = new JSONArray(response.toString());
-                            String[] spinnerArray = new String[data.length()];
-                            loc_id=new String[data.length()];
+                            spinnerArray = new String[data.length()];
+                            branch_ids =new String[data.length()];
+                            business_ids =new String[data.length()];
 
 
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject c = data.getJSONObject(i);
                                 String  branch_id = c.getString("branch_id");
                                 String location=c.getString("location");
+                                String bsns_id=c.getString("business_ids");
 
-                                loc_id[i]=branch_id;
+                                branch_ids[i]=branch_id;
+                                business_ids[i]=bsns_id;
                                 spinnerArray[i] = location;
 
-
-
-
                             }
-
-
-
-
-
 
                             ArrayAdapter<String> adapter =new ArrayAdapter<String>(Branch_selection.this,android.R.layout.simple_spinner_item, spinnerArray);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -226,6 +199,8 @@ public class Branch_selection extends AppCompatActivity implements View.OnClickL
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
                                 editor.putString(DBmanager.sharedpreference_password,pin_number.getText().toString());
                                 editor.putString(DBmanager.sharedpreference_branch_id,loc);
+                                editor.putString(DBmanager.sharedpreference_business_id,bsns_id);
+                                editor.putString(DBmanager.sharedpreference_branch_name,branch_location);
                                 editor.commit();
 
                                 Log.d("bid",sharedpreferences.getString(DBmanager.sharedpreference_branch_id,""));

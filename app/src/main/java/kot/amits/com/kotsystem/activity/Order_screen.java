@@ -120,7 +120,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
 
 
 
-        add_cat_item();
+//        add_cat_item();
 
         bill_items = (RecyclerView) findViewById(R.id.billrecycler);
         categoy = (RecyclerView) findViewById(R.id.subcat_recycler);
@@ -201,6 +201,7 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                     BTPrinter.printText("------------------------------------------------");
                     BTPrinter.printText(mydb.get_header_title_for_kitchen());
                     BTPrinter.printText("------------------------------------------------");
+                    BTPrinter.printText("                                           ");
 
                     int sl = 1;
                     for (cart_items a : cart_list) {
@@ -493,87 +494,8 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
         itemlist = new ArrayList<>();
 
 
-//        item_cursor = mydb.getitems(category);
-//        Log.d("size",String.valueOf(item_cursor.getCount()));
-//
-//        if (item_cursor.getCount()<=0){
-////            Log.d("count", String.valueOf(item_cursor.getCount()));
-//
-//        }
-//        else {
-//            Log.d("count", String.valueOf(item_cursor.getCount()));
-//
-//            while (item_cursor.moveToNext()) {
-//
-//                String item_id = String.valueOf(item_cursor.getInt(item_cursor.getColumnIndex(DBHelper.item_id)));
-//                String itemname = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_name));
-//                String itemprice = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_price));
-//                String image = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.image));
-//
-//                Log.d("view",item_id+"\n"+itemname+"\n"+itemprice);
-//
-//                itemlist.add(new  item_album(item_id, itemname, itemprice, image));
-//
-////                try {
-////                    Thread.sleep(5);
-////                } catch (InterruptedException e) {
-////                    e.printStackTrace();
-////                }
-//
-//            }
-//            item_adapter.notifyDataSetChanged();
-//
-//            item_cursor.close();
-//
-//        }
-
         new backgroundTask(itemrecycler,progressBar,this,itemlist, cart_list, this,category).execute();
     }
-
-//    private void load_items(String category) {
-//        item_cursor = mydb.getitems(category);
-//        itemlist = new ArrayList<>();
-//        item_adapter = new item_adapter(Order_screen.this, itemlist, cart_list, this);
-//
-//
-//        LinearLayoutManager linearLayoutManager;
-//        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
-//        linearLayoutManager.setReverseLayout(false);
-//
-//        final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(Order_screen.this, R.anim.layout_animation_fall_down);
-//
-//        itemrecycler.setLayoutAnimation(controller);
-//
-//        itemrecycler.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(1), true));
-//        linearLayoutManager = new GridLayoutManager(Order_screen.this, 3);
-//        itemrecycler.setLayoutManager(linearLayoutManager);
-//        itemrecycler.setAdapter(item_adapter);
-//
-//        item_album items;
-//
-//
-//        while (item_cursor.moveToNext()) {
-//
-//            String item_id = String.valueOf(item_cursor.getInt(item_cursor.getColumnIndex(DBHelper.item_id)));
-//            String itemname = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_name));
-//            String itemprice = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.item_price));
-//            String image = item_cursor.getString(item_cursor.getColumnIndex(DBHelper.image));
-//
-////            Toast.makeText(this, itemname+itemprice+image, Toast.LENGTH_SHORT).show();
-//
-//
-////            Toast.makeText(this, catname, Toast.LENGTH_SHORT).show();
-//
-//            items = new item_album(item_id, itemname, itemprice, image);
-//            itemlist.add(items);
-//        }
-//
-//
-//        cat_adapt.notifyDataSetChanged();
-//
-//
-//    }
-
 
     private int dpToPx(int dp) {
         Resources r = getResources();
@@ -699,6 +621,8 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                         BTPrinter.printText("------------------------------------------------");
                         BTPrinter.printText(mydb.get_header_title_for_bill());
                         BTPrinter.printText("------------------------------------------------");
+                        BTPrinter.printText("                                           ");
+
 
 
                         int sl = 1;
@@ -737,8 +661,17 @@ public class Order_screen extends AppCompatActivity implements View.OnClickListe
                         mydb.finish_order(mydb.CART_ID,String.format("%.02f", tot_double));
                         mydb.cart_list=cart_list;
 
-                        Intent intent=new Intent(Order_screen.this,feedback_activity.class);
-                        startActivity(intent);
+                        last_Cursor.moveToFirst();
+
+                        if (last_Cursor.getString(last_Cursor.getColumnIndex(DBHelper.cart_type)).equals("Take away")){
+                            finish();
+                        }
+                        else {
+                            Intent intent=new Intent(Order_screen.this,feedback_activity.class);
+                            startActivity(intent);
+                        }
+
+
                     } else {
                         Intent intent = new Intent(Order_screen.this, printer_connect_activity.class);
                         startActivityForResult(intent, 1);

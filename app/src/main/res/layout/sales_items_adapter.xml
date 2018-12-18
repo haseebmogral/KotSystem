@@ -18,44 +18,36 @@
                 android:id="@+id/slno"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:text="Sl" />
 
             <TextView
-                android:id="@+id/bill"
+                android:id="@+id/item_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="Bill" />
+                android:text="name" />
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/qty"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="Date" />
+                android:text="qty" />
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/rate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Time"
+                android:text="rate"
 
                 android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="type"
-                android:textAlignment="center" />
             <TextView
                 android:id="@+id/total"
                 android:layout_width="0dp"

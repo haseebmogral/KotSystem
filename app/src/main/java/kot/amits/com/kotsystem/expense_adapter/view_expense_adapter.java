@@ -46,19 +46,9 @@ public class view_expense_adapter extends RecyclerView.Adapter<view_expense_adap
             desc = (TextView) view.findViewById(R.id.desc);
             date = (TextView) view.findViewById(R.id.date);
             amount = (TextView) view.findViewById(R.id.amount);
-//            supplier_address=(TextView)view.findViewById(R.id.supplier_address);
-//            supplier_contact=(TextView)view.findViewById(R.id.supplier_contact);
-//            itemimage=(ImageView)view.findViewById(R.id.item_image);
-//            relativeLayout=(RelativeLayout) view.findViewById(R.id.relative_layout);
-//            itemcard=(CardView)view.findViewById(R.id.item_card);
-
-
-
         }
     }
-//
-//
-//
+
     @Override
     public view_expense_adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_expense_layout, parent, false);

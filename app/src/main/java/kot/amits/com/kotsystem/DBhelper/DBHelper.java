@@ -115,6 +115,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String ORDER_SENT="2";
     public static final String ORDER_FINISHED="3";
 
+    public static final String UPLOAD_STATUS_SUCCESS="1";
+    public static final String UPLOAD_STATUS_FAILED="0";
+
+    public static final String BUSINESS_ID_KEY="business_id";
+    public static final String BRANCH_ID_KEY="branch_id";
+
+
+
+
     private HashMap hp;
 
     public DBHelper(Context context) {
@@ -123,7 +132,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_CAT_TABLE="CREATE TABLE `category` (`cat_id`INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cat_name` TEXT NOT NULL,`cat_type` TEXT NOT NULL);";
     public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` (`item_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL ,`image` REAL NOT NULL );";
-    public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_customer_id` REAL,`date` REAL NOT NULL,`time` REAL NOT NULL,`total` REAL NOT NULL , `cart_status` TEXT NOT NULL,`cart_type` TEXT);";
+    public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_customer_id` REAL,`date` REAL NOT NULL,`time` REAL NOT NULL,`total` REAL NOT NULL , `cart_status` TEXT NOT NULL,`cart_type` TEXT,`upload_status` REAL);";
     public static final String CREATE_CART_ITEMS_TABLE="CREATE TABLE `cart_items_table` (`c_i_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_details_id` INTEGER NOT NULL,`c_item_id` INTEGER NOT NULL,`c_qty` INTEGER NOT NULL,`c_total` REAL NOT NULL,`c_item_order_status` TEXT NOT NUll );";
     public static final String CREATE_PURCHASE_TABLE="CREATE TABLE `purchase_table` (`p_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, p_supplier_id REAL NOT NULL,`p_date` REAL NOT NULL,`p_description` REAL NOT NULL,`p_amount` REAL NOT NULL,`p_upload_status` TEXT NOT NULL,`p_paid` REAL,`p_bal` REAL);";
     public static final String CREATE_SUPPLIER_TABLE="CREATE TABLE `supplier_table` (`supplier_id` INTEGER NOT NULL,`supplier_name` TEXT NOT NULL,`supplier_address` TEXT NOT NULL,`supplier_contact` REAL,`supplier_upload_status` TEXT,PRIMARY KEY(`supplier_id`));";
@@ -172,47 +181,4 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-
-
-
-//
-//    public int numberOfRows() {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        int numRows = (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
-//        return numRows;
-//    }
-//
-//    public boolean updateContact(Integer id, String name, String phone, String email, String street, String place) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put("name", name);
-//        contentValues.put("phone", phone);
-//        contentValues.put("email", email);
-//        contentValues.put("street", street);
-//        contentValues.put("place", place);
-//        db.update("contacts", contentValues, "id = ? ", new String[]{Integer.toString(id)});
-//        return true;
-//    }
-//
-//    public Integer deleteContact(Integer id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        return db.delete("contacts",
-//                "id = ? ",
-//                new String[]{Integer.toString(id)});
-//    }
-//
-//    public ArrayList<String> getAllCotacts() {
-//        ArrayList<String> array_list = new ArrayList<String>();
-//
-//        //hp = new HashMap();
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor res = db.rawQuery("select * from contacts", null);
-//        res.moveToFirst();
-//
-//        while (res.isAfterLast() == false) {
-//            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
-//            res.moveToNext();
-//        }
-//        return array_list;
-//    }
 }

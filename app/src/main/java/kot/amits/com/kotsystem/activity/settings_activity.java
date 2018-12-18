@@ -1,5 +1,6 @@
 package kot.amits.com.kotsystem.activity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -23,6 +24,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,13 +35,17 @@ import kot.amits.com.kotsystem.DBhelper.DBHelper;
 import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
 import kot.amits.com.kotsystem.MySingleton;
+import kot.amits.com.kotsystem.constants.constant;
 
+import static kot.amits.com.kotsystem.DBhelper.DBHelper.BRANCH_ID_KEY;
+import static kot.amits.com.kotsystem.DBhelper.DBHelper.BUSINESS_ID_KEY;
 import static kot.amits.com.kotsystem.DBhelper.DBmanager.*;
 
 public class settings_activity extends AppCompatActivity {
     LinearLayout sync,column;
     DBmanager dBmanager;
     Cursor cursor;
+    SharedPreferences sharedPreferences;
 
 
     @Override
@@ -60,13 +68,12 @@ public class settings_activity extends AppCompatActivity {
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sync();
+//                sync_expense();
 //                sync_slaes();
-//                sync_slaes_items();
+                sync_slaes_items();
 //                sync_supplier();
 //                sync_customer();
 //                sync_feedback();
-//                sync_expense();
 //                sync_employee();
 
             }
@@ -124,12 +131,15 @@ public class settings_activity extends AppCompatActivity {
     }
 
     public void sync_slaes() {
-        cursor = dBmanager.get_all_sales();
+        String output="";
+        JsonArray array = new JsonArray();
+        cursor = dBmanager.get_all_sales_report();
         if (cursor.getCount() > 0) {
-            JsonArray array = new JsonArray();
             JsonObject object = null;
             while (cursor.moveToNext()) {
                 object = new JsonObject();
+                object.addProperty(BUSINESS_ID_KEY,sharedPreferences.getString(dBmanager.sharedpreference_business_id,""));
+                object.addProperty(BRANCH_ID_KEY,sharedPreferences.getString(dBmanager.sharedpreference_branch_id,""));
                 object.addProperty(DBHelper.cart_id, cursor.getString(cursor.getColumnIndex(DBHelper.cart_id)));
                 object.addProperty(DBHelper.cart_customer_id, cursor.getString(cursor.getColumnIndex(DBHelper.cart_customer_id)));
                 object.addProperty(DBHelper.date, cursor.getString(cursor.getColumnIndex(DBHelper.date)));
@@ -138,43 +148,41 @@ public class settings_activity extends AppCompatActivity {
                 object.addProperty(DBHelper.total, cursor.getString(cursor.getColumnIndex(DBHelper.total)));
                 object.addProperty(DBHelper.cart_type, cursor.getString(cursor.getColumnIndex(DBHelper.cart_type)));
                 array.add(object);
-
-
             }
             Log.d("json", array.toString());
-
-
         }
-
+        output=array.toString();
+        sync(output,"sales_details");
     }
 
     public void sync_slaes_items() {
-        cursor = dBmanager.get_all_sales_items();
+        String output="";
+        JsonArray array = new JsonArray();
+        cursor = dBmanager.get_all_sales_items_upload();
         if (cursor.getCount() > 0) {
-            JsonArray array = new JsonArray();
             JsonObject object = null;
             while (cursor.moveToNext()) {
                 object = new JsonObject();
+                object.addProperty("business_ids","1");
+                object.addProperty("branch_id","1");
                 object.addProperty(DBHelper.cart_details_id, cursor.getString(cursor.getColumnIndex(DBHelper.cart_details_id)));
                 object.addProperty(DBHelper.c_item_id, cursor.getString(cursor.getColumnIndex(DBHelper.c_item_id)));
                 object.addProperty(DBHelper.c_qty, cursor.getString(cursor.getColumnIndex(DBHelper.c_qty)));
                 object.addProperty(DBHelper.c_qty, cursor.getString(cursor.getColumnIndex(DBHelper.c_qty)));
                 object.addProperty(DBHelper.c_total, cursor.getString(cursor.getColumnIndex(DBHelper.c_total)));
                 array.add(object);
-
-
             }
-            Log.d("json", array.toString());
-
-
+            Log.d("sales_items", array.toString());
         }
-
+        output=array.toString();
+        sync(output,"sales_items");
     }
 
     public void sync_purchase() {
+        String output="";
+        JsonArray array = new JsonArray();
         cursor = dBmanager.get_purchase();
         if (cursor.getCount() > 0) {
-            JsonArray array = new JsonArray();
             JsonObject object = null;
             while (cursor.moveToNext()) {
                 object = new JsonObject();
@@ -189,16 +197,16 @@ public class settings_activity extends AppCompatActivity {
 
             }
             Log.d("json", array.toString());
-
-
         }
-
+        output=array.toString();
+        sync(output,"purchase");
     }
 
     public void sync_supplier() {
+        String output="";
+        JsonArray array = new JsonArray();
         cursor = dBmanager.get_supplier();
         if (cursor.getCount() > 0) {
-            JsonArray array = new JsonArray();
             JsonObject object = null;
             while (cursor.moveToNext()) {
                 object = new JsonObject();
@@ -211,16 +219,16 @@ public class settings_activity extends AppCompatActivity {
 
             }
             Log.d("json", array.toString());
-
-
         }
-
+        output=array.toString();
+        sync(output,"supplier");
     }
 
     public void sync_customer() {
+        String output="";
+        JsonArray array = new JsonArray();
         cursor = dBmanager.get_supplier();
         if (cursor.getCount() > 0) {
-            JsonArray array = new JsonArray();
             JsonObject object = null;
             while (cursor.moveToNext()) {
                 object = new JsonObject();
@@ -233,16 +241,16 @@ public class settings_activity extends AppCompatActivity {
 
             }
             Log.d("json", array.toString());
-
-
         }
-
+        output=array.toString();
+        sync(output,"customer");
     }
 
     public void sync_feedback() {
+        JsonArray array = new JsonArray();
+        String output="";
         cursor = dBmanager.get_feedback();
         if (cursor.getCount() > 0) {
-            JsonArray array = new JsonArray();
             JsonObject object = null;
             while (cursor.moveToNext()) {
                 object = new JsonObject();
@@ -252,47 +260,43 @@ public class settings_activity extends AppCompatActivity {
                 object.addProperty(DBHelper.staff_rating, cursor.getString(cursor.getColumnIndex(DBHelper.staff_rating)));
                 object.addProperty(DBHelper.feedback_review, cursor.getString(cursor.getColumnIndex(DBHelper.feedback_review)));
                 array.add(object);
-
-
             }
             Log.d("json", array.toString());
-
-
         }
-
+        output=array.toString();
+        sync(output,"customer");
     }
 
-    public String sync_expense() {
-        cursor = dBmanager.get_expense();
+    public void sync_expense() {
+        String output="";
+        cursor = dBmanager.get_expense_for_sync();
+        JsonArray array = new JsonArray();
         if (cursor.getCount() > 0) {
-            JsonArray array = new JsonArray();
             JsonObject object = null;
             while (cursor.moveToNext()) {
                 object = new JsonObject();
+                object.addProperty("business_ids","1");
                 object.addProperty("branch_id","1");
+                object.addProperty(DBHelper.e_id, cursor.getString(cursor.getColumnIndex(DBHelper.e_id)));
                 object.addProperty(DBHelper.e_type, cursor.getString(cursor.getColumnIndex(DBHelper.e_type)));
                 object.addProperty(DBHelper.e_amount, cursor.getString(cursor.getColumnIndex(DBHelper.e_amount)));
                 object.addProperty(DBHelper.e_desc, cursor.getString(cursor.getColumnIndex(DBHelper.e_desc)));
                 object.addProperty(DBHelper.e_date, cursor.getString(cursor.getColumnIndex(DBHelper.e_date)));
                 array.add(object);
-
-
             }
             Log.d("json", array.toString());
-            return array.toString();
-
-
         }
-        else{
-            return null;
-        }
+        output=array.toString();
+        sync(output,"expense");
+
 
     }
 
     public void sync_employee() {
+        String output="";
+        JsonArray array = new JsonArray();
         cursor = dBmanager.get_employee();
         if (cursor.getCount() > 0) {
-            JsonArray array = new JsonArray();
             JsonObject object = null;
             while (cursor.moveToNext()) {
                 object = new JsonObject();
@@ -309,45 +313,69 @@ public class settings_activity extends AppCompatActivity {
 
             }
             Log.d("json", array.toString());
+        }
+        output=array.toString();
+        sync(output,"customer");
 
+    }
+    public void sync(final String json, final String table_name){
+            String url= constant.BASE_URL+constant.SYNC_DATA;
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>()
+                    {
+                        @Override
+                        public void onResponse(String response) {
+                            // response
+                            Log.d("Response", response);
+
+                            try {
+                                JSONArray data = new JSONArray(response);
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject c = data.getJSONObject(i);
+                                    String value_type = c.getString("value_type");
+                                    String ids = c.getString("id");
+                                    if (value_type.equals("expense")){
+                                        dBmanager.update_expense_upload_status(ids);
+                                    }
+                                    else if (value_type.equals("sales_details")){
+                                        dBmanager.update_sales_details_upload_status(ids);
+                                    } else if (value_type.equals("sales_items")){
+//                                        dBmanager.update_sales_details_upload_status(ids);
+                                    }
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // error
+                            Log.d("Error.Response", error.toString());
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/json");
+                    params.put(table_name,json);
+
+                    return params;
+                }
+            };
+
+            // Add StringRequest to the RequestQueue
+            MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
         }
 
-    }
-
-    public void sync(){
-        String url="http://192.168.31.76:8000/api/syncdata/";
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        Log.d("Response", response);
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("json",sync_expense());
-
-                return params;
-            }
-        };
-
-        // Add StringRequest to the RequestQueue
-        MySingleton.getInstance(this).addToRequestQueue(postRequest);
-    }
     }
 
 

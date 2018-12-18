@@ -34,12 +34,10 @@
                 android:src="@drawable/ic_remove_black_24dp" />
 
         </FrameLayout>
-        <EditText
+        <TextView
             android:enabled="false"
             android:lines="1"
             android:digits="1234567890"
-            android:inputType="number"
-            android:imeOptions="flagNoExtractUi"
             android:id="@+id/quantity"
             android:layout_gravity="center"
             android:textSize="40dp"
