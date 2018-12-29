@@ -8,6 +8,27 @@
     tools:context=".activity.Branch_selection">
 
 
+    <RelativeLayout
+        android:id="@+id/business_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/business"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:textAlignment="center"
+            android:spinnerMode="dialog"
+            android:drawSelectorOnTop="true"
+            android:layout_centerHorizontal="true"
+            android:prompt="@string/spinner_title_business"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/branch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,6 +88,8 @@
         android:textColor="#fff"
         android:layout_alignParentBottom="true"
         android:background="#4bd66e"/>
+    </RelativeLayout>
+
 
 
 </RelativeLayout>

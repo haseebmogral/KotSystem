@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import kot.amits.com.kotsystem.R;
@@ -19,6 +21,7 @@ public class purchase_adapter extends RecyclerView.Adapter<purchase_adapter.MyVi
 
     private Context mContext;
     private List<purchase_model> albumList1;
+    TextView total,paid,balance;
 
 
 
@@ -39,10 +42,14 @@ public class purchase_adapter extends RecyclerView.Adapter<purchase_adapter.MyVi
     }
 
 
-    public purchase_adapter(Context mContext, List<purchase_model> albumList1) {
+
+    public purchase_adapter(Context mContext, List<purchase_model> albumList1, TextView total, TextView paid, TextView balance) {
         this.mContext = mContext;
         this.albumList1 = albumList1;
-//        this.itemClickListener=itemClickListener;
+        this.total = total;
+        this.paid = paid;
+        this.balance = balance;
+
 
     }
 
@@ -62,17 +69,8 @@ public class purchase_adapter extends RecyclerView.Adapter<purchase_adapter.MyVi
         holder.amount.setText(album.getP_amount());
         holder.paid_amount.setText(album.getPaid_amount());
         holder.balance.setText(album.getBalance());
+        get_total(albumList1,total,paid,balance);
 
-//        holder.title.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int cat_id=album.getCat_id();
-//
-//                Toast.makeText(mContext,holder. title.getText().toString(), Toast.LENGTH_SHORT).show();
-////                    claculate();
-//                itemClickListener.onCustomItemClick(position,String.valueOf(cat_id));
-//            }
-//        });
 
 
     }
@@ -81,6 +79,24 @@ public class purchase_adapter extends RecyclerView.Adapter<purchase_adapter.MyVi
     public int getItemCount() {
         return albumList1.size();
     }
+
+    public void get_total(List<purchase_model>  model,TextView total, TextView paid, TextView balance){
+        float total_amount=0;
+        float paid_amount=0;
+        float balance_amount=0;
+        for (purchase_model a:model){
+            total_amount= Float.parseFloat(a.getP_amount())+total_amount;
+            paid_amount= Float.parseFloat(a.getPaid_amount())+paid_amount;
+            balance_amount= Float.parseFloat(a.getBalance())+balance_amount;
+
+            total.setText("₹ "+String.valueOf(total_amount));
+            paid.setText("₹ "+String.valueOf(paid_amount));
+            balance.setText("₹ "+String.valueOf(balance_amount));
+        }
+
+
+    }
+
 
 }
 

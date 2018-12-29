@@ -214,7 +214,11 @@ public class Add_supplier extends AppCompatActivity implements View.OnClickListe
                 } else if (suppliercontact.equals("")) {
                     Snackbar.make(v, "Enter Supplier contact", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
-                } else {
+                }
+                else if (supplier_contact.getText().toString().length()<10) {
+                    Snackbar.make(v, "Enter valid contact number", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }else {
                     long add = mydb.add_suppliers(suppliername, supplieraddress, suppliercontact);
 
                     if (String.valueOf(add).equals("-1")) {

@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_toRightOf="@+id/ambience"
-                    android:isIndicator="false"
+                    android:isIndicator="true"
                     android:numStars="5" />
 
 
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_toRightOf="@+id/staff"
-                    android:isIndicator="false"
+                    android:isIndicator="true"
                     android:numStars="5" />
 
 

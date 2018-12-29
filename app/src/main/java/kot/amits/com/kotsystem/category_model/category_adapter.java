@@ -2,6 +2,7 @@ package kot.amits.com.kotsystem.category_model;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,17 +75,20 @@ public class category_adapter extends ArrayAdapter {
 
         viewHolder.txtName.setText(item.name);
         viewHolder.checkBox.setChecked(item.checked);
+        Log.d("checkstatus", String.valueOf(item.checked));
 //        viewHolder.catid.setText(item.cat_id);
 
         viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (buttonView.isChecked()){
+                    item.setChecked(true);
                     Toast.makeText(mContext,String.valueOf(item.cat_id) , Toast.LENGTH_SHORT).show();
-                    cat_List.add(String.valueOf(item.cat_id));
+                    cat_List.add(String.valueOf(item.name+"/"+item.cat_id));
                 }
                 else if (!buttonView.isChecked()){
-                    cat_List.remove(String.valueOf(item.cat_id));
+                    item.setChecked(false);
+                    cat_List.remove(String.valueOf(item.name+"/"+item.cat_id));
                 }
             }
         });

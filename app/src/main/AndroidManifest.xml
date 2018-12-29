@@ -27,15 +27,17 @@
             android:name=".activity.main_screen"
             android:screenOrientation="userLandscape"
             android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.Branch_selection"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity
-            android:name=".activity.Branch_selection"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activity.select_item" />
         <activity android:name=".activity.category_selection" />
         <activity android:name=".activity.Purchase_Activity" />
@@ -64,12 +66,15 @@
 
         <activity android:name=".activity.Manage_employee" />
         <activity android:name=".activity.settings_activity" />
-        <activity android:name=".activity.login_activity" />
+        <activity android:name=".activity.login_activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activity.manage_sales" />
         <activity android:name=".activity.manage_salary" />
         <activity android:name=".activity.view_bill_items" />
         <activity android:name=".activity.manage_feedback" />
-        <activity android:name=".activity.manage_feedback_items"></activity>
+        <activity android:name=".activity.manage_feedback_items" />
+        <activity android:name=".activity.manage_attendance" />
+        <activity android:name=".activity.manage_category"></activity>
     </application>
 
 </manifest>

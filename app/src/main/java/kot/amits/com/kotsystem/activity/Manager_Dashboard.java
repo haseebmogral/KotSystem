@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
@@ -25,18 +27,10 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
     DBmanager dBmanager;
 
     LinearLayout manage_category, manage_item, manage_supplier, manage_purchase, manage_sales, manage_salary, manage_attendace,
-            manage_expense, manage_stocks, manage_feedback,manage_employee,settings;
+            manage_expense, manage_stocks, manage_feedback,manage_employee,settings,customers;
     TextView sales,purchase,expense,cash_in_hand,cafe_feedback;
 
     CardView top_items,feedback;
-
-//    public GridView gridview;
-//    private static String[] app_name = {"Category", "Items", "Supplier", "Purchase", "Expense", "Attendance", "Sales", "Salary",
-//            "Daily stock manage", "Feedback"};
-//    private static int[] app_icon = {R.drawable.circle_shape, R.drawable.items, R.drawable.circle_shape, R.drawable.circle_shape,
-//            R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape, R.drawable.circle_shape,
-//            R.drawable.circle_shape};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +52,7 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
         manage_feedback = findViewById(R.id.manage_feedback);
         manage_employee = findViewById(R.id.manage_employee);
         settings = findViewById(R.id.settings);
+        customers = findViewById(R.id.customers);
 
         sales=findViewById(R.id.sales);
         purchase=findViewById(R.id.purchase);
@@ -67,17 +62,7 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
         top_items=findViewById(R.id.top_item_card);
         feedback=findViewById(R.id.feedback_card);
 
-        sales.setText("₹ "+dBmanager.get_todays_total_sales());
-        purchase.setText("₹ "+dBmanager.get_todays_total_purchase());
-        expense.setText("₹ "+dBmanager.get_todays_total_expense());
-        cash_in_hand.setText("₹ "+dBmanager.get_todays_cash_in_hand());
-        Cursor feedback_cursor=dBmanager.get_branch_feedbacks();
-        feedback_cursor.moveToFirst();
-        String f=feedback_cursor.getString(feedback_cursor.getColumnIndex("staff"));
-        if (f==null){
-            f="";
-        }
-        cafe_feedback.setText(f+"/5");
+
 
         top_items.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,45 +129,15 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
         manage_employee.setOnClickListener(this);
         settings.setOnClickListener(this);
 
-
-//        gridview=(GridView)findViewById(R.id.gridView);
-        // setting up Adapter tp GridView
-//        gridview.setAdapter(new CustomAdapter(this,app_name,app_icon));
-//
-//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                switch (position)
-//                {
-//                    case 0:
-//                        break;
-//                    case 1:
-//                        break;
-//                    case 2:
-//
-//
-//                        Intent add_supplier=new Intent(Manager_Dashboard.this,Add_supplier.class);
-//                        startActivity(add_supplier);
-//
-//                        break;
-//                    case 3:
-//                        Intent intent=new Intent(Manager_Dashboard.this,Purchase_Activity.class);
-//                        startActivity(intent);
-//                        break;
-//
-//
-//                }
-//            }
-//        });
-
-
     }
 
     @Override
     public void onClick(View v) {
 
         if (v == manage_category) {
-
+            Intent intent=new Intent(Manager_Dashboard.this,category_selection.class);
+            intent.putExtra("mode","settings");
+            startActivity(intent);
 
         } else if (v == manage_item) {
 
@@ -203,6 +158,8 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
             startActivity(intent);
 
         } else if (v == manage_salary) {
+            Intent intent=new Intent(Manager_Dashboard.this,manage_salary.class);
+            startActivity(intent);
 
         } else if (v == manage_attendace) {
 
@@ -225,7 +182,30 @@ public class Manager_Dashboard extends AppCompatActivity implements View.OnClick
         else if (v == settings) {
             Intent manage_employee=new Intent(Manager_Dashboard.this,settings_activity.class);
             startActivity(manage_employee);
+        } else if (v == customers) {
+            Intent manage_employee=new Intent(Manager_Dashboard.this,settings_activity.class);
+            startActivity(manage_employee);
         }
 
+    }
+
+    @Override
+    protected void onPostResume() {
+        Log.d("resume","resume");
+        super.onPostResume();
+        load();
+    }
+    public void load(){
+        sales.setText("₹ "+dBmanager.get_todays_total_sales());
+        purchase.setText("₹ "+dBmanager.get_todays_total_purchase());
+        expense.setText("₹ "+dBmanager.get_todays_total_expense());
+        cash_in_hand.setText("₹ "+dBmanager.get_todays_cash_in_hand());
+        Cursor feedback_cursor=dBmanager.get_branch_feedbacks();
+        feedback_cursor.moveToFirst();
+        String f=feedback_cursor.getString(feedback_cursor.getColumnIndex("staff"));
+        if (f==null){
+            f="";
+        }
+        cafe_feedback.setText(f+"/5");
     }
 }

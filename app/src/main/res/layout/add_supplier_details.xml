@@ -36,13 +36,13 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:inputType="textCapWords"
                     android:id="@+id/supplier_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
                     android:hint="@string/Suplier_name"
                     android:imeOptions="flagNoExtractUi"
-                    android:inputType="textPersonName"
                     android:maxLines="1"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
@@ -81,15 +81,12 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/Suplier_address"
                     android:imeOptions="flagNoExtractUi"
-                    android:inputType="text"
+                    android:inputType="textPostalAddress"
                     android:maxLines="2"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
-
             </RelativeLayout>
-
-
 
             <RelativeLayout
                 android:layout_width="match_parent"

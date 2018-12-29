@@ -163,21 +163,22 @@
 
 
                 <Button
+                    android:id="@+id/snacks"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:background="@drawable/circular_button"
-                    android:text="Snacks"
-                    android:id="@+id/snacks"
+                    android:text="Eats"
+                    android:textAllCaps="false"
                     android:textColor="#fff" />
 
                 <Button
+                    android:id="@+id/juice"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginLeft="2dp"
-                    android:id="@+id/juice"
                     android:background="@drawable/circular_button_s"
-
-                    android:text="drinks"
+                    android:textAllCaps="false"
+                    android:text="Drinks"
                     android:textColor="#fff" />
 
 

@@ -28,6 +28,7 @@ import java.util.List;
 
 import kot.amits.com.kotsystem.DBhelper.DBmanager;
 import kot.amits.com.kotsystem.R;
+import kot.amits.com.kotsystem.constants.constant;
 
 public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder>
 //        implements Filterable
@@ -92,14 +93,14 @@ public class item_adapter extends RecyclerView.Adapter<item_adapter.MyViewHolder
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.title);
 //        requestOptions.error();
+        String image=constant.BASE_URL+constant.ITEM_IMAGE+album.getImage();
 
-        Glide.with(mContext).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.mims_logo).error(R.drawable.mims_logo)).load(album.getImage()).into(holder.itemimage);
-
+        Glide.with(mContext).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.mims_logo).error(R.drawable.mims_logo)).load(image).into(holder.itemimage);
+        Log.d("image",album.getImage());
        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 qty=1;
-//                Toast.makeText(mContext, albumList1.get(position).getid(), Toast.LENGTH_SHORT).show();
                 final kot.amits.com.kotsystem.items_adapter.cart_items[] items = new cart_items[1];
                 final int cart_id= Integer.parseInt(dBmanager.CART_ID);
                 final int item_id= Integer.parseInt(album.getid());

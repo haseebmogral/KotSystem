@@ -2,24 +2,35 @@ package kot.amits.com.kotsystem.select_item_adapter;
 
 public class select_item_album {
 
+    private String cat_id;
     private String item_name;
     private String price;
     private String image;
-    private String item_id;
-    private boolean isSelected = false;
+    private int item_id;
+    private boolean isSelected;
 
 
-    public select_item_album(String item_name,String image,String price) {
+
+
+    public select_item_album(int item_id, String cat_id, String item_name, String image, String price,boolean isSelected) {
         this.item_name = item_name;
         this.price=price;
         this.image=image;
         this.item_id=item_id;
+        this.cat_id=cat_id;
+        this.isSelected=isSelected;
 
 
         //String item_name, String price, String image
 
     }
+    public String getCat_id() {
+        return cat_id;
+    }
 
+    public void setCat_id(String cat_id) {
+        this.cat_id = cat_id;
+    }
 
     public String getItem_name()
     {
@@ -54,12 +65,12 @@ public class select_item_album {
         this.image=image;
     }
 
-    public String getid()
+    public int getid()
     {
         return item_id;
     }
 
-    public  void setid(String item_id)
+    public  void setid(int item_id)
     {
         this.item_id=item_id;
     }

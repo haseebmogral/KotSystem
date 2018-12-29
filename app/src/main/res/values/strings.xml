@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">KotSystem</string>
     <string name="spinner_title">Select Branch</string>
+    <string name="spinner_title_business">Select Business</string>
     <string name="purchase" tools:ignore="ExtraTranslation">Purchase</string>
     <string name="Select_Supplier">Select Supplier</string>
     <string name="add_purchase_details">ENTER PURCHASE DETAILS</string>
@@ -63,6 +64,16 @@
     <string name="feedback">" \"Good atmosphere\"</string>
     <string name="cafe_service">Cafe Service</string>
     <string name="cafe_food">Cafe Food</string>
+
+    <string name="select_employee">select employee</string>
+    <string name="select_salary_date">Select salary date</string>
+    <string name="submit">submit</string>
+    <string name="paying_amount">paying amount</string>
+    <string name="type_of_pay">select type of payment</string>
+    <string name="next">next</string>
+    <string name="enter_password">Enter Manager Password</string>
+    <string name="select">Select and continue</string>
+    <string name="Customers">Customers</string>
 
 
 </resources>

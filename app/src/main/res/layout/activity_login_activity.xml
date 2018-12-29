@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".activity.login_activity"
     android:background="@drawable/gradient">
+    <TextView
+        android:textSize="@dimen/title_font"
+        android:fontFamily="@font/montserrat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/enter_password"
+        android:layout_above="@+id/pin_number"/>
 
     <com.poovam.pinedittextfield.SquarePinField
         android:layout_centerInParent="true"

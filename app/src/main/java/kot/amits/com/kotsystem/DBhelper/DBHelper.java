@@ -15,6 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String cat_id = "cat_id";
     public static final String cat_name = "cat_name";
     public static final String cat_type = "cat_type";
+    public static final String cat_status = "cat_status";
 
     //item table
     public static final String item_table = "item_table ";
@@ -23,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String cat_cat_id = "cat_cat_id";
     public static final String item_price = "item_price";
     public static final String image = "image";
+    public static final String item_active_status = "item_active_status";
 
     //cart_details table
     public static final String cart_details = "cart_details ";
@@ -110,6 +112,17 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String emp_doj = "emp_doj";
     public static final String emp_upload_status = "emp_upload_status";
 
+    //salary table
+    public static final String salary_table="salary_table";
+    public static final String sid = "sid";
+    public static final String empl_id = "empl_id";
+    public static final String giving_date = "giving_date";
+    public static final String salary_date = "salary_date";
+    public static final String s_paid = "s_paid";
+    public static final String s_balance = "s_balance";
+    public static final String status = "status";
+    public static final String s_upload_status = "s_upload_status";
+
     public static final String ORDER_CANCEL="0";
     public static final String ORDER_CART="1";
     public static final String ORDER_SENT="2";
@@ -130,8 +143,8 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 1);
     }
 
-    public static final String CREATE_CAT_TABLE="CREATE TABLE `category` (`cat_id`INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cat_name` TEXT NOT NULL,`cat_type` TEXT NOT NULL);";
-    public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` (`item_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL ,`image` REAL NOT NULL );";
+    public static final String CREATE_CAT_TABLE="CREATE TABLE `category` (`cat_id`INTEGER NOT NULL PRIMARY KEY,`cat_name` TEXT NOT NULL UNIQUE,`cat_type` TEXT NOT NULL,`cat_status` TEXT);";
+    public static final String CREATE_ITEM_TABLE="CREATE TABLE `item_table` (`item_id` INTEGER NOT NULL PRIMARY KEY , `item_name` TEXT NOT NULL, `cat_cat_id` INTEGER NOT NULL, `item_price` REAL NOT NULL ,`image` REAL NOT NULL ,item_active_status TEXT);";
     public static final String CREATE_CART_DETAILS_TABLE="CREATE TABLE `cart_details` (`cart_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_customer_id` REAL,`date` REAL NOT NULL,`time` REAL NOT NULL,`total` REAL NOT NULL , `cart_status` TEXT NOT NULL,`cart_type` TEXT,`upload_status` REAL);";
     public static final String CREATE_CART_ITEMS_TABLE="CREATE TABLE `cart_items_table` (`c_i_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`cart_details_id` INTEGER NOT NULL,`c_item_id` INTEGER NOT NULL,`c_qty` INTEGER NOT NULL,`c_total` REAL NOT NULL,`c_item_order_status` TEXT NOT NUll );";
     public static final String CREATE_PURCHASE_TABLE="CREATE TABLE `purchase_table` (`p_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, p_supplier_id REAL NOT NULL,`p_date` REAL NOT NULL,`p_description` REAL NOT NULL,`p_amount` REAL NOT NULL,`p_upload_status` TEXT NOT NULL,`p_paid` REAL,`p_bal` REAL);";
@@ -141,6 +154,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CREATE_ITEMS_TABLE="CREATE TABLE `feedback_items_table` (\n" + "\t`feedback_id_id`\tINTEGER,\n" + "\t`feedback_items_id`\tINTEGER,\n" + "\t`rating`\tINTEGER,\n" + "\t`rating_upload_status`\tINTEGER\n" + ");";
     public static final String CREATE_EXPENSE_TABLE = "CREATE TABLE `expense_table` (`e_id` INTEGER NOT NULL,`e_type` TEXT NOT NULL,`e_amount` TEXT NOT NULL,`e_desc` TEXT,e_date REAL,`e_upload_status` TEXT,PRIMARY KEY(`e_id`));";
     public static final String CREATE_EMPLOYEE_TABLE = "CREATE TABLE `employee_table` (`emp_id` INTEGER NOT NULL,`emp_name` TEXT NOT NULL,`emp_address`TEXT NOT NULL,`emp_contact` REAL,`emp_designation` TEXT NOT NULL,`emp_status` TEXT NOT NULL,`emp_salary` REAL,`emp_doj` TEXT NOT NULL,`emp_upload_status` TEXT NOT NULL,PRIMARY KEY(`emp_id`));";
+    public static final String CREATE_SALARY_TABLE = "CREATE TABLE `salary_table` (`s_id` INTEGER NOT NULL,`empl_id` INTEGER NOT NULL,`giving_date` REAL,`salary_date` REAL,`s_paid` INTEGER NOT NULL,`s_balance` INTEGER NOT NULL,`status` TEXT NOT NULL,`s_upload_status` TEXT NOT NULL,PRIMARY KEY(`s_id`));";
 
 
 
@@ -159,6 +173,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_ITEMS_TABLE);
         db.execSQL(CREATE_EXPENSE_TABLE);
         db.execSQL(CREATE_EMPLOYEE_TABLE);
+        db.execSQL(CREATE_SALARY_TABLE);
+
+
 
 
     }
@@ -174,9 +191,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+customer_table);
         db.execSQL("DROP TABLE IF EXISTS "+feedback_table);
         db.execSQL("DROP TABLE IF EXISTS "+feedback_items_table);
-        db.execSQL("DROP TABLE IF EXISTS employee_table");
-        db.execSQL("DROP TABLE IF EXISTS expense_table");
-        db.execSQL("DROP TABLE IF EXISTS employee_table");
+        db.execSQL("DROP TABLE IF EXISTS "+employee_table);
+        db.execSQL("DROP TABLE IF EXISTS "+expense_table);
+        db.execSQL("DROP TABLE IF EXISTS "+employee_table);
+        db.execSQL("DROP TABLE IF EXISTS "+salary_table);
+
 
         onCreate(db);
     }

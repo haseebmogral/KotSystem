@@ -65,10 +65,10 @@ public class Purchase_Activity extends AppCompatActivity {
     RadioGroup payment_mode_radio;
     EditText paid_amount, p_description, amount;
     Button add_purchase_details;
-    TextView p_bal;
     String[] supplier_id;
     String sid;
     int amnt = 0, p_amnt = 0, bal = 0;
+    TextView total,paid,balance;
 
 
     @Override
@@ -78,6 +78,9 @@ public class Purchase_Activity extends AppCompatActivity {
         setTitle(R.string.purchase);
 
         Purchase_Recycler = findViewById(R.id.purchase_recycler);
+        total=findViewById(R.id.total);
+        paid=findViewById(R.id.paid);
+        balance=findViewById(R.id.balance);
 
 
         emptyview = findViewById(R.id.empty);
@@ -92,13 +95,14 @@ public class Purchase_Activity extends AppCompatActivity {
         add_purchase = findViewById(R.id.add_purchase);
         add_purchase.setOnClickListener(new View.OnClickListener() {
 
-            AutoCompleteTextView suplierName;
-
 
             @Override
             public void onClick(View view) {
                 supplier_list = mydb.getSuppliername();
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Purchase_Activity.this);
+                final TextView p_bal;
+                AutoCompleteTextView suplierName;
+
 
                 LayoutInflater inflater = (LayoutInflater) Purchase_Activity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View dialogView = inflater.inflate(R.layout.add_purchase_layout, null);
@@ -302,7 +306,7 @@ public class Purchase_Activity extends AppCompatActivity {
 
 
             purchaseModelList = new ArrayList<>();
-            purchase_adapter = new purchase_adapter(Purchase_Activity.this, purchaseModelList);
+            purchase_adapter = new purchase_adapter(Purchase_Activity.this, purchaseModelList,total,paid,balance);
 
 
             LinearLayoutManager linearLayoutManager;

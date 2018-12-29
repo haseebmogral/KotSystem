@@ -29,7 +29,7 @@ public class manage_feedback extends AppCompatActivity {
     private List<view_feedback_model> view_feedback_model;
     private TextView emptyview;
     DBmanager mydb;
-    Cursor get_feedbacks_from_DB,branch_feedbacks,food_feedback;
+    Cursor get_feedbacks_from_DB,branch_feedbacks,food_feedback=null;
 
 
 
@@ -56,25 +56,45 @@ public class manage_feedback extends AppCompatActivity {
         food_feedback=mydb.get_branch_food_feedbacks();
 
 
-        //ambience pie chart
         ambience_pie_chart = (TextView) findViewById(R.id.sales);
         staff_pie_chart = (TextView) findViewById(R.id.purchase);
         food_pie_chart = (TextView) findViewById(R.id.expense);
 
+//        while (food_feedback.moveToNext()){
+//            Float food= Float.valueOf(food_feedback.getString(food_feedback.getColumnIndex("food_rate")));
+//            food_pie_chart.setText(String.format("%.01f", food)+"/5");
+//
+//        }
+//        while (branch_feedbacks.moveToNext()){
+//            Float cafe= Float.valueOf(branch_feedbacks.getString(branch_feedbacks.getColumnIndex("ambience")));
+//            Float staff= Float.valueOf(branch_feedbacks.getString(branch_feedbacks.getColumnIndex("staff")));
+//
+//            ambience_pie_chart.setText(String.format("%.01f", cafe)+"/5");
+//            staff_pie_chart.setText(String.format("%.01f", staff)+"/5");
+//        }
 
-        branch_feedbacks.moveToFirst();
-        food_feedback.moveToFirst();
-        Float food= Float.valueOf(food_feedback.getString(food_feedback.getColumnIndex("food_rate")));
-        Float cafe= Float.valueOf(branch_feedbacks.getString(branch_feedbacks.getColumnIndex("ambience")));
-        Float staff= Float.valueOf(branch_feedbacks.getString(branch_feedbacks.getColumnIndex("staff")));
-        Log.d("cafe", String.valueOf(cafe)+" "+staff+" "+food);
-
-        ambience_pie_chart.setText(String.format("%.01f", cafe)+"/5");
-        staff_pie_chart.setText(String.format("%.01f", staff)+"/5");
-        food_pie_chart.setText(String.format("%.01f", food)+"/5");
 
 
-        //food pie chart
+        if (food_feedback==null || branch_feedbacks==null){
+            Log.d("check","if");
+        }
+        else{
+            Log.d("check","else");
+
+            branch_feedbacks.moveToFirst();
+            food_feedback.moveToFirst();
+            Float food= Float.valueOf(food_feedback.getString(food_feedback.getColumnIndex("food_rate")));
+            Float cafe= Float.valueOf(branch_feedbacks.getString(branch_feedbacks.getColumnIndex("ambience")));
+            Float staff= Float.valueOf(branch_feedbacks.getString(branch_feedbacks.getColumnIndex("staff")));
+            Log.d("cafe", String.valueOf(cafe)+" "+staff+" "+food);
+
+            ambience_pie_chart.setText(String.format("%.01f", cafe)+"/5");
+            staff_pie_chart.setText(String.format("%.01f", staff)+"/5");
+            food_pie_chart.setText(String.format("%.01f", food)+"/5");
+        }
+
+
+
 
 
 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    card_view:cardUseCompatPadding="true"
+    tools:style="@style/CardView">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+
+        <TextView
+            android:id="@+id/emp_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="Mohammed saleem" />
+
+        <TextView
+            android:id="@+id/emp_desig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emp_name"
+            android:text="Chief chef"
+            android:textColor="@color/view_color"
+            android:textSize="11sp" />
+
+
+        <TextView
+            android:id="@+id/satus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="Present"
+            android:textColor="#4dba72"
+            android:textSize="13sp"/>
+
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>
